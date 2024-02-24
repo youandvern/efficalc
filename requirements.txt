@@ -1,0 +1,15 @@
+attrs==18.2.0
+black==24.2.0
+click==8.1.7
+colorama==0.4.6
+iniconfig==2.0.0
+isort==5.13.2
+latexexpr_efficalc==0.5.1
+mypy-extensions==1.0.0
+ordered-set==4.1.0
+packaging==23.2
+pathspec==0.12.1
+platformdirs==4.2.0
+pluggy==1.4.0
+pylatexenc==2.10
+pytest==8.0.0
