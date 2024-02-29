@@ -5,8 +5,8 @@ from efficalc import (
     CalculationLength,
     Input,
     clear_all_input_default_overrides,
+    clear_saved_objects,
     get_all_calc_objects,
-    reset_results,
     sqrt,
 )
 
@@ -17,7 +17,7 @@ def common_setup_teardown():
     yield data  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
     clear_all_input_default_overrides()
-    reset_results()
+    clear_saved_objects()
 
 
 def test_public_members(common_setup_teardown):

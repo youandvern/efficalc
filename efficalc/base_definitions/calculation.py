@@ -42,7 +42,7 @@ class Calculation(Expression, CalculationItem):
     def __init__(
         self,
         variable_name: str,
-        expression: Operation | Expression | Variable,
+        expression: Operation | Expression | Variable | float | int,
         unit: str = "",
         description: str = "",
         reference: str = "",

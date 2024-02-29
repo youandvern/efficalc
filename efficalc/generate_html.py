@@ -13,6 +13,7 @@ from efficalc import (
 CALC_MARGIN = "margin-left: 2rem;"
 ALIGN = "&"
 LINE_BREAK = r"\\[4pt]"
+CALC_ITEM_WRAPPER_CLASS = "calc-item"
 
 
 def generate_html_for_calc_items(calculation_items: list) -> str:
@@ -21,7 +22,7 @@ def generate_html_for_calc_items(calculation_items: list) -> str:
 
     for item in calculation_items:
         if isinstance(item, Heading) and item.numbered:
-            header_numbers = increment_headers_and_get_next(
+            header_numbers = _increment_headers_and_get_next(
                 header_numbers, item.head_level
             )
 
@@ -32,19 +33,19 @@ def generate_html_for_calc_items(calculation_items: list) -> str:
 
 def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) -> str:
     if isinstance(calculation_item, Assumption):
-        return wrap_p(
+        return _wrap_p(
             f'<span style="padding-right:0.5rem;">[ASSUME]</span> {calculation_item.text}',
             CALC_MARGIN,
         )
 
     elif isinstance(calculation_item, Calculation):
-        return generate_calculation_html(calculation_item)
+        return _generate_calculation_html(calculation_item)
 
     elif isinstance(calculation_item, Comparison):
-        return generate_comparison_html(calculation_item)
+        return _generate_comparison_html(calculation_item)
 
     elif isinstance(calculation_item, ComparisonStatement):
-        return generate_comparison_statement_html(calculation_item)
+        return _generate_comparison_statement_html(calculation_item)
 
     elif isinstance(calculation_item, Heading):
         if calculation_item.numbered:
@@ -55,21 +56,21 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
         heading_size = min(4, max(1, calculation_item.head_level) + 1)
 
-        return wrap_h(text, heading_size)
+        return _wrap_h(text, heading_size)
 
     elif isinstance(calculation_item, Input):
-        return generate_input_html(calculation_item)
+        return _generate_input_html(calculation_item)
 
     elif isinstance(calculation_item, TextBlock):
-        return wrap_with_reference(
-            wrap_p(calculation_item.text), calculation_item.reference
+        return _wrap_with_reference(
+            _wrap_p(calculation_item.text), calculation_item.reference
         )
 
     elif isinstance(calculation_item, Title):
-        return wrap_h(calculation_item.text, 1)
+        return _wrap_h(calculation_item.text, 1)
 
 
-def increment_headers_and_get_next(
+def _increment_headers_and_get_next(
     current_headers: list[int], next_level: int
 ) -> list[int]:
 
@@ -89,44 +90,41 @@ def increment_headers_and_get_next(
         return new_headers
 
 
-def generate_calculation_html(item: Calculation) -> str:
+def _generate_calculation_html(item: Calculation) -> str:
     calc_html = ""
 
     if item.description is not None and item.description != "":
-        calc_html += wrap_p(item.description)
+        calc_html += _wrap_p(item.description, CALC_MARGIN)
 
     item.result()
     if item.error is not None and item.error != "":
-        calc_html += wrap_p(f"<b>ERROR:</b>{item.error}", "color: red;")
+        calc_html += _wrap_p(f"<b>ERROR:</b>{item.error}", f"color: red; {CALC_MARGIN}")
 
     display_length = item.estimate_display_length()
     if display_length == CalculationLength.NUMBER:
-        calc_tex = wrap_math_inline(f"{item.name} = {item.str_result_with_unit()}")
+        calc_tex = _wrap_math_inline(f"{item.name} = {item.str_result_with_unit()}")
     elif display_length == CalculationLength.SHORT:
-        calc_tex = wrap_math(
-            wrap_alignment(
+        calc_tex = _wrap_math(
+            _wrap_alignment(
                 f"{item.name} {ALIGN}= {item.str_symbolic()} = {item.str_substituted()} {LINE_BREAK} {ALIGN} \\therefore {item.name} = {item.str_result_with_unit()}"
             )
         )
     else:
-        calc_tex = wrap_math(
-            wrap_alignment(
+        calc_tex = _wrap_math(
+            _wrap_alignment(
                 f"{item.name} {ALIGN}= {item.str_symbolic()} {LINE_BREAK} {ALIGN}= {item.str_substituted()} {LINE_BREAK} {ALIGN}\\therefore {item.name} = {item.str_result_with_unit()}"
             )
         )
 
-    if item.reference:
-        calc_html += wrap_with_reference(wrap_p(calc_tex), item.reference)
-    else:
-        calc_html += wrap_p(calc_tex, CALC_MARGIN)
+    calc_html += _wrap_with_reference(_wrap_p(calc_tex), item.reference)
 
-    return calc_html
+    return _wrap_div(calc_html, class_name=CALC_ITEM_WRAPPER_CLASS)
 
 
-def generate_comparison_html(item: Comparison) -> str:
+def _generate_comparison_html(item: Comparison) -> str:
     comp_html = ""
     if item.description is not None and item.description != "":
-        comp_html += wrap_p(item.description)
+        comp_html += _wrap_p(item.description, CALC_MARGIN)
 
     symbolic = item.str_symbolic()
     substituted = item.str_substituted()
@@ -135,10 +133,10 @@ def generate_comparison_html(item: Comparison) -> str:
         if symbolic != substituted
         else substituted
     )
-    comp_html += wrap_with_reference(
-        wrap_p(
-            wrap_math(
-                wrap_alignment(
+    comp_html += _wrap_with_reference(
+        _wrap_p(
+            _wrap_math(
+                _wrap_alignment(
                     f"Check {sym_and_sub} {LINE_BREAK} {ALIGN}\\therefore {item.result()}"
                 )
             )
@@ -146,23 +144,23 @@ def generate_comparison_html(item: Comparison) -> str:
         item.reference,
     )
 
-    return comp_html
+    return _wrap_div(comp_html, class_name=CALC_ITEM_WRAPPER_CLASS)
 
 
-def generate_comparison_statement_html(item: ComparisonStatement) -> str:
+def _generate_comparison_statement_html(item: ComparisonStatement) -> str:
     comp_html = ""
     if item.description is not None and item.description != "":
-        comp_html += wrap_p(item.description)
+        comp_html += _wrap_p(item.description, CALC_MARGIN)
 
-    comp_html += wrap_with_reference(
-        wrap_p(wrap_math(f"\\rightarrow {item.str_symbolic()}")),
+    comp_html += _wrap_with_reference(
+        _wrap_p(_wrap_math(f"\\rightarrow {item.str_symbolic()}")),
         item.reference,
     )
 
-    return comp_html
+    return _wrap_div(comp_html, class_name=CALC_ITEM_WRAPPER_CLASS)
 
 
-def generate_input_html(item: Input) -> str:
+def _generate_input_html(item: Input) -> str:
 
     ref_when_desc = (
         f" ({item.reference})"
@@ -171,61 +169,65 @@ def generate_input_html(item: Input) -> str:
     )
 
     description = (
-        wrap_p(f"{item.reference} ", "width:40px;")
-        if not item.description
-        else wrap_p(f"{item.description}{ref_when_desc};", "width:350px;")
+        _wrap_p(f" ", "width:40px;")
+        if not item.description and not item.reference
+        else _wrap_p(f"{item.description}{ref_when_desc};", "width:350px;")
     )
 
-    tex = wrap_p(
-        wrap_math_inline(str(item)), "display:inline-block; margin-bottom:1em;"
+    tex = _wrap_p(
+        _wrap_math_inline(str(item)),
+        "display:inline-block; margin-bottom:1rem; margin-left: 3rem",
     )
 
-    return wrap_div(
+    return _wrap_div(
         f"{description} {tex}",
         f"display:flex; flex-direction:row; justify-content:flex-start; {CALC_MARGIN}",
     )
 
 
-def wrap_math(content: str) -> str:
+def _wrap_math(content: str) -> str:
     return rf"\[ {content} \]"
 
 
-def wrap_math_inline(content: str) -> str:
+def _wrap_math_inline(content: str) -> str:
     return rf"\( {content} \)"
 
 
-def wrap_with_reference(primary_content: str, reference: str) -> str:
-    ref = wrap_span(f"[{reference}]")
+def _wrap_with_reference(primary_content: str, reference: str | None) -> str:
+    ref = _wrap_span(f"[{reference}]") if reference else ""
+    vertical_justified = (
+        "display: flex; flex-direction: column; justify-content: center;"
+    )
 
-    return wrap_div(
-        f"{wrap_div(primary_content)} {wrap_div(ref)}",
+    return _wrap_div(
+        f"{_wrap_div(primary_content, vertical_justified)} {_wrap_div(ref, vertical_justified)}",
         f"display:flex; flex-direction:row; justify-content:space-between; {CALC_MARGIN}",
     )
 
 
-def wrap_alignment(content: str) -> str:
+def _wrap_alignment(content: str) -> str:
     begin = r"\begin{align}"
     end = r"\end{align}"
     return rf"{begin} {content} {end}"
 
 
-def wrap_p(content: str, style: str = None) -> str:
+def _wrap_p(content: str, style: str = None) -> str:
     if style is not None:
         return f'<p style="{style}">{content}</p>'
     return f"<p>{content}</p>"
 
 
-def wrap_span(content: str, style: str = None) -> str:
+def _wrap_span(content: str, style: str = None) -> str:
     if style is not None:
         return f'<span style="{style}">{content}</span>'
     return f"<span>{content}</span>"
 
 
-def wrap_div(content: str, style: str = None) -> str:
-    if style is not None:
-        return f'<div style="{style}">{content}</div>'
-    return f"<div>{content}</div>"
+def _wrap_div(content: str, style: str = None, class_name: str = None) -> str:
+    class_tag = "" if class_name is None else f' class="{class_name}"'
+    style_tag = "" if style is None else f' style="{style}"'
+    return f"<div{class_tag}{style_tag}>{content}</div>"
 
 
-def wrap_h(content: str, level: int) -> str:
+def _wrap_h(content: str, level: int) -> str:
     return f"<h{level}>{content}</h{level}>"

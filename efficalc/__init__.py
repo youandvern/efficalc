@@ -50,9 +50,9 @@ from .base_definitions.input import Input
 from .base_definitions.shared import (
     CalculationItem,
     clear_all_input_default_overrides,
+    clear_saved_objects,
     get_all_calc_objects,
     get_override_or_default_value,
-    reset_results,
     save_calculation_item,
     set_input_default_overrides,
 )

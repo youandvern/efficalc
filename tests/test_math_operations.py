@@ -9,6 +9,7 @@ from efficalc import (
     a_brackets,
     brackets,
     c_brackets,
+    clear_saved_objects,
     cos,
     cosh,
     exp,
@@ -18,7 +19,6 @@ from efficalc import (
     maximum,
     minimum,
     r_brackets,
-    reset_results,
     s_brackets,
     sin,
     sinh,
@@ -33,7 +33,7 @@ def common_setup_teardown():
     # Set up a sample number
     yield None  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    reset_results()
+    clear_saved_objects()
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def calculation_2():
     c = Calculation("c", a + b)
     yield c  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    reset_results()
+    clear_saved_objects()
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ def calculation_3():
     c = Calculation("c", a + b)
     yield c  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    reset_results()
+    clear_saved_objects()
 
 
 @pytest.fixture
@@ -63,7 +63,7 @@ def calculation_5():
     c = Calculation("c", a + b)
     yield c  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    reset_results()
+    clear_saved_objects()
 
 
 #

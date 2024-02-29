@@ -3,8 +3,8 @@ import pytest
 from efficalc import (
     Input,
     clear_all_input_default_overrides,
+    clear_saved_objects,
     get_all_calc_objects,
-    reset_results,
     set_input_default_overrides,
 )
 
@@ -15,7 +15,7 @@ def common_setup_teardown():
     yield data  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
     clear_all_input_default_overrides()
-    reset_results()
+    clear_saved_objects()
 
 
 def test_default_value(common_setup_teardown):

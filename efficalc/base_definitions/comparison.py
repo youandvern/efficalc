@@ -134,11 +134,11 @@ class Comparison(CalculationItem):
         comparison_symbol = OPERATOR_TO_LATEX[self.comparator]
 
         if isinstance(left, symbolic_types) and isinstance(right, symbolic_types):
-            return f"\ {left.name} & {comparison_symbol} \ {right.name}"
+            return rf"\ {left.name} \ & {comparison_symbol} \ {right.name}"
         elif isinstance(left, symbolic_types):
-            return f"\ {left.name} & {comparison_symbol} \ {right}"
+            return rf"\ {left.name} \ & {comparison_symbol} \ {right}"
         elif isinstance(right, symbolic_types):
-            return f"\ {left} & {comparison_symbol} \ {right.name}"
+            return rf"\ {left} \ & {comparison_symbol} \ {right.name}"
         else:
             return self.str_substituted()
 
@@ -151,13 +151,13 @@ class Comparison(CalculationItem):
         comparison_symbol = OPERATOR_TO_LATEX[self.comparator]
 
         if isinstance(left, symbolic_types) and isinstance(right, symbolic_types):
-            return f"\ {left.str_result_with_unit()} & {comparison_symbol} \ {right.str_result_with_unit()}"
+            return rf"\ {left.str_result_with_unit()} \ & {comparison_symbol} \ {right.str_result_with_unit()}"
         elif isinstance(left, symbolic_types):
-            return f"\ {left.str_result_with_unit()} & {comparison_symbol} \ {right}"
+            return rf"\ {left.str_result_with_unit()} \ & {comparison_symbol} \ {right}"
         elif isinstance(right, symbolic_types):
-            return f"\ {left} & {comparison_symbol} \ {right.str_result_with_unit()}"
+            return rf"\ {left} \ & {comparison_symbol} \ {right.str_result_with_unit()}"
         else:
-            return f"\ {left} & {comparison_symbol} \ {right}"
+            return rf"\ {left} \ & {comparison_symbol} \ {right}"
 
     def __str__(self) -> str:
         return f"Check {self.str_symbolic()} \\rightarrow {self.str_substituted()} \\therefore {self.result()}"

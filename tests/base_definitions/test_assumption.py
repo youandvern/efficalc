@@ -1,6 +1,6 @@
 import pytest
 
-from efficalc import Assumption, get_all_calc_objects, reset_results
+from efficalc import Assumption, clear_saved_objects, get_all_calc_objects
 
 
 @pytest.fixture
@@ -8,7 +8,7 @@ def common_setup_teardown():
     # Set up a sample number
     yield None  # Provide the data to the test
     # Teardown: Clean up resources (if any) after the test
-    reset_results()
+    clear_saved_objects()
 
 
 def test_text(common_setup_teardown):

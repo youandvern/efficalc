@@ -2,12 +2,12 @@ from latexexpr_efficalc import Expression, Operation, Variable
 
 OPERATOR_TO_LATEX = {
     "<": "<",
-    "<=": "\leq",
+    "<=": r"\leq",
     "=": "=",
     "!=": r"\neq",
     "==": "=",
     ">": ">",
-    ">=": "\geq",
+    ">=": r"\geq",
 }
 
 _DEFAULT_OVERRIDE_KEY = "default_overrides"
@@ -39,7 +39,7 @@ def set_input_default_overrides(default_overrides: dict[str, any]) -> None:
     _GLOBAL_STORE[_DEFAULT_OVERRIDE_KEY] = default_overrides
 
 
-def reset_results() -> None:
+def clear_saved_objects() -> None:
     _GLOBAL_STORE[_ALL_CALC_ITEMS_KEY] = []
 
 
