@@ -189,20 +189,20 @@ def test_str_sym_both_constant(common_setup_teardown):
 def test_str_sym_left_constant(common_setup_teardown):
     a = Calculation("a", 1.4, "in")
     comp = Comparison(5, ">", a)
-    assert comp.str_symbolic() == "\ 5 & > \ a"
+    assert comp.str_symbolic() == "\ 5 \ & > \ a"
 
 
 def test_str_sym_right_constant(common_setup_teardown):
     a = Calculation("a", 1.4, "in")
     comp = Comparison(a, ">", 5)
-    assert comp.str_symbolic() == "\ a & > \ 5"
+    assert comp.str_symbolic() == "\ a \ & > \ 5"
 
 
 def test_str_sym_all_vars(common_setup_teardown):
     a = Calculation("a", 1.4, "in")
     b = Calculation("b", 7, "in")
     comp = Comparison(a, ">", b)
-    assert comp.str_symbolic() == "\ a & > \ b"
+    assert comp.str_symbolic() == "\ a \ & > \ b"
 
 
 def test_str_sym_does_not_display_calculation(common_setup_teardown):
@@ -210,42 +210,42 @@ def test_str_sym_does_not_display_calculation(common_setup_teardown):
     b = Input("b", 12)
     calc = Calculation("calc", a + b, "in")
     comp = Comparison(a, ">", calc)
-    assert comp.str_symbolic() == "\ a & > \ calc"
+    assert comp.str_symbolic() == "\ a \ & > \ calc"
 
 
 def test_str_sym_displays_valid_latex_operators(common_setup_teardown):
 
-    assert Comparison(2, "<", 1).str_symbolic() == "\ 2 & < \ 1"
-    assert Comparison(2, "<=", 1).str_symbolic() == "\ 2 & \leq \ 1"
-    assert Comparison(2, "=", 1).str_symbolic() == "\ 2 & = \ 1"
-    assert Comparison(2, "!=", 1).str_symbolic() == r"\ 2 & \neq \ 1"
-    assert Comparison(2, "==", 1).str_symbolic() == "\ 2 & = \ 1"
-    assert Comparison(2, ">", 1).str_symbolic() == "\ 2 & > \ 1"
-    assert Comparison(2, ">=", 1).str_symbolic() == "\ 2 & \geq \ 1"
+    assert Comparison(2, "<", 1).str_symbolic() == "\ 2 \ & < \ 1"
+    assert Comparison(2, "<=", 1).str_symbolic() == "\ 2 \ & \leq \ 1"
+    assert Comparison(2, "=", 1).str_symbolic() == "\ 2 \ & = \ 1"
+    assert Comparison(2, "!=", 1).str_symbolic() == r"\ 2 \ & \neq \ 1"
+    assert Comparison(2, "==", 1).str_symbolic() == "\ 2 \ & = \ 1"
+    assert Comparison(2, ">", 1).str_symbolic() == "\ 2 \ & > \ 1"
+    assert Comparison(2, ">=", 1).str_symbolic() == "\ 2 \ & \geq \ 1"
 
 
 def test_str_sub_both_constant(common_setup_teardown):
     comp = Comparison(5, ">", 2.2)
-    assert comp.str_substituted() == "\ 5 & > \ 2.2"
+    assert comp.str_substituted() == "\ 5 \ & > \ 2.2"
 
 
 def test_str_sub_left_constant(common_setup_teardown):
     a = Calculation("a", 1.4)
     comp = Comparison(5, ">", a)
-    assert comp.str_substituted() == "\ 5 & > \  1.4 \ \mathrm{}"
+    assert comp.str_substituted() == "\ 5 \ & > \  1.4 \ \mathrm{}"
 
 
 def test_str_sub_right_constant(common_setup_teardown):
     a = Calculation("a", 1.4, "in")
     comp = Comparison(a, ">", 5)
-    assert comp.str_substituted() == "\  1.4 \ \mathrm{in} & > \ 5"
+    assert comp.str_substituted() == "\  1.4 \ \mathrm{in} \ & > \ 5"
 
 
 def test_str_sub_all_vars(common_setup_teardown):
     a = Calculation("a", 1.4, "in")
     b = Calculation("b", 7, "in")
     comp = Comparison(a, ">", b)
-    assert comp.str_substituted() == "\  1.4 \ \mathrm{in} & > \  7 \ \mathrm{in}"
+    assert comp.str_substituted() == "\  1.4 \ \mathrm{in} \ & > \  7 \ \mathrm{in}"
 
 
 def test_str_sub_does_not_display_calculation(common_setup_teardown):
@@ -253,18 +253,18 @@ def test_str_sub_does_not_display_calculation(common_setup_teardown):
     b = Input("b", 12)
     calc = Calculation("calc", a + b, "in")
     comp = Comparison(a, ">", calc)
-    assert comp.str_substituted() == "\  3 \ \mathrm{in} & > \  15 \ \mathrm{in}"
+    assert comp.str_substituted() == "\  3 \ \mathrm{in} \ & > \  15 \ \mathrm{in}"
 
 
 def test_str_sub_displays_valid_latex_operators(common_setup_teardown):
 
-    assert Comparison(2, "<", 1).str_substituted() == "\ 2 & < \ 1"
-    assert Comparison(2, "<=", 1).str_substituted() == "\ 2 & \leq \ 1"
-    assert Comparison(2, "=", 1).str_substituted() == "\ 2 & = \ 1"
-    assert Comparison(2, "!=", 1).str_substituted() == r"\ 2 & \neq \ 1"
-    assert Comparison(2, "==", 1).str_substituted() == "\ 2 & = \ 1"
-    assert Comparison(2, ">", 1).str_substituted() == "\ 2 & > \ 1"
-    assert Comparison(2, ">=", 1).str_substituted() == "\ 2 & \geq \ 1"
+    assert Comparison(2, "<", 1).str_substituted() == "\ 2 \ & < \ 1"
+    assert Comparison(2, "<=", 1).str_substituted() == "\ 2 \ & \leq \ 1"
+    assert Comparison(2, "=", 1).str_substituted() == "\ 2 \ & = \ 1"
+    assert Comparison(2, "!=", 1).str_substituted() == r"\ 2 \ & \neq \ 1"
+    assert Comparison(2, "==", 1).str_substituted() == "\ 2 \ & = \ 1"
+    assert Comparison(2, ">", 1).str_substituted() == "\ 2 \ & > \ 1"
+    assert Comparison(2, ">=", 1).str_substituted() == "\ 2 \ & \geq \ 1"
 
 
 def test_to_str(common_setup_teardown):

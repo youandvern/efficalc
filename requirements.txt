@@ -4,7 +4,7 @@ click==8.1.7
 colorama==0.4.6
 iniconfig==2.0.0
 isort==5.13.2
-latexexpr_efficalc==0.5.1
+latexexpr_efficalc==0.5.3
 mypy-extensions==1.0.0
 ordered-set==4.1.0
 packaging==23.2

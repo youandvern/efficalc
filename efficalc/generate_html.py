@@ -162,16 +162,10 @@ def _generate_comparison_statement_html(item: ComparisonStatement) -> str:
 
 def _generate_input_html(item: Input) -> str:
 
-    ref_when_desc = (
-        f" ({item.reference})"
-        if item.reference is not None and item.reference != ""
-        else ""
-    )
-
     description = (
         _wrap_p(f" ", "width:40px;")
-        if not item.description and not item.reference
-        else _wrap_p(f"{item.description}{ref_when_desc};", "width:350px;")
+        if not item.description
+        else _wrap_p(f"{item.description};", "width:350px;")
     )
 
     tex = _wrap_p(
@@ -179,9 +173,12 @@ def _generate_input_html(item: Input) -> str:
         "display:inline-block; margin-bottom:1rem; margin-left: 3rem",
     )
 
-    return _wrap_div(
-        f"{description} {tex}",
-        f"display:flex; flex-direction:row; justify-content:flex-start; {CALC_MARGIN}",
+    return _wrap_with_reference(
+        _wrap_div(
+            f"{description} {tex}",
+            "display:flex; flex-direction:row; justify-content:flex-start",
+        ),
+        item.reference,
     )
 
 

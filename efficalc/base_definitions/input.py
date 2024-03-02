@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Literal
 
 from latexexpr_efficalc import Variable
 
@@ -9,7 +10,7 @@ from .shared import (
 )
 
 
-class InputType(Enum):
+class InputDisplayType(Enum):
     NUMBER = "number"
     TEXT = "text"
 
@@ -54,6 +55,7 @@ class Input(Variable, CalculationItem):
         unit: str = "",
         description: str = "",
         reference: str = "",
+        input_type: Literal["number", "text", "select"] = None,
         select_options: list = None,
         min_value: int | float = None,
         max_value: int | float = None,
@@ -69,6 +71,7 @@ class Input(Variable, CalculationItem):
         self.num_step = num_step
         self.min_value = min_value
         self.max_value = max_value
+        self.input_type = input_type
         self.select_options = select_options
         save_calculation_item(self)
 
@@ -86,7 +89,7 @@ class Input(Variable, CalculationItem):
         return "%s = \\ %s \\ %s" % (
             self.name,
             self.str_result(),
-            self.unitFormat % self.unit,
+            self.unit_format % self.unit,
         )
 
     def get_value(self):
@@ -105,14 +108,14 @@ class Input(Variable, CalculationItem):
         return self.value
 
     def __str__(self):
-        if self._get_display_type() != InputType.NUMBER:
+        if self._get_display_type() != InputDisplayType.NUMBER:
             return rf"\mathrm{{{self.name}}} = \mathrm{{{self.value}}} \ {self.unit}"
         else:
             return super().__str__()
 
-    def _get_display_type(self) -> InputType:
+    def _get_display_type(self) -> InputDisplayType:
         try:
             float(self.value)
-            return InputType.NUMBER
+            return InputDisplayType.NUMBER
         except ValueError:
-            return InputType.TEXT
+            return InputDisplayType.TEXT

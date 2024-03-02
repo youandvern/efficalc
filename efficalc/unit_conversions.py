@@ -1,3 +1,5 @@
+import math
+
 from latexexpr_efficalc import PI, Variable
 
 k_to_lb = Variable(r"1000 \ \mathrm{lbs/kip}", 1000, "lbs/kip")
@@ -20,7 +22,7 @@ ft_to_in = Variable(r"12 \ \mathrm{in/ft}", 12, "in/ft")
         Calculation report will show --> result = v * 12 in/ft = 2 ft * 12 in/ft = 24 in
 """
 
-deg_to_rad = Variable(r"\pi / 180 \ \mathrm{rad/deg}", PI / 180, "rad/deg")
+deg_to_rad = Variable(r"\pi / 180 \ \mathrm{rad/deg}", math.pi / 180, "rad/deg")
 """Variable instance to show conversions from degrees to radians. (Divide by this variable to reverse the conversion)
 
 .. code-block:: python

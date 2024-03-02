@@ -254,7 +254,7 @@ def test_input(common_setup_teardown):
     a = Input("calc", 5, "in", "describing text", "refer to code")
     result = generate_html_for_calc_items([a])
     assert a.description in result
-    assert "(" + a.reference + ");" in result
+    assert "[" + a.reference + "]" in result
     assert a.name in result
     assert str(a) in result
 
@@ -262,9 +262,17 @@ def test_input(common_setup_teardown):
 def test_input_without_desc(common_setup_teardown):
     a = Input("calc", 5, "in", "", "refer to code")
     result = generate_html_for_calc_items([a])
-    assert ");" not in result
-    assert a.reference in result
-    assert "(" + a.reference + ")" not in result
+    assert "[" + a.reference + "]" in result
+    assert a.name in result
+    assert str(a) in result
+
+
+def test_input_without_ref(common_setup_teardown):
+    a = Input("calc", 5, "in", "A variable")
+    result = generate_html_for_calc_items([a])
+    assert "]" not in result
+    assert "[" not in result
+    assert a.description in result
     assert a.name in result
     assert str(a) in result
 
