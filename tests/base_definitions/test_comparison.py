@@ -56,18 +56,21 @@ def test_result_lt(common_setup_teardown):
 
     comp1 = Comparison(large, "<", small)
     assert comp1.is_passing() is False
-    assert comp1.result() == comp1.false_message
+    assert comp1.get_message() == comp1.false_message
     assert comp1.get_value() is comp1.is_passing()
+    assert comp1.result() is comp1.is_passing()
 
     comp2 = Comparison(small, "<", large)
     assert comp2.is_passing() is True
-    assert comp2.result() == comp2.true_message
+    assert comp2.get_message() == comp2.true_message
     assert comp2.get_value() is comp2.is_passing()
+    assert comp2.result() is comp2.is_passing()
 
     comp3 = Comparison(large, "<", large_too)
     assert comp3.is_passing() is False
-    assert comp3.result() == comp3.false_message
+    assert comp3.get_message() == comp3.false_message
     assert comp3.get_value() is comp3.is_passing()
+    assert comp3.result() is comp3.is_passing()
 
 
 def test_result_le(common_setup_teardown):
@@ -77,18 +80,21 @@ def test_result_le(common_setup_teardown):
 
     comp1 = Comparison(large, "<=", small)
     assert comp1.is_passing() is False
-    assert comp1.result() == comp1.false_message
+    assert comp1.get_message() == comp1.false_message
     assert comp1.get_value() is comp1.is_passing()
+    assert comp1.result() is comp1.is_passing()
 
     comp2 = Comparison(small, "<=", large)
     assert comp2.is_passing() is True
-    assert comp2.result() == comp2.true_message
+    assert comp2.get_message() == comp2.true_message
     assert comp2.get_value() is comp2.is_passing()
+    assert comp2.result() is comp2.is_passing()
 
     comp3 = Comparison(large, "<=", large_too)
     assert comp3.is_passing() is True
-    assert comp3.result() == comp3.true_message
+    assert comp3.get_message() == comp3.true_message
     assert comp3.get_value() is comp3.is_passing()
+    assert comp3.result() is comp3.is_passing()
 
 
 def test_result_eq(common_setup_teardown):
@@ -98,18 +104,21 @@ def test_result_eq(common_setup_teardown):
 
     comp1 = Comparison(large, "=", small)
     assert comp1.is_passing() is False
-    assert comp1.result() == comp1.false_message
+    assert comp1.get_message() == comp1.false_message
     assert comp1.get_value() is comp1.is_passing()
+    assert comp1.result() is comp1.is_passing()
 
     comp2 = Comparison(small, "=", large)
     assert comp2.is_passing() is False
-    assert comp2.result() == comp2.false_message
+    assert comp2.get_message() == comp2.false_message
     assert comp2.get_value() is comp2.is_passing()
+    assert comp2.result() is comp2.is_passing()
 
     comp3 = Comparison(large, "=", large_too)
     assert comp3.is_passing() is True
-    assert comp3.result() == comp3.true_message
+    assert comp3.get_message() == comp3.true_message
     assert comp3.get_value() is comp3.is_passing()
+    assert comp3.result() is comp3.is_passing()
 
 
 def test_result_ne(common_setup_teardown):
@@ -119,18 +128,21 @@ def test_result_ne(common_setup_teardown):
 
     comp1 = Comparison(large, "!=", small)
     assert comp1.is_passing() is True
-    assert comp1.result() == comp1.true_message
+    assert comp1.get_message() == comp1.true_message
     assert comp1.get_value() is comp1.is_passing()
+    assert comp1.result() is comp1.is_passing()
 
     comp2 = Comparison(small, "!=", large)
     assert comp2.is_passing() is True
-    assert comp2.result() == comp2.true_message
+    assert comp2.get_message() == comp2.true_message
     assert comp2.get_value() is comp2.is_passing()
+    assert comp2.result() is comp2.is_passing()
 
     comp3 = Comparison(large, "!=", large_too)
     assert comp3.is_passing() is False
-    assert comp3.result() == comp3.false_message
+    assert comp3.get_message() == comp3.false_message
     assert comp3.get_value() is comp3.is_passing()
+    assert comp3.result() is comp3.is_passing()
 
 
 def test_result_gt(common_setup_teardown):
@@ -140,18 +152,21 @@ def test_result_gt(common_setup_teardown):
 
     comp1 = Comparison(large, ">", small)
     assert comp1.is_passing() is True
-    assert comp1.result() == comp1.true_message
+    assert comp1.get_message() == comp1.true_message
     assert comp1.get_value() is comp1.is_passing()
+    assert comp1.result() is comp1.is_passing()
 
     comp2 = Comparison(small, ">", large)
     assert comp2.is_passing() is False
-    assert comp2.result() == comp2.false_message
+    assert comp2.get_message() == comp2.false_message
     assert comp2.get_value() is comp2.is_passing()
+    assert comp2.result() is comp2.is_passing()
 
     comp3 = Comparison(large, ">", large_too)
     assert comp3.is_passing() is False
-    assert comp3.result() == comp3.false_message
+    assert comp3.get_message() == comp3.false_message
     assert comp3.get_value() is comp3.is_passing()
+    assert comp3.result() is comp3.is_passing()
 
 
 def test_result_ge(common_setup_teardown):
@@ -161,24 +176,27 @@ def test_result_ge(common_setup_teardown):
 
     comp1 = Comparison(large, ">=", small)
     assert comp1.is_passing() is True
-    assert comp1.result() == comp1.true_message
+    assert comp1.get_message() == comp1.true_message
     assert comp1.get_value() is comp1.is_passing()
+    assert comp1.result() is comp1.is_passing()
 
     comp2 = Comparison(small, ">=", large)
     assert comp2.is_passing() is False
-    assert comp2.result() == comp2.false_message
+    assert comp2.get_message() == comp2.false_message
     assert comp2.get_value() is comp2.is_passing()
+    assert comp2.result() is comp2.is_passing()
 
     comp3 = Comparison(large, ">=", large_too)
     assert comp3.is_passing() is True
-    assert comp3.result() == comp3.true_message
+    assert comp3.get_message() == comp3.true_message
     assert comp3.get_value() is comp3.is_passing()
+    assert comp3.result() is comp3.is_passing()
 
 
 def test_result_value_error(common_setup_teardown):
     comp = Comparison("text", ">=", 5)
     assert comp.is_passing() is False
-    assert comp.result() == "Unable to compare text and 5 with operator >="
+    assert comp.get_message() == "Unable to compare text and 5 with operator >="
 
 
 def test_str_sym_both_constant(common_setup_teardown):
@@ -272,5 +290,5 @@ def test_to_str(common_setup_teardown):
     comp = Comparison(a, ">", 2)
     assert (
         str(comp)
-        == f"Check {comp.str_symbolic()} \\rightarrow {comp.str_substituted()} \\therefore {comp.result()}"
+        == f"Check {comp.str_symbolic()} \\rightarrow {comp.str_substituted()} \\therefore {comp.get_message()}"
     )

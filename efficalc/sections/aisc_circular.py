@@ -3,6 +3,51 @@ import dataclasses
 
 @dataclasses.dataclass
 class Circular(object):
+    """This is a dataclass containing the properties of an AISC Circular section. Properties follow the AISC shapes
+    database.
+
+    :param A: Cross-sectional area (in^2)
+    :type A: float
+    :param AISC_name: The name of the AISC section
+    :type AISC_name: str
+    :param C: HSS torsional constant (in^3)
+    :type C: float
+    :param D_t: Slenderness ratio for round HSS and pipe, D/t
+    :type D_t: float
+    :param EDI_Std_Nomenclature: The EDI standard nomenclature name
+    :type EDI_Std_Nomenclature: str
+    :param Ix: Moment of inertia about the x-axis (in^4)
+    :type Ix: float
+    :param Iy: Moment of inertia about the y-axis (in^4)
+    :type Iy: float
+    :param J: Torsional constant (in^4)
+    :type J: float
+    :param OD: Outside diameter of round HSS or pipe (in)
+    :type OD: float
+    :param Sx: Elastic section modulus about the x-axis (in^3)
+    :type Sx: float
+    :param Sy: Elastic section modulus about the y-axis (in^3)
+    :type Sy: float
+    :param T_F: Whether the section has an additional note in the AISC shapes database (T or F)
+    :type T_F: str
+    :param Type: The section type
+    :type Type: str
+    :param W: Nominal weight (lb/ft)
+    :type W: float
+    :param Zx: Plastic section modulus about the x-axis (in^3)
+    :type Zx: float
+    :param Zy: Plastic section modulus about the y-axis (in^3)
+    :type Zy: float
+    :param rx: Radius of gyration about the x-axis (in)
+    :type rx: float
+    :param ry: Radius of gyration about the y-axis (in)
+    :type ry: float
+    :param tdes: Design thickness of HSS and pipe wall (in)
+    :type tdes: float
+    :param tnom: Nominal thickness of HSS and pipe wall (in)
+    :type tnom: float
+    """
+
     A: float
     AISC_name: str
     C: float

@@ -7,7 +7,9 @@ from .shared import OPERATOR_TO_LATEX, CalculationItem, save_calculation_item
 
 
 class Comparison(CalculationItem):
-    """This is an object used to compare variables or constants as an explicit check in the design process.
+    """This is an object used to compare variables or constants as an explicit check in the calculations. It will
+    compare the value of `self.a` against the value of `self.b` using the specified comparator and didplay a message
+    depending on whether the comparison is true or false.
 
     :param a: The first variable or number
     :type a: :class:`.Input`, :class:`.Calculation`, or a number
@@ -22,11 +24,11 @@ class Comparison(CalculationItem):
     :type false_message: str, optional
     :param description: A text description for the comparison, defaults to None
     :type description: str, optional
-    :param reference: A short text reference (or code reference) to accompany the comparison, defaults to None
+    :param reference: A short text reference (e.g. code reference) to accompany the comparison, defaults to None
     :type reference: str, optional
     :param result_check: This is used to indicate any :class:`.Comparison` that should be checked as a final result
         of your calculation template. When set to True, this :class:`.Comparison` will be displayed in the "Results"
-        section of your design portal, defaults to False
+        section of your design portal in the hosted version of efficalc, defaults to False
     :type result_check: bool, optional
 
     .. code-block:: python
@@ -46,8 +48,8 @@ class Comparison(CalculationItem):
         b: Variable | Operation | Expression | float | int,
         true_message: str = "OK",
         false_message: str = "ERROR",
-        description: str = "",
-        reference: str = "",
+        description: str = None,
+        reference: str = None,
         result_check: bool = True,
     ):
 
@@ -64,6 +66,11 @@ class Comparison(CalculationItem):
         save_calculation_item(self)
 
     def get_value(self) -> bool:
+        """Alias for :func:`.is_passing`"""
+
+        return self.is_passing()
+
+    def is_passing(self) -> bool:
         """Returns the calculated value of the comparison (True or False).
 
         :return: The result of the evaluated comparison
@@ -74,13 +81,9 @@ class Comparison(CalculationItem):
             >>> a = Input('a',1,'ft')
             >>> b = Input('b',4,'ft')
             >>> c = Comparison(a, ">", b)
-            >>> print(c.get_value())
+            >>> print(c.is_passing())
             False
         """
-        return self.is_passing()
-
-    def is_passing(self) -> bool:
-        """Alias for :func:`.get_value`"""
 
         OPERATORS = {
             "<": "lt",
@@ -114,7 +117,25 @@ class Comparison(CalculationItem):
             self._error = f"Unable to compare {self.a} and {self.b} with operator {self.comparator}"
             return False
 
-    def result(self) -> str:
+    def result(self) -> bool:
+        """Alias for :func:`.is_passing`"""
+        return self.is_passing()
+
+    def get_message(self) -> str:
+        """Returns the appropriate message for the result of the comparison (`.true_message` or `.false_message`). If
+        there was an error in the comparison, this will return the error message.
+
+        :return: The message for the evaluated comparison reult
+        :rtype: str
+
+        .. code-block:: python
+
+            >>> a = Input('a',1,'ft')
+            >>> b = Input('b',4,'ft')
+            >>> c = Comparison(a, ">", b, false_message="NO GOOD")
+            >>> print(c.get_message())
+            NO GOOD
+        """
         comparison_is_true = self.is_passing()
 
         if self._error is not None:
@@ -126,6 +147,7 @@ class Comparison(CalculationItem):
             return self.false_message
 
     def str_symbolic(self) -> str:
+        """Returns LaTex formatted representation of the comparison using variable names."""
 
         left = self.a
         right = self.b
@@ -143,6 +165,7 @@ class Comparison(CalculationItem):
             return self.str_substituted()
 
     def str_substituted(self) -> str:
+        """Returns LaTex formatted representation of the comparison with values substituted in for variables."""
 
         left = self.a
         right = self.b
@@ -160,4 +183,4 @@ class Comparison(CalculationItem):
             return rf"\ {left} \ & {comparison_symbol} \ {right}"
 
     def __str__(self) -> str:
-        return f"Check {self.str_symbolic()} \\rightarrow {self.str_substituted()} \\therefore {self.result()}"
+        return f"Check {self.str_symbolic()} \\rightarrow {self.str_substituted()} \\therefore {self.get_message()}"

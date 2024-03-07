@@ -3,6 +3,55 @@ import dataclasses
 
 @dataclasses.dataclass
 class DoubleAngle(object):
+    """This is a dataclass containing the properties of an AISC Double Angle section. Properties follow the AISC shapes
+    database.
+
+    :param A: Cross-sectional area (in^2)
+    :type A: float
+    :param AISC_name: The name of the AISC section
+    :type AISC_name: str
+    :param EDI_Std_Nomenclature: The EDI standard nomenclature name
+    :type EDI_Std_Nomenclature: str
+    :param H: Flexural constant
+    :type H: float
+    :param Ix: Moment of inertia about the x-axis (in^4)
+    :type Ix: float
+    :param Iy: Moment of inertia about the y-axis (in^4)
+    :type Iy: float
+    :param Sx: Elastic section modulus about the x-axis (in^3)
+    :type Sx: float
+    :param Sy: Elastic section modulus about the y-axis (in^3)
+    :type Sy: float
+    :param T_F: Whether the section has an additional note in the AISC shapes database (T or F)
+    :type T_F: str
+    :param Type: The section type
+    :type Type: str
+    :param W: Nominal weight (lb/ft)
+    :type W: float
+    :param Zx: Plastic section modulus about the x-axis (in^3)
+    :type Zx: float
+    :param Zy: Plastic section modulus about the y-axis (in^3)
+    :type Zy: float
+    :param b: Width of the flat wall of the longer legs for back-to-back angles (in)
+    :type b: float
+    :param b_t: Slenderness ratio for channel flange, b/t
+    :type b_t: float
+    :param d: Overall depth of member, or width of shorter leg for angles (in)
+    :type d: float
+    :param ro: Polar radius of gyration about the shear center (in)
+    :type ro: float
+    :param rx: Radius of gyration about the x-axis (in)
+    :type rx: float
+    :param ry: Radius of gyration about the y-axis (with no separation for double angles back-to-back) (in)
+    :type ry: float
+    :param t: Thickness of angle leg (in)
+    :type t: float
+    :param y: Vertical distance from designated edge of member to center of gravity of member (in)
+    :type y: float
+    :param yp: Vertical distance from designated edge of member to plastic neutral axis of member (in)
+    :type yp: float
+    """
+
     A: float
     AISC_name: str
     EDI_Std_Nomenclature: str

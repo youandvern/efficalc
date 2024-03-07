@@ -8,40 +8,42 @@ from efficalc.calculation_runner import CalculationRunner
 from efficalc.generate_html import generate_html_for_calc_items
 
 
-@dataclass
-class CalculationReportConfig(object):
-    save_path: str = None  # defaults to working directory
-    file_name: str = None  # defaults to <calc_function_name>_report.pdf
-    display_on_generate: bool = True
-    title_override: str = None  # will only override the first title in the document
-
-
 class CalculationReportBuilder(object):
+    """
+    A helper class to run calculation functions and generate reports based on the calculations.
+
+    This class provides methods to run a calculation function with optional input value overrides and generate an HTML
+    report to view or print the calculations. Reports can be viewed immediately in a web browser, saved to a file, or
+    returned as a string.
+
+    :param calc_function: The calculation function to be executed. This function should define the calculations to be
+        performed and instantiate calculation objects accordingly. It will be executed using the
+        :class:`CalculationRunner`.
+    :type calc_function: Callable
+    :param input_vals: A dictionary of values to override the calculation function's default input values. Keys should
+        be the names of the input objects in the calculation function and values should be the desired values for the
+        input.
+    :type input_vals: dict[str, any], optional
+    """
 
     def __init__(
         self,
         calc_function: Callable,
         input_vals: dict[str, any] = None,
-        config: CalculationReportConfig = None,
     ):
-        self._calc_function: Callable = calc_function
-        self._input_default_overrides: dict[str, any] = (
+        self.calc_function: Callable = calc_function
+        self.input_default_overrides: dict[str, any] = (
             input_vals if input_vals is not None else {}
         )
-        self._config: CalculationReportConfig = (
-            config if config is not None else CalculationReportConfig()
-        )
 
-    def set_calc_function(self, calc_function: Callable):
-        self._calc_function = calc_function
+    def view_report(self) -> str:
+        """Runs the calculation function with the provided input overrides and opens up the calculation report in the
+        default web browser. The report is generated as a temporary HTML file which can be printed to PDF or any other
+        format.
 
-    def set_config(self, config: CalculationReportConfig):
-        self._config = config
-
-    def set_input_vals(self, input_vals: dict[str, any] = None):
-        self._input_default_overrides = input_vals
-
-    def view_report(self):
+        :return: The path to the temporary HTML file.
+        :rtype: str
+        """
         html_content = self.__generate_report_html()
 
         # Create a temporary HTML file and get its path
@@ -50,7 +52,15 @@ class CalculationReportBuilder(object):
         # Open the temporary file in the default web browser
         webbrowser.open("file://" + os.path.realpath(temp_file_path))
 
-    def get_html_as_str(self):
+        return temp_file_path
+
+    def get_html_as_str(self) -> str:
+        """Runs the calculation function with the provided input overrides and generates a string that is a complete
+        HTML document with the calculation report.
+
+        :return: The HTML report as a string.
+        :rtype: str
+        """
         return self.__generate_report_html()
 
     def save_report(
@@ -58,7 +68,23 @@ class CalculationReportBuilder(object):
         folder_path: str,
         file_name: str = "calc_report",
         open_on_create: bool = False,
-    ) -> None:
+    ) -> str:
+        """Runs the calculation function with the provided input overrides and saves the calculation report at the
+        specified location.
+
+        The report is generated as an HTML file with the provided `file_name` and saved at the
+        provided `folder_path`. It will also open in the default web browser if `open_on_create` is set to True. If
+        the `folder_path` does not exist, it will be created.
+
+        :param folder_path: the path to the folder where the report will be saved
+        :type folder_path: str
+        :param file_name: the name of the html file that will be created in the `folder_path`, defaults to "calc_report"
+        :type file_name: str, optional
+        :param open_on_create: if True, the report will be opened in the default web browser, defaults to False
+        :type open_on_create: bool
+        :return: the complete filepath of the saved html file
+        :rtype: str
+        """
 
         # Create the requested folder if it doesn't exist
         if not os.path.exists(folder_path):
@@ -75,9 +101,11 @@ class CalculationReportBuilder(object):
             # Open the created file in the default web browser
             webbrowser.open("file://" + os.path.realpath(full_file_path))
 
+        return full_file_path
+
     def __generate_report_html(self):
         calculation = CalculationRunner(
-            self._calc_function, self._input_default_overrides
+            self.calc_function, self.input_default_overrides
         )
 
         all_items = calculation.calculate_all_items()

@@ -3,10 +3,91 @@ import dataclasses
 
 @dataclasses.dataclass
 class Tee(object):
+    """This is a dataclass containing the properties of an AISC Tee section, typically derived from W-shapes,
+    M-shapes, or S-shapes by cutting along the web. Properties follow the AISC shapes database.
+
+    :param A: Cross-sectional area (in^2)
+    :type A: float
+    :param AISC_name: The name of the AISC section
+    :type AISC_name: str
+    :param Cw: Warping constant (in^6)
+    :type Cw: float
+    :param D_t: Slenderness ratio for tee shapes, D/t where D=d
+    :type D_t: float
+    :param EDI_Std_Nomenclature: The EDI standard nomenclature name
+    :type EDI_Std_Nomenclature: str
+    :param H: Flexural constant
+    :type H: float
+    :param Ix: Moment of inertia about the x-axis (in^4)
+    :type Ix: float
+    :param Iy: Moment of inertia about the y-axis (in^4)
+    :type Iy: float
+    :param J: Torsional constant (in^4)
+    :type J: float
+    :param PA: Shape perimeter minus one flange surface, as used in Design Guide 19 (in)
+    :type PA: float
+    :param PB: Shape perimeter, as used in AISC Design Guide 19 (in)
+    :type PB: float
+    :param PC: Box perimeter minus one flange surface, as used in Design Guide 19 (in)
+    :type PC: float
+    :param PD: Box perimeter, as used in AISC Design Guide 19 (in)
+    :type PD: float
+    :param Sx: Elastic section modulus about the x-axis (in^3)
+    :type Sx: float
+    :param Sy: Elastic section modulus about the y-axis (in^3)
+    :type Sy: float
+    :param T_F: Whether the section has an additional note in the AISC shapes database (T or F)
+    :type T_F: str
+    :param Type: The section type
+    :type Type: str
+    :param W: Nominal weight (lb/ft)
+    :type W: float
+    :param WGi: The workable gage for the inner fastener holes in the flange (in)
+    :type WGi: float
+    :param Zx: Plastic section modulus about the x-axis (in^3)
+    :type Zx: float
+    :param Zy: Plastic section modulus about the y-axis (in^3)
+    :type Zy: float
+    :param bf: Width of flange (in)
+    :type bf: float
+    :param bfdet: Detailing value of flange width (in)
+    :type bfdet: float
+    :param bf_2tf: Slenderness ratio, bf/2tf
+    :type bf_2tf: float
+    :param d: Overall depth of member (in)
+    :type d: float
+    :param ddet: Detailing value of member depth (in)
+    :type ddet: float
+    :param kdes: Distance from outer face of flange to web toe of fillet used for design (in)
+    :type kdes: float
+    :param kdet: Distance from outer face of flange to web toe of fillet used for detailing (in)
+    :type kdet: float
+    :param ro: Polar radius of gyration about the shear center (in)
+    :type ro: float
+    :param rx: Radius of gyration about the x-axis (in)
+    :type rx: float
+    :param ry: Radius of gyration about the y-axis (in)
+    :type ry: float
+    :param tf: Thickness of flange (in)
+    :type tf: float
+    :param tfdet: Detailing value of flange thickness (in)
+    :type tfdet: float
+    :param tw: Thickness of web (in)
+    :type tw: float
+    :param twdet: Detailing value of web thickness (in)
+    :type twdet: float
+    :param twdet_2: Half the web thickness for detailing purposes, twdet/2  (in)
+    :type twdet_2: float
+    :param y: Vertical distance from designated edge of member to center of gravity of member (in)
+    :type y: float
+    :param yp: Vertical distance from designated edge of member to plastic neutral axis of member (in)
+    :type yp: float
+    """
+
     A: float
     AISC_name: str
     Cw: float
-    Dlt: float
+    D_t: float
     EDI_Std_Nomenclature: str
     H: float
     Ix: float

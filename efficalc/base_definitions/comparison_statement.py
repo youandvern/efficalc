@@ -7,7 +7,7 @@ from .shared import OPERATOR_TO_LATEX, CalculationItem, save_calculation_item
 
 
 class ComparisonStatement(CalculationItem):
-    """This is an object for declaring the result of a comparison. It does not actually compare the values given, but
+    """This is an object for declaring the result of a comparison. It does not evaluate the values given, but
     rather displays the comparision exactly as it is given. This can be used to annotate or embellish if/else logic in
     your calculation templates.
 
@@ -42,8 +42,8 @@ class ComparisonStatement(CalculationItem):
         b: Variable | Operation | Expression | float | int,
         comparator2: Literal["<", "<=", "=", "!=", "==", ">", ">="] = None,
         c: Variable | Operation | Expression | float | int = None,
-        description: str = "",
-        reference: str = "",
+        description: str = None,
+        reference: str = None,
     ):
         self.a: Variable | Operation | Expression | float | int = a
         self.comparator: Literal["<", "<=", "=", "!=", "==", ">", ">="] = comparator
@@ -58,6 +58,7 @@ class ComparisonStatement(CalculationItem):
         save_calculation_item(self)
 
     def str_symbolic(self):
+        """Returns LaTex formatted representation of the comparison using variable names."""
 
         all_inputs = [self.a, self.b, self.c]
         str_inputs = []

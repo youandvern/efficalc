@@ -3,6 +3,59 @@ import dataclasses
 
 @dataclasses.dataclass
 class Rectangular(object):
+    """This is a dataclass containing the properties of an AISC Rectangular section, typically representing
+    rectangular HSS (Hollow Structural Section) properties. Properties follow the AISC shapes database.
+
+    :param A: Cross-sectional area (in^2)
+    :type A: float
+    :param AISC_name: The name of the AISC section
+    :type AISC_name: str
+    :param Bout: Overall (outer) width of the rectangular HSS (in)
+    :type Bout: float
+    :param C: HSS torsional constant (in^3)
+    :type C: float
+    :param EDI_Std_Nomenclature: The EDI standard nomenclature name
+    :type EDI_Std_Nomenclature: str
+    :param Ht: Overall (outer) depth of the longer wall of rectangular HSS (in)
+    :type Ht: float
+    :param Ix: Moment of inertia about the x-axis (in^4)
+    :type Ix: float
+    :param Iy: Moment of inertia about the y-axis (in^4)
+    :type Iy: float
+    :param J: Torsional constant (in^4)
+    :type J: float
+    :param Sx: Elastic section modulus about the x-axis (in^3)
+    :type Sx: float
+    :param Sy: Elastic section modulus about the y-axis (in^3)
+    :type Sy: float
+    :param T_F: Whether the section has an additional note in the AISC shapes database (T or F)
+    :type T_F: str
+    :param Type: The section type
+    :type Type: str
+    :param W: Nominal weight (lb/ft)
+    :type W: float
+    :param Zx: Plastic section modulus about the x-axis (in^3)
+    :type Zx: float
+    :param Zy: Plastic section modulus about the y-axis (in^3)
+    :type Zy: float
+    :param bin: Width of the shorter flat wall of rectangular HSS (in)
+    :type bin: float
+    :param b_tdes: Slenderness ratio for the shorter wall of rectangular HSS, b/tdes
+    :type b_tdes: float
+    :param h: Depth of the longer flat wall of rectangular HSS (in)
+    :type h: float
+    :param h_tdes: Slenderness ratio for the longer wall of rectangular HSS, h/tdes
+    :type h_tdes: float
+    :param rx: Radius of gyration about the x-axis (in)
+    :type rx: float
+    :param ry: Radius of gyration about the y-axis (in)
+    :type ry: float
+    :param tdes: Design thickness of HSS wall (in)
+    :type tdes: float
+    :param tnom: Nominal thickness of HSS wall (in)
+    :type tnom: float
+    """
+
     A: float
     AISC_name: str
     Bout: float

@@ -17,6 +17,14 @@ CALC_ITEM_WRAPPER_CLASS = "calc-item"
 
 
 def generate_html_for_calc_items(calculation_items: list) -> str:
+    """Generates a string containing HTML elements for displaying the provided calculation items. The calculations
+    within the HTML elements will be written as plain LaTex to be reformatted via a polyfill or other formatter.
+
+    :param calculation_items: A list of calculation items to generate the HTML for.
+    :type calculation_items: list
+    :return: HTML for the provided calculation items.
+    :rtype: str
+    """
     header_numbers = [0]
     report_items_html = ""
 
@@ -68,6 +76,9 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
     elif isinstance(calculation_item, Title):
         return _wrap_h(calculation_item.text, 1)
+
+    else:
+        return str(calculation_item)
 
 
 def _increment_headers_and_get_next(
@@ -137,7 +148,7 @@ def _generate_comparison_html(item: Comparison) -> str:
         _wrap_p(
             _wrap_math(
                 _wrap_alignment(
-                    f"Check {sym_and_sub} {LINE_BREAK} {ALIGN}\\therefore {item.result()}"
+                    f"Check {sym_and_sub} {LINE_BREAK} {ALIGN}\\therefore {item.get_message()}"
                 )
             )
         ),

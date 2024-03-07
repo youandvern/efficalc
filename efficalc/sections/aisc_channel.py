@@ -3,6 +3,108 @@ import dataclasses
 
 @dataclasses.dataclass
 class Channel(object):
+    """
+    This is a dataclass containing the properties of an AISC Channel section. Properties follow the AISC shapes
+    database.
+
+    :param A: The cross-sectional area (in^2)
+    :type A: float
+    :param AISC_name: The name of the AISC section
+    :type AISC_name: str
+    :param Cw: The warping constant (in^6)
+    :type Cw: float
+    :param EDI_Std_Nomenclature: The EDI standard nomenclature name
+    :type EDI_Std_Nomenclature: str
+    :param H: Flexural constant
+    :type H: float
+    :param Ix: Moment of inertia about the x-axis (in^4)
+    :type Ix: float
+    :param Iy: Moment of inertia about the y-axis (in^4)
+    :type Iy: float
+    :param J: Torsional constant (in^4)
+    :type J: float
+    :param PA: Shape perimeter minus one flange surface (in)
+    :type PA: float
+    :param PB: Shape perimeter, as used in AISC Design Guide 19 (in)
+    :type PB: float
+    :param PC: Box perimeter minus one flange surface, as used in Design Guide 19 (in)
+    :type PC: float
+    :param PD: Box perimeter, as used in AISC Design Guide 19 (in)
+    :type PD: float
+    :param Qf: Statical moment for a point in the flange directly above the vertical edge of the web (in^3)
+    :type Qf: float
+    :param Qw: Statical moment for a point at mid-depth of the cross section (in^3)
+    :type Qw: float
+    :param Sw1: Warping statical moment at point 1 on cross section (in^4)
+    :type Sw1: float
+    :param Sw2: Warping statical moment at point 2 on cross section (in^4)
+    :type Sw2: float
+    :param Sw3: Warping statical moment at point 3 on cross section (in^4)
+    :type Sw3: float
+    :param Sx: Elastic section modulus about the x-axis (in^3)
+    :type Sx: float
+    :param Sy: Elastic section modulus about the y-axis (in^3)
+    :type Sy: float
+    :param T: Distance between web toes of fillets at top and bottom of web (in)
+    :type T: float
+    :param T_F: Indicates if there is a special note for the shape (T or F)
+    :type T_F: str
+    :param Type: The section type
+    :type Type: str
+    :param W: Nominal weight (lb/ft)
+    :type W: float
+    :param WGi: The workable gage for the inner fastener holes in the flange (in)
+    :type WGi: float
+    :param Wno: Normalized warping function (in^2)
+    :type Wno: float
+    :param Zx: Plastic section modulus about the x-axis (in^3)
+    :type Zx: float
+    :param Zy: Plastic section modulus about the y-axis (in^3)
+    :type Zy: float
+    :param bf: Width of flange (in)
+    :type bf: float
+    :param bfdet: Detailing value of flange width (in)
+    :type bfdet: float
+    :param b_t: Slenderness ratio for angles and channel flange, b/t
+    :type b_t: float
+    :param d: Overall depth of member (in)
+    :type d: float
+    :param ddet: Detailing value of member depth (in)
+    :type ddet: float
+    :param eo: Horizontal distance to shear center of member (in)
+    :type eo: float
+    :param h_tw: Slenderness ratio for web, h/tw
+    :type h_tw: float
+    :param ho: Distance between the flange centroids (in)
+    :type ho: float
+    :param kdes: Distance from outer face of flange to web toe of fillet for design (in)
+    :type kdes: float
+    :param kdet: Distance from outer face of flange to web toe of fillet for detailing (in)
+    :type kdet: float
+    :param ro: Polar radius of gyration about the shear center (in)
+    :type ro: float
+    :param rts: Effective radius of gyration (in)
+    :type rts: float
+    :param rx: Radius of gyration about the x-axis (in)
+    :type rx: float
+    :param ry: Radius of gyration about the y-axis (in)
+    :type ry: float
+    :param tf: Thickness of flange (in)
+    :type tf: float
+    :param tfdet: Detailing value of flange thickness (in)
+    :type tfdet: float
+    :param tw: Thickness of web (in)
+    :type tw: float
+    :param twdet: Detailing value of web thickness (in)
+    :type twdet: float
+    :param twdet_2: Detailing value of twdet/2 (in)
+    :type twdet_2: float
+    :param x: Horizontal distance to center of gravity of member (in)
+    :type x: float
+    :param xp: Horizontal distance to plastic neutral axis of member (in)
+    :type xp: float
+    """
+
     A: float
     AISC_name: str
     Cw: float
@@ -48,7 +150,7 @@ class Channel(object):
     tfdet: float
     tw: float
     twdet: float
-    twdetl2: float
+    twdet_2: float
     x: float
     xp: float
 

@@ -17,9 +17,9 @@ class Heading(CalculationItem):
 
     .. code-block:: python
 
-        >>> Heading("Default First Heading")
-        >>> Heading("Second Level Heading", 2)
-        >>> Heading("Another Second Level Heading", 2)
+        >>> Heading("Default First Heading", head_level=1)
+        >>> Heading("Second Level Heading", head_level=2)
+        >>> Heading("Another Second Level Heading", head_level=2)
         >>> Heading("Heading Without Number", head_level=2, numbered=False)
         Calculation report will show -->    1.  Default First Heading
                                             1.1.  Second Level Heading

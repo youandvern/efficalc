@@ -20,7 +20,7 @@ def calculation():
     Assumption("Loads applied after concrete reaches 28 day strength.")
 
     Heading("Heading Number 1.")
-    Heading("Heading Number 2.", 0)
+    Heading("Heading Number 2.", 1)
     Heading("Heading Number 2.1.", 2)
     Heading("Heading Number 2.2.", 2)
     Heading("Heading Number 2.2.1.", 3)
@@ -78,6 +78,6 @@ def calculation():
 
 
 if __name__ == "__main__":
-    # builder = CalculationReportBuilder(test_calc)
-    builder = CalculationReportBuilder(calculation)
+    builder = CalculationReportBuilder(test_calc)
+    # builder = CalculationReportBuilder(calculation)
     builder.view_report()

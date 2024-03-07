@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "efficalc"
+version = "0.1.0"
+authors = [
+  { name="Andrew Young", email="youandvern@gmail.com" },
+]
+description = "Feature-rich open source library for building well-formatted and extensible engineering calculations."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/youandvern/efficalc"
+Documentation = "https://youandvern.github.io/efficalc"
+Issues = "https://github.com/youandvern/efficalc/issues"
+
+[tool.setuptools.packages]
+find = { include = ["efficalc", "efficalc.sections", "efficalc.base_definitions"] }
+
+[tool.setuptools]
+package-data = {"efficalc.sections" = ["section_properties.db"]}
+

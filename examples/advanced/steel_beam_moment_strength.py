@@ -4,7 +4,6 @@ from efficalc import (
     Calculation,
     Comparison,
     ComparisonStatement,
-    E,
     Heading,
     Input,
     TextBlock,
@@ -63,12 +62,12 @@ def calculation():
 
     Heading("Beam Flexural Capacity", head_level=1)
     Pb = Calculation(
-        "\phi_{b}", 0.9, "", "Flexural resistance factor", reference="AISC F1(1)"
+        r"\phi_{b}", 0.9, "", "Flexural resistance factor", reference="AISC F1(1)"
     )
 
     Heading("Section Compactness", head_level=2)
     ypf = Calculation(
-        "\lambda_{pf}", 0.38 * sqrt(E / Fy), "", reference="AISC Table B4.1b(10)"
+        r"\lambda_{pf}", 0.38 * sqrt(Es / Fy), "", reference="AISC Table B4.1b(10)"
     )
     Comparison(
         bf_2tf,
@@ -80,7 +79,7 @@ def calculation():
     )
 
     ypw = Calculation(
-        "\lambda_{pw}", 3.76 * sqrt(E / Fy), "", reference="AISC Table B4.1b(15)"
+        r"\lambda_{pw}", 3.76 * sqrt(Es / Fy), "", reference="AISC Table B4.1b(15)"
     )
     Comparison(
         h_tw,
@@ -105,7 +104,7 @@ def calculation():
 
     Heading("Lateral-Torsional Buckling", head_level=2)
     Lp = Calculation(
-        "L_{p}", 1.76 * ry * sqrt(E / Fy) / ft_to_in, "ft", reference="AISC Eq. F2-5"
+        "L_{p}", 1.76 * ry * sqrt(Es / Fy) / ft_to_in, "ft", reference="AISC Eq. F2-5"
     )
     cc = Calculation("c", 1.0, "", reference="AISC Eq. F2-8a")
     Lr = Calculation(
@@ -117,7 +116,7 @@ def calculation():
         / (0.7 * Fy)
         * sqrt(
             J * cc / (Sx * ho)
-            + sqrt((J * cc / (Sx * ho)) ** 2 + 6.76 * (0.7 * Fy / E) ** 2)
+            + sqrt((J * cc / (Sx * ho)) ** 2 + 6.76 * (0.7 * Fy / Es) ** 2)
         ),
         "ft",
         reference="AISC Eq. F2-6",
@@ -164,7 +163,7 @@ def calculation():
 
     Heading("Controlling Strength", head_level=2)
     PMn = Calculation(
-        "\phi M_n",
+        r"\phi M_n",
         Pb * minimum(Mny, Mnl),
         "kip-ft",
         "Design flexural strength of the section",

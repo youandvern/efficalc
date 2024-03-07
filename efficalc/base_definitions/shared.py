@@ -16,14 +16,24 @@ _GLOBAL_STORE = {_DEFAULT_OVERRIDE_KEY: {}, _ALL_CALC_ITEMS_KEY: []}
 
 
 class CalculationItem(object):
+    """A base class for all calculation items. Not currently used for anything yet."""
+
     super_type = "CalculationItem"
 
 
 def save_calculation_item(item):
-    _GLOBAL_STORE["all_calc_items"].append(item)
+    """Save an item to the global store of all calculation items."""
+    _GLOBAL_STORE[_ALL_CALC_ITEMS_KEY].append(item)
+
+
+def clear_saved_objects():
+    """Clear all saved calculation items from the global store."""
+    _GLOBAL_STORE[_ALL_CALC_ITEMS_KEY] = []
 
 
 def get_override_or_default_value(input_name: str, default_value: any):
+    """Get the default override value for a given input name from the global store. If no override is found, returns
+    the default value."""
     default_overrides: dict = _GLOBAL_STORE[_DEFAULT_OVERRIDE_KEY]
     if default_overrides is not None and input_name in default_overrides:
         return default_overrides.get(input_name)
@@ -31,20 +41,19 @@ def get_override_or_default_value(input_name: str, default_value: any):
         return default_value
 
 
-def clear_all_input_default_overrides() -> None:
-    _GLOBAL_STORE[_DEFAULT_OVERRIDE_KEY] = {}
-
-
-def set_input_default_overrides(default_overrides: dict[str, any]) -> None:
+def set_input_default_overrides(default_overrides: dict[str, any]):
+    """Set default override values for input names in the global store."""
     _GLOBAL_STORE[_DEFAULT_OVERRIDE_KEY] = default_overrides
 
 
-def clear_saved_objects() -> None:
-    _GLOBAL_STORE[_ALL_CALC_ITEMS_KEY] = []
-
-
 def get_all_calc_objects() -> list:
+    """Get all calculation objects saved in the global store."""
     return _GLOBAL_STORE[_ALL_CALC_ITEMS_KEY]
+
+
+def clear_all_input_default_overrides():
+    """Clear all input default overrides from the global store."""
+    _GLOBAL_STORE[_DEFAULT_OVERRIDE_KEY] = {}
 
 
 def _get_float_safe_operation(

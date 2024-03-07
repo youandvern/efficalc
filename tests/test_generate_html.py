@@ -117,7 +117,7 @@ def test_comparison_number(common_setup_teardown):
     assert calc.description in result
     assert calc.reference in result
     assert ">" in result
-    assert calc.result() in result
+    assert calc.get_message() in result
     assert calc.str_symbolic() in result
     assert calc.str_substituted() in result
     assert r"\therefore" in result
@@ -132,25 +132,25 @@ def test_comparison_variable(common_setup_teardown):
     assert calc.description in result
     assert calc.reference in result
     assert ">" in result
-    assert calc.result() in result
+    assert calc.get_message() in result
     assert calc.str_symbolic() in result
     assert calc.str_substituted() in result
     assert r"\therefore" in result
 
 
-def test_comparison_without_ref(common_setup_teardown):
+def test_comparison_without_ref_or_desc(common_setup_teardown):
     a = Input("a", 2)
     b = Input("b", 3)
     c = Calculation("c", a + b)
-    calc = Comparison(a, ">", c, "good", "nah", "a describer", "")
+    calc = Comparison(a, ">", c, "good", "nah")
     result = generate_html_for_calc_items([calc])
-    assert calc.description in result
     assert ">" in result
-    assert calc.result() in result
+    assert calc.get_message() in result
     assert calc.str_symbolic() in result
     assert calc.str_substituted() in result
     assert r"\therefore" in result
     assert "[]" not in result  # empty reference tag
+    assert "None" not in result
 
 
 def test_comparison_statement(common_setup_teardown):
@@ -162,13 +162,13 @@ def test_comparison_statement(common_setup_teardown):
     assert calc.str_symbolic() in result
 
 
-def test_comparison_statement_without_ref(common_setup_teardown):
-    calc = ComparisonStatement(5, ">", 2, ">=", 1.5, "a describer")
+def test_comparison_statement_without_ref_or_desc(common_setup_teardown):
+    calc = ComparisonStatement(5, ">", 2, ">=", 1.5)
     result = generate_html_for_calc_items([calc])
-    assert calc.description in result
     assert ">" in result
     assert calc.str_symbolic() in result
     assert "[]" not in result  # empty reference tag
+    assert "None" not in result
 
 
 def test_heading_max_size(common_setup_teardown):
@@ -265,6 +265,7 @@ def test_input_without_desc(common_setup_teardown):
     assert "[" + a.reference + "]" in result
     assert a.name in result
     assert str(a) in result
+    assert "None" not in result
 
 
 def test_input_without_ref(common_setup_teardown):
@@ -275,6 +276,18 @@ def test_input_without_ref(common_setup_teardown):
     assert a.description in result
     assert a.name in result
     assert str(a) in result
+    assert "None" not in result
+
+
+def test_input_without_unit(common_setup_teardown):
+    a = Input("calc", 5, description="A variable")
+    result = generate_html_for_calc_items([a])
+    assert "]" not in result
+    assert "[" not in result
+    assert a.description in result
+    assert a.name in result
+    assert str(a) in result
+    assert "None" not in result
 
 
 def test_text_block(common_setup_teardown):
@@ -292,6 +305,7 @@ def test_text_block_without_ref(common_setup_teardown):
     assert b.text in result
     assert "[" not in result  # empty reference tag
     assert "]" not in result  # empty reference tag
+    assert "None" not in result
 
 
 def test_title(common_setup_teardown):

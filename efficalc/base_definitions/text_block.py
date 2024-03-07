@@ -6,15 +6,15 @@ class TextBlock(CalculationItem):
 
     :param text: The text
     :type text: str
-    :param reference: A short text reference (or code reference) to accompany the text, defaults to None
+    :param reference: A short text reference (e.g. code reference) to accompany the text, defaults to None
     :type reference: str, optional
     """
 
-    def __init__(self, text: str, reference: str = ""):
+    def __init__(self, text: str, reference: str = None):
         self.text: str = text
         self.description: str = self.text
         self.reference: str = reference
         save_calculation_item(self)
 
     def __str__(self):
-        return f"{self.text}"
+        return f"{self.text}" if self.text else ""
