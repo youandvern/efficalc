@@ -1,0 +1,4 @@
+.. _styling:
+
+Styling Reports
+===============

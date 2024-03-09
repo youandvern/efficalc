@@ -1,3 +1,7 @@
+"""
+This module provides a sample usage for the efficalc package with a calculation for visually testing the package.
+"""
+
 from efficalc import (
     Assumption,
     Calculation,
@@ -10,7 +14,7 @@ from efficalc import (
     brackets,
 )
 from efficalc.report_builder import CalculationReportBuilder
-from examples.simple.concrete_beam_neutral_axis import calculation as test_calc
+from examples.simple.concrete_beam_neutral_axis import calculation as example_calc
 
 
 def calculation():
@@ -78,6 +82,6 @@ def calculation():
 
 
 if __name__ == "__main__":
-    builder = CalculationReportBuilder(test_calc)
-    # builder = CalculationReportBuilder(calculation)
+    # builder = CalculationReportBuilder(example_calc)
+    builder = CalculationReportBuilder(calculation)
     builder.view_report()

@@ -4,10 +4,13 @@ build:
 	python -m build
 
 tests:
-	pytest
+	python -m pytest
 
 publish:
 	python -m twine upload --skip-existing dist/*
 
 docs:
 	sphinx-build docs_src docs
+
+sections:
+	python -m "build_section_tables.py"
