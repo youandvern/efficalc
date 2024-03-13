@@ -8,7 +8,7 @@ from efficalc.calculation_runner import CalculationRunner
 from efficalc.generate_html import generate_html_for_calc_items
 
 
-class CalculationReportBuilder(object):
+class ReportBuilder(object):
     """
     A helper class to run calculation functions and generate reports based on the calculations.
 

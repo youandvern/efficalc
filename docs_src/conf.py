@@ -3,21 +3,29 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(".."))
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "efficalc"
 copyright = "2024, Andrew Young"
 author = "Andrew Young"
-release = "0.1.0"
+release = "0.1.1"
+html_favicon = "_static/favicon.ico"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.autodoc"]
+extensions = ["sphinx.ext.autodoc", "sphinx_copybutton", "sphinxcontrib.video"]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+# add_module_names = False
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -32,3 +40,7 @@ html_theme_options = {
         "color-brand-content": "#004aad",
     },
 }
+
+
+# -- Options for autodoc -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#configuration

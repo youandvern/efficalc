@@ -13,9 +13,12 @@ Efficalc is designed to transform how engineers approach calculations, moving aw
 
 Built with the modern engineer in mind, Efficalc leverages the power of Python to offer an **extensible**, **testable**, and **powerful** calculations framework.
 
-TODO: add simple graphics and animations to see the library in action
-=====================================================================
 
+.. video:: _static/efficalc_basic_demo2.mp4
+    :autoplay:
+    :loop:
+    :muted:
+    :width: 700
 
 Automated Report Generation:
     Automatically create detailed and professional calculation reports for crystal clear reviewing and ambiguity-free submittals.
@@ -35,8 +38,8 @@ Please give efficalc a try and let us know what you think!
 Get Started
 -----------
 
-* :ref:`start`
 * :ref:`purpose`
+* :ref:`start`
 
 
 API Documentation

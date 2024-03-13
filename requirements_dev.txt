@@ -1,3 +1,5 @@
 pandas
 sphinx
 furo
+sphinx-copybutton
+sphinxcontrib-video

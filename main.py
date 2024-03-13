@@ -13,7 +13,7 @@ from efficalc import (
     Title,
     brackets,
 )
-from efficalc.report_builder import CalculationReportBuilder
+from efficalc.report_builder import ReportBuilder
 from examples.simple.concrete_beam_neutral_axis import calculation as example_calc
 
 
@@ -82,6 +82,6 @@ def calculation():
 
 
 if __name__ == "__main__":
-    # builder = CalculationReportBuilder(example_calc)
-    builder = CalculationReportBuilder(calculation)
+    # builder = ReportBuilder(example_calc)
+    builder = ReportBuilder(calculation)
     builder.view_report()

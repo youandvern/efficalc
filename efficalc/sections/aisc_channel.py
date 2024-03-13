@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class Channel(object):
+class AiscChannel(object):
     """
     This is a dataclass containing the properties of an AISC Channel section. Properties follow the AISC shapes
     database.

@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class Rectangular(object):
+class AiscRectangular(object):
     """This is a dataclass containing the properties of an AISC Rectangular section, typically representing
     rectangular HSS (Hollow Structural Section) properties. Properties follow the AISC shapes database.
 

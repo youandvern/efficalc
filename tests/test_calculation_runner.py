@@ -95,3 +95,15 @@ def test_calculate_results_only_returns_result_checks(calc_function):
     assert calc.name == "calc-result"
     assert isinstance(comparison, Comparison)
     assert comparison.b == 5
+
+
+def calc_function_simple():
+    a = Input("a", 4, "in")
+    Calculation("calc", a**2, "in^2", result_check=True)
+
+
+def test_get_results_as_dict():
+    inputs = {"a": 5}
+    calculation = CalculationRunner(calc_function_simple, inputs)
+    results = calculation.get_results_as_dict()
+    assert results["calc"].result() == 25

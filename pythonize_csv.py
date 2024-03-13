@@ -1,6 +1,6 @@
 import csv
 
-from efficalc.sections.aisc_wide_flange import WideFlange
+from efficalc.sections.aisc_wide_flange import AiscWideFlange
 
 
 def get_all_sizes_from_csv(filepath, output_filepath):

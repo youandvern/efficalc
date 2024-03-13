@@ -3,9 +3,6 @@
 Purpose and Background
 ======================
 
-* Things we don't like about excel but like about python table
-
-
 Efficalc was developed to provide a robust, flexible, and efficient alternative to traditional calculation methods like Excel, which has remained the industry standard for decades. While Excel is versatile and used in many different industries, it is limited in its ability to integrate with modern engineering workflows. Furthermore, as a general tool, it's not particularly good at any one thing, especially providing a tailored experience for engineering work.
 
 Here are a few things we don't like about excel calculations, and wanted to fix with efficalc.
@@ -13,7 +10,7 @@ Here are a few things we don't like about excel calculations, and wanted to fix 
 Finding mistakes
 ----------------
 
-There are many times we have to review calculations, such as
+If you write calculations, you'll have to review calculations at some point. It could be:
 
 #. Debugging our own calculations as we write them
 #. Understanding the calculations that a colleague shares with you to use
@@ -29,9 +26,17 @@ There are also many times when others review our calculations:
 
 In these cases, hard-to-follow or error-ridden calculations have a host of other implications including costly time delays and loss of rapport with important clients.
 
-When you consider looking for mistakes, which of these is easier to understand?
+Take a look for yourself, which of these is easier to understand?
 
-###INSERT IMAGE OF LTB EQUATION EXCEL VS EFFICALC###
+.. image:: /_static/excel_ltb.png
+    :alt: Inelastic LTB limiting factor calculation in excel
+    :align: center
+
+.. image:: /_static/efficalc_ltb.png
+    :alt: Inelastic LTB limiting factor calculation in efficalc
+    :align: center
+
+Same equation, very different looks.
 
 
 Automation and Scalability
@@ -42,6 +47,8 @@ Imagine this common scenario, you need to design all the steel floor beams in a 
 But then, you realize there's a mistake in one of the cell calculations, or maybe there's a change to the type of steel that's available. To update the calculations, you have to go back through every spreadsheet and make the same exact update.
 
 However, if your design spreadsheet is actually a python function, then you can update that one calculation function. Then you can re-run it for all of your unique inputs, and every beam is re-calculated to with your updates.
+
+Here's a simplified example:
 
     .. code-block:: python
         :linenos:
@@ -56,7 +63,8 @@ However, if your design spreadsheet is actually a python function, then you can 
 
         def beam_calculation(name, span, ultimate_load, steel_strength):
             # insert your design calculations here
-            # make updates in this one function to update all designs
+            # all beams are designed with this function
+            return result
 
 
         def design_all_beams():
@@ -66,6 +74,8 @@ However, if your design spreadsheet is actually a python function, then you can 
 
             return "Design complete"
 
+We go more in depth into these types of advanced use cases in :ref:`integration`
+
 
 Formatting and Submittal
 ------------------------
@@ -74,9 +84,15 @@ At the end of most projects, a calculation report is submitted and reviewed by a
 
 Often to facilitate a proper review and documentation of the design, spreadsheet calculations have to be manually formatted by the engineer. It's tedious, time-consuming, and just not a good use of our time.
 
-By automating the calculation report creation in a highly detailed and readable way, efficalc enables engineers to spend more time doing what they're good at: engineering. So spend less time manually formatting calcs, and focus on the actual calculations and designs!
+By automating the calculation report creation in a highly detailed and readable way, efficalc enables engineers to spend more time doing what they're good at: engineering.
 
-### INSERT IMAGE OF SPREADSHEET CALC ###
+So spend less time manually formatting calcs, and focus on the actual calculations and designs!
+
+This might work for for your design stage, but it doesn't make a very good submittal:
+
+.. image:: /_static/excel_submittal.png
+    :alt: Concrete design spreadsheet shear and moment check
+    :align: center
 
 
 Modern Workflows
@@ -90,6 +106,8 @@ Python-native calculations enable you to plug into your automation workflows dir
 
 Not to mention, Python is the ideal language for working with large amounts of data. With pandas, NumPy, matplotlib, and others, managing large data sets in Python saves a lot of headache vs trying to manage it in excel.
 
+:ref:`integration` has some more ideas on how efficalc can integrate with other python workflows.
+
 
 A New Era
 ---------
@@ -98,5 +116,5 @@ Efficalc aims to set a new standard for how calculations are created and shared 
 
 This transition not only improves the quality of engineering designs but facilitates better communication, understanding, and efficiency among teams and stakeholders.
 
-So, **give it a try!**
+**So, give it a try!**
 

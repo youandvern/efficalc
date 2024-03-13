@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class WideFlange(object):
+class AiscWideFlange(object):
     """This is a dataclass containing the properties of an AISC Wide Flange section. Properties follow the AISC shapes
     database.
 

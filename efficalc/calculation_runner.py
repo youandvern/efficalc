@@ -58,6 +58,17 @@ class CalculationRunner(object):
         all_calc_objects = self.calculate_all_items()
         return self._get_results_from_all_calc_items(all_calc_objects)
 
+    def get_results_as_dict(self) -> dict:
+        """
+        Executes the calculation function and filters the results to return only those Calculation and Comparison
+        objects that have been marked as results (where result_check=True).
+
+        :return: A dictionary of calculation objects where result_check=True. The keys are the variable names.
+        :rtype: dict
+        """
+        all_calc_objects = self.calculate_all_items()
+        return self._get_results_from_all_calc_items_as_dict(all_calc_objects)
+
     @staticmethod
     def _is_calculated_result(ob) -> bool:
         if not isinstance(ob, Calculation) and not isinstance(ob, Comparison):
@@ -67,3 +78,11 @@ class CalculationRunner(object):
     @classmethod
     def _get_results_from_all_calc_items(cls, all_items: list) -> list:
         return list(filter(cls._is_calculated_result, all_items))
+
+    @classmethod
+    def _get_results_from_all_calc_items_as_dict(cls, all_items: list) -> dict:
+        results = {}
+        for item in all_items:
+            if cls._is_calculated_result(item):
+                results[item.name] = item
+        return results
