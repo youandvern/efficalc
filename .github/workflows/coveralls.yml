@@ -32,9 +32,7 @@ jobs:
         python -m pytest --cov=efficalc --cov-report=xml tests
 
     - name: Coveralls
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.COVERALLS_GITHUB_TOKEN }}
         path-to-lcov: ./coverage.xml # Make sure this matches the output file from pytest
-        parallel: true
-        parallel-finished: true
