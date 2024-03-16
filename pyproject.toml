@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "efficalc"
-version = "0.2.0"
+version = "1.0.0"
 authors = [
   { name="Andrew Young", email="youandvern@gmail.com" },
 ]
@@ -15,6 +15,11 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+]
+dependencies = [
+    "latexexpr_efficalc>=0.5.3",
+    "pylatexenc>=2.10",
+    "pytest>=8.0.2"
 ]
 
 [project.urls]
