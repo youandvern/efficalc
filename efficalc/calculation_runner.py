@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Dict, List, Literal, Union, overload
 
 from efficalc import (
     Calculation,
@@ -8,6 +8,8 @@ from efficalc import (
     get_all_calc_objects,
     set_input_default_overrides,
 )
+
+ResultType = Union[Calculation, Comparison]
 
 
 class CalculationRunner(object):
@@ -47,42 +49,42 @@ class CalculationRunner(object):
         clear_saved_objects()
         return all_calc_objects
 
-    def calculate_results(self) -> list:
+    @overload
+    def calculate_results(self, return_type: Literal["list"]) -> List[ResultType]: ...
+
+    @overload
+    def calculate_results(
+        self, return_type: Literal["dict"]
+    ) -> Dict[str, ResultType]: ...
+
+    def calculate_results(
+        self, return_type: Literal["list", "dict"] = "list"
+    ) -> Union[List[ResultType], Dict[str, ResultType]]:
         """
         Executes the calculation function and filters the results to return only those Calculation and Comparison
-        objects that have been marked as results (where result_check=True).
+        objects that have been marked as results (where result_check=True), either in a list or a dictionary format
+        based on the 'return_type' parameter.
 
-        :return: A list of calculation objects where result_check=True.
-        :rtype: list
+        :param return_type: The type of the return value, "list" for a list of calculation objects,
+                            "dict" for a dictionary of calculation objects with their names as keys, defaults to "list"
+        :type: return_type: "list" or "dict", optional
+        :return: A list or a dictionary of calculation objects where result_check=True.
         """
         all_calc_objects = self.calculate_all_items()
-        return self._get_results_from_all_calc_items(all_calc_objects)
 
-    def get_results_as_dict(self) -> dict:
-        """
-        Executes the calculation function and filters the results to return only those Calculation and Comparison
-        objects that have been marked as results (where result_check=True).
-
-        :return: A dictionary of calculation objects where result_check=True. The keys are the variable names.
-        :rtype: dict
-        """
-        all_calc_objects = self.calculate_all_items()
-        return self._get_results_from_all_calc_items_as_dict(all_calc_objects)
+        if return_type == "list":
+            return list(filter(self._is_calculated_result, all_calc_objects))
+        elif return_type == "dict":
+            return {
+                item.name: item
+                for item in all_calc_objects
+                if self._is_calculated_result(item)
+            }
+        else:
+            raise ValueError("Invalid return_type specified. Use 'list' or 'dict'.")
 
     @staticmethod
     def _is_calculated_result(ob) -> bool:
         if not isinstance(ob, Calculation) and not isinstance(ob, Comparison):
             return False
         return ob.result_check
-
-    @classmethod
-    def _get_results_from_all_calc_items(cls, all_items: list) -> list:
-        return list(filter(cls._is_calculated_result, all_items))
-
-    @classmethod
-    def _get_results_from_all_calc_items_as_dict(cls, all_items: list) -> dict:
-        results = {}
-        for item in all_items:
-            if cls._is_calculated_result(item):
-                results[item.name] = item
-        return results

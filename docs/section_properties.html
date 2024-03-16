@@ -1,0 +1,787 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Math Operations" href="math_operations.html" /><link rel="prev" title="Calculation Helpers" href="calculation_helpers.html" />
+
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Section Properties - efficalc 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #004aad;
+  --color-brand-content: #004aad;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">efficalc 0.2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">efficalc 0.2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Get Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="purpose.html">Purpose and Background</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="base_classes.html">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculation_helpers.html">Calculation Helpers</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Section Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math_operations.html">Math Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants and Unit Conversions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">More:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">Styling Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Integrating and Extending efficalc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing Your Calculations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="section-properties">
+<span id="id1"></span><h1>Section Properties<a class="headerlink" href="#section-properties" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscAngle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscAngle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PA2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SwA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SwB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SwC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SzA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SzB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SzC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tana</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscAngle" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Angle section. Properties follow the AISC shapes
+database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – The section area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>Cw</strong> (<em>float</em>) – The warping constant (in^6)</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>Iw</strong> (<em>float</em>) – The moment of inertia about the w-axis (in^4)</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – The moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – The moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>Iz</strong> (<em>float</em>) – The moment of inertia about the z-axis (in^4)</p></li>
+<li><p><strong>J</strong> (<em>float</em>) – The torsional constant (in^4)</p></li>
+<li><p><strong>PA</strong> (<em>float</em>) – The shape perimeter minus one flange surface (in)</p></li>
+<li><p><strong>PA2</strong> (<em>float</em>) – The single angle shape perimeter minus long leg surface (in)</p></li>
+<li><p><strong>PB</strong> (<em>float</em>) – The shape perimeter for AISC Design Guide 19 (in)</p></li>
+<li><p><strong>SwA</strong> (<em>float</em>) – The elastic section modulus about the w-axis at point A (in^3)</p></li>
+<li><p><strong>SwB</strong> (<em>float</em>) – The elastic section modulus about the w-axis at point B (in^3)</p></li>
+<li><p><strong>SwC</strong> (<em>float</em>) – The elastic section modulus about the w-axis at point C (in^3)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – The elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – The elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>Sz</strong> (<em>float</em>) – The elastic section modulus about the z-axis (in^3)</p></li>
+<li><p><strong>SzA</strong> (<em>float</em>) – The elastic section modulus about the z-axis at point A (in^3)</p></li>
+<li><p><strong>SzB</strong> (<em>float</em>) – The elastic section modulus about the z-axis at point B (in^3)</p></li>
+<li><p><strong>SzC</strong> (<em>float</em>) – The elastic section modulus about the z-axis at point C (in^3)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Whether the section has an additional note in the AISC shapes database (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – The nominal section weight (lb/ft)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – The plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – The plastic  section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – The width of the longer angle leg (in)</p></li>
+<li><p><strong>b_t</strong> (<em>float</em>) – The slenderness ratio, b/t</p></li>
+<li><p><strong>d</strong> (<em>float</em>) – The width of the shorter leg (in)</p></li>
+<li><p><strong>kdes</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet used for design (in)</p></li>
+<li><p><strong>kdet</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet used for detailing (in)</p></li>
+<li><p><strong>ro</strong> (<em>float</em>) – Polar radius of gyration about the shear center (in)</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (in)</p></li>
+<li><p><strong>rz</strong> (<em>float</em>) – Radius of gyration about the z-axis (in)</p></li>
+<li><p><strong>t</strong> (<em>float</em>) – Thickness of the angle leg (in)</p></li>
+<li><p><strong>tana</strong> (<em>float</em>) – Tangent of the angle between the y-y and z-z axes for single angles</p></li>
+<li><p><strong>wA</strong> (<em>float</em>) – Distance from point A to center of gravity along the w-axis (in)</p></li>
+<li><p><strong>wB</strong> (<em>float</em>) – Distance from point B to center of gravity along the w-axis (in)</p></li>
+<li><p><strong>wC</strong> (<em>float</em>) – Distance from point C to center of gravity along the w-axis (in)</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – Horizontal distance from designated edge of member to center of gravity of member (in)</p></li>
+<li><p><strong>xp</strong> (<em>float</em>) – Horizontal distance from designated edge of member to plastic neutral axis of member (in)</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – Vertical distance from designated edge of member to center of gravity of member (in)</p></li>
+<li><p><strong>yp</strong> (<em>float</em>) – Vertical distance from designated edge of member to plastic neutral axis of member (in)</p></li>
+<li><p><strong>zA</strong> (<em>float</em>) – Distance from point A to center of gravity along the z-axis (in)</p></li>
+<li><p><strong>zB</strong> (<em>float</em>) – Distance from point B to center of gravity along the z-axis (in)</p></li>
+<li><p><strong>zC</strong> (<em>float</em>) – Distance from point C to center of gravity along the z-axis (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscChannel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PD</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sw1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sw2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sw3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WGi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Wno</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bfdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h_tw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tfdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twdet_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscChannel" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Channel section. Properties follow the AISC shapes
+database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – The cross-sectional area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>Cw</strong> (<em>float</em>) – The warping constant (in^6)</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>H</strong> (<em>float</em>) – Flexural constant</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – Moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – Moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>J</strong> (<em>float</em>) – Torsional constant (in^4)</p></li>
+<li><p><strong>PA</strong> (<em>float</em>) – Shape perimeter minus one flange surface (in)</p></li>
+<li><p><strong>PB</strong> (<em>float</em>) – Shape perimeter, as used in AISC Design Guide 19 (in)</p></li>
+<li><p><strong>PC</strong> (<em>float</em>) – Box perimeter minus one flange surface, as used in Design Guide 19 (in)</p></li>
+<li><p><strong>PD</strong> (<em>float</em>) – Box perimeter, as used in AISC Design Guide 19 (in)</p></li>
+<li><p><strong>Qf</strong> (<em>float</em>) – Statical moment for a point in the flange directly above the vertical edge of the web (in^3)</p></li>
+<li><p><strong>Qw</strong> (<em>float</em>) – Statical moment for a point at mid-depth of the cross section (in^3)</p></li>
+<li><p><strong>Sw1</strong> (<em>float</em>) – Warping statical moment at point 1 on cross section (in^4)</p></li>
+<li><p><strong>Sw2</strong> (<em>float</em>) – Warping statical moment at point 2 on cross section (in^4)</p></li>
+<li><p><strong>Sw3</strong> (<em>float</em>) – Warping statical moment at point 3 on cross section (in^4)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – Elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – Elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>T</strong> (<em>float</em>) – Distance between web toes of fillets at top and bottom of web (in)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Indicates if there is a special note for the shape (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – Nominal weight (lb/ft)</p></li>
+<li><p><strong>WGi</strong> (<em>float</em>) – The workable gage for the inner fastener holes in the flange (in)</p></li>
+<li><p><strong>Wno</strong> (<em>float</em>) – Normalized warping function (in^2)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – Plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – Plastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>bf</strong> (<em>float</em>) – Width of flange (in)</p></li>
+<li><p><strong>bfdet</strong> (<em>float</em>) – Detailing value of flange width (in)</p></li>
+<li><p><strong>b_t</strong> (<em>float</em>) – Slenderness ratio for angles and channel flange, b/t</p></li>
+<li><p><strong>d</strong> (<em>float</em>) – Overall depth of member (in)</p></li>
+<li><p><strong>ddet</strong> (<em>float</em>) – Detailing value of member depth (in)</p></li>
+<li><p><strong>eo</strong> (<em>float</em>) – Horizontal distance to shear center of member (in)</p></li>
+<li><p><strong>h_tw</strong> (<em>float</em>) – Slenderness ratio for web, h/tw</p></li>
+<li><p><strong>ho</strong> (<em>float</em>) – Distance between the flange centroids (in)</p></li>
+<li><p><strong>kdes</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet for design (in)</p></li>
+<li><p><strong>kdet</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet for detailing (in)</p></li>
+<li><p><strong>ro</strong> (<em>float</em>) – Polar radius of gyration about the shear center (in)</p></li>
+<li><p><strong>rts</strong> (<em>float</em>) – Effective radius of gyration (in)</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (in)</p></li>
+<li><p><strong>tf</strong> (<em>float</em>) – Thickness of flange (in)</p></li>
+<li><p><strong>tfdet</strong> (<em>float</em>) – Detailing value of flange thickness (in)</p></li>
+<li><p><strong>tw</strong> (<em>float</em>) – Thickness of web (in)</p></li>
+<li><p><strong>twdet</strong> (<em>float</em>) – Detailing value of web thickness (in)</p></li>
+<li><p><strong>twdet_2</strong> (<em>float</em>) – Detailing value of twdet/2 (in)</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – Horizontal distance to center of gravity of member (in)</p></li>
+<li><p><strong>xp</strong> (<em>float</em>) – Horizontal distance to plastic neutral axis of member (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscCircular">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscCircular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OD</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tnom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscCircular" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Circular section. Properties follow the AISC shapes
+database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – Cross-sectional area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>C</strong> (<em>float</em>) – HSS torsional constant (in^3)</p></li>
+<li><p><strong>D_t</strong> (<em>float</em>) – Slenderness ratio for round HSS and pipe, D/t</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – Moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – Moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>J</strong> (<em>float</em>) – Torsional constant (in^4)</p></li>
+<li><p><strong>OD</strong> (<em>float</em>) – Outside diameter of round HSS or pipe (in)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – Elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – Elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Whether the section has an additional note in the AISC shapes database (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – Nominal weight (lb/ft)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – Plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – Plastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (in)</p></li>
+<li><p><strong>tdes</strong> (<em>float</em>) – Design thickness of HSS and pipe wall (in)</p></li>
+<li><p><strong>tnom</strong> (<em>float</em>) – Nominal thickness of HSS and pipe wall (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscDoubleAngle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscDoubleAngle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscDoubleAngle" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Double Angle section. Properties follow the AISC shapes
+database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – Cross-sectional area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>H</strong> (<em>float</em>) – Flexural constant</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – Moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – Moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – Elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – Elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Whether the section has an additional note in the AISC shapes database (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – Nominal weight (lb/ft)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – Plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – Plastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – Width of the flat wall of the longer legs for back-to-back angles (in)</p></li>
+<li><p><strong>b_t</strong> (<em>float</em>) – Slenderness ratio for channel flange, b/t</p></li>
+<li><p><strong>d</strong> (<em>float</em>) – Overall depth of member, or width of shorter leg for angles (in)</p></li>
+<li><p><strong>ro</strong> (<em>float</em>) – Polar radius of gyration about the shear center (in)</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (with no separation for double angles back-to-back) (in)</p></li>
+<li><p><strong>t</strong> (<em>float</em>) – Thickness of angle leg (in)</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – Vertical distance from designated edge of member to center of gravity of member (in)</p></li>
+<li><p><strong>yp</strong> (<em>float</em>) – Vertical distance from designated edge of member to plastic neutral axis of member (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscRectangular">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscRectangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Bout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ht</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_tdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h_tdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tnom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscRectangular" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Rectangular section, typically representing
+rectangular HSS (Hollow Structural Section) properties. Properties follow the AISC shapes database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – Cross-sectional area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>Bout</strong> (<em>float</em>) – Overall (outer) width of the rectangular HSS (in)</p></li>
+<li><p><strong>C</strong> (<em>float</em>) – HSS torsional constant (in^3)</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>Ht</strong> (<em>float</em>) – Overall (outer) depth of the longer wall of rectangular HSS (in)</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – Moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – Moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>J</strong> (<em>float</em>) – Torsional constant (in^4)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – Elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – Elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Whether the section has an additional note in the AISC shapes database (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – Nominal weight (lb/ft)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – Plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – Plastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>bin</strong> (<em>float</em>) – Width of the shorter flat wall of rectangular HSS (in)</p></li>
+<li><p><strong>b_tdes</strong> (<em>float</em>) – Slenderness ratio for the shorter wall of rectangular HSS, b/tdes</p></li>
+<li><p><strong>h</strong> (<em>float</em>) – Depth of the longer flat wall of rectangular HSS (in)</p></li>
+<li><p><strong>h_tdes</strong> (<em>float</em>) – Slenderness ratio for the longer wall of rectangular HSS, h/tdes</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (in)</p></li>
+<li><p><strong>tdes</strong> (<em>float</em>) – Design thickness of HSS wall (in)</p></li>
+<li><p><strong>tnom</strong> (<em>float</em>) – Nominal thickness of HSS wall (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscTee">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscTee</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D_t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PD</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WGi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bfdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_2tf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tfdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twdet_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscTee" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Tee section, typically derived from W-shapes,
+M-shapes, or S-shapes by cutting along the web. Properties follow the AISC shapes database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – Cross-sectional area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>Cw</strong> (<em>float</em>) – Warping constant (in^6)</p></li>
+<li><p><strong>D_t</strong> (<em>float</em>) – Slenderness ratio for tee shapes, D/t where D=d</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>H</strong> (<em>float</em>) – Flexural constant</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – Moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – Moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>J</strong> (<em>float</em>) – Torsional constant (in^4)</p></li>
+<li><p><strong>PA</strong> (<em>float</em>) – Shape perimeter minus one flange surface, as used in Design Guide 19 (in)</p></li>
+<li><p><strong>PB</strong> (<em>float</em>) – Shape perimeter, as used in AISC Design Guide 19 (in)</p></li>
+<li><p><strong>PC</strong> (<em>float</em>) – Box perimeter minus one flange surface, as used in Design Guide 19 (in)</p></li>
+<li><p><strong>PD</strong> (<em>float</em>) – Box perimeter, as used in AISC Design Guide 19 (in)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – Elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – Elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Whether the section has an additional note in the AISC shapes database (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – Nominal weight (lb/ft)</p></li>
+<li><p><strong>WGi</strong> (<em>float</em>) – The workable gage for the inner fastener holes in the flange (in)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – Plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – Plastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>bf</strong> (<em>float</em>) – Width of flange (in)</p></li>
+<li><p><strong>bfdet</strong> (<em>float</em>) – Detailing value of flange width (in)</p></li>
+<li><p><strong>bf_2tf</strong> (<em>float</em>) – Slenderness ratio, bf/2tf</p></li>
+<li><p><strong>d</strong> (<em>float</em>) – Overall depth of member (in)</p></li>
+<li><p><strong>ddet</strong> (<em>float</em>) – Detailing value of member depth (in)</p></li>
+<li><p><strong>kdes</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet used for design (in)</p></li>
+<li><p><strong>kdet</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet used for detailing (in)</p></li>
+<li><p><strong>ro</strong> (<em>float</em>) – Polar radius of gyration about the shear center (in)</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (in)</p></li>
+<li><p><strong>tf</strong> (<em>float</em>) – Thickness of flange (in)</p></li>
+<li><p><strong>tfdet</strong> (<em>float</em>) – Detailing value of flange thickness (in)</p></li>
+<li><p><strong>tw</strong> (<em>float</em>) – Thickness of web (in)</p></li>
+<li><p><strong>twdet</strong> (<em>float</em>) – Detailing value of web thickness (in)</p></li>
+<li><p><strong>twdet_2</strong> (<em>float</em>) – Half the web thickness for detailing purposes, twdet/2  (in)</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – Vertical distance from designated edge of member to center of gravity of member (in)</p></li>
+<li><p><strong>yp</strong> (<em>float</em>) – Vertical distance from designated edge of member to plastic neutral axis of member (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.sections.AiscWideFlange">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">AiscWideFlange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AISC_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EDI_Std_Nomenclature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PA</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PB</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PC</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PD</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sw1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">WGi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Wno</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Zy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bfdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bf_2tf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ddet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h_tw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tfdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twdet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twdet_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.sections.AiscWideFlange" title="Link to this definition">#</a></dt>
+<dd><p>This is a dataclass containing the properties of an AISC Wide Flange section. Properties follow the AISC shapes
+database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>float</em>) – Cross-sectional area (in^2)</p></li>
+<li><p><strong>AISC_name</strong> (<em>str</em>) – The name of the AISC section</p></li>
+<li><p><strong>Cw</strong> (<em>float</em>) – Warping constant (in^6)</p></li>
+<li><p><strong>EDI_Std_Nomenclature</strong> (<em>str</em>) – The EDI standard nomenclature name</p></li>
+<li><p><strong>Ix</strong> (<em>float</em>) – Moment of inertia about the x-axis (in^4)</p></li>
+<li><p><strong>Iy</strong> (<em>float</em>) – Moment of inertia about the y-axis (in^4)</p></li>
+<li><p><strong>J</strong> (<em>float</em>) – Torsional constant (in^4)</p></li>
+<li><p><strong>PA</strong> (<em>float</em>) – Shape perimeter minus one flange surface, as used in Design Guide 19 (in)</p></li>
+<li><p><strong>PB</strong> (<em>float</em>) – Shape perimeter, as used in AISC Design Guide 19 (in)</p></li>
+<li><p><strong>PC</strong> (<em>float</em>) – Box perimeter minus one flange surface, as used in Design Guide 19 (in)</p></li>
+<li><p><strong>PD</strong> (<em>float</em>) – Box perimeter, as used in AISC Design Guide 19 (in)</p></li>
+<li><p><strong>Qf</strong> (<em>float</em>) – Statical moment for a point in the flange directly above the vertical edge of the web (in^3)</p></li>
+<li><p><strong>Qw</strong> (<em>float</em>) – Statical moment for a point at mid-depth of the cross section (in^3)</p></li>
+<li><p><strong>Sw1</strong> (<em>float</em>) – Warping statical moment at point 1 on cross section (in^4)</p></li>
+<li><p><strong>Sx</strong> (<em>float</em>) – Elastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Sy</strong> (<em>float</em>) – Elastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>T</strong> (<em>float</em>) – Distance between web toes of fillets at top and bottom of web (in)</p></li>
+<li><p><strong>T_F</strong> (<em>str</em>) – Whether the section has an additional note in the AISC shapes database (T or F)</p></li>
+<li><p><strong>Type</strong> (<em>str</em>) – The section type</p></li>
+<li><p><strong>W</strong> (<em>float</em>) – Nominal weight (lb/ft)</p></li>
+<li><p><strong>WGi</strong> (<em>float</em>) – The workable gage for the inner fastener holes in the flange (in)</p></li>
+<li><p><strong>Wno</strong> (<em>float</em>) – Normalized warping function, as used in Design Guide 9 (in^2)</p></li>
+<li><p><strong>Zx</strong> (<em>float</em>) – Plastic section modulus about the x-axis (in^3)</p></li>
+<li><p><strong>Zy</strong> (<em>float</em>) – Plastic section modulus about the y-axis (in^3)</p></li>
+<li><p><strong>bf</strong> (<em>float</em>) – Width of flange (in)</p></li>
+<li><p><strong>bfdet</strong> (<em>float</em>) – Detailing value of flange width (in)</p></li>
+<li><p><strong>bf_2tf</strong> (<em>float</em>) – Slenderness ratio for flange, bf/2tf</p></li>
+<li><p><strong>d</strong> (<em>float</em>) – Overall depth of member (in)</p></li>
+<li><p><strong>ddet</strong> (<em>float</em>) – Detailing value of member depth (in)</p></li>
+<li><p><strong>h_tw</strong> (<em>float</em>) – Slenderness ratio for web, h/tw</p></li>
+<li><p><strong>ho</strong> (<em>float</em>) – Distance between the flange centroids (in)</p></li>
+<li><p><strong>k1</strong> (<em>float</em>) – Distance from web center line to flange toe of fillet used for detailing (in)</p></li>
+<li><p><strong>kdes</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet used for design (in)</p></li>
+<li><p><strong>kdet</strong> (<em>float</em>) – Distance from outer face of flange to web toe of fillet used for detailing (in)</p></li>
+<li><p><strong>rts</strong> (<em>float</em>) – Effective radius of gyration (in)</p></li>
+<li><p><strong>rx</strong> (<em>float</em>) – Radius of gyration about the x-axis (in)</p></li>
+<li><p><strong>ry</strong> (<em>float</em>) – Radius of gyration about the y-axis (in)</p></li>
+<li><p><strong>tf</strong> (<em>float</em>) – Thickness of flange (in)</p></li>
+<li><p><strong>tfdet</strong> (<em>float</em>) – Detailing value of flange thickness (in)</p></li>
+<li><p><strong>tw</strong> (<em>float</em>) – Thickness of web (in)</p></li>
+<li><p><strong>twdet</strong> (<em>float</em>) – Detailing value of web thickness (in)</p></li>
+<li><p><strong>twdet_2</strong> (<em>float</em>) – Half the web thickness for detailing purposes, twdet/2 (in)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_angle">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscAngle" title="efficalc.sections.aisc_angle.AiscAngle"><span class="pre">AiscAngle</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_angle" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Angle section from the sections database and returns an
+<a class="reference internal" href="#efficalc.sections.AiscAngle" title="efficalc.sections.AiscAngle"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscAngle</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the angle section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An Angle populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscAngle</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_channel">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscChannel" title="efficalc.sections.aisc_channel.AiscChannel"><span class="pre">AiscChannel</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_channel" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Channel section from the sections database and returns a
+<a class="reference internal" href="#efficalc.sections.AiscChannel" title="efficalc.sections.AiscChannel"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscChannel</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the channel section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Channel populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscChannel</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_circular">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscCircular" title="efficalc.sections.aisc_circular.AiscCircular"><span class="pre">AiscCircular</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_circular" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Circular section from the sections database and returns a
+<a class="reference internal" href="#efficalc.sections.AiscCircular" title="efficalc.sections.AiscCircular"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscCircular</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the circular section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Circular populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscCircular</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_double_angle">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_double_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscDoubleAngle" title="efficalc.sections.aisc_double_angle.AiscDoubleAngle"><span class="pre">AiscDoubleAngle</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_double_angle" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Double Angle section from the sections database and returns a
+<a class="reference internal" href="#efficalc.sections.AiscDoubleAngle" title="efficalc.sections.AiscDoubleAngle"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscDoubleAngle</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the double angle section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DoubleAngle populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscDoubleAngle</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_rectangular">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_rectangular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscRectangular" title="efficalc.sections.aisc_rectangular.AiscRectangular"><span class="pre">AiscRectangular</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_rectangular" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Rectangular section from the sections database and returns a
+<a class="reference internal" href="#efficalc.sections.AiscRectangular" title="efficalc.sections.AiscRectangular"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscRectangular</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the rectangular section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Rectangular populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscRectangular</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_tee">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_tee</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscTee" title="efficalc.sections.aisc_tee.AiscTee"><span class="pre">AiscTee</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_tee" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Tee section from the sections database and returns a
+<a class="reference internal" href="#efficalc.sections.AiscTee" title="efficalc.sections.AiscTee"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscTee</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the tee section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Tee populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscTee</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="efficalc.sections.get_aisc_wide_flange">
+<span class="sig-prename descclassname"><span class="pre">efficalc.sections.</span></span><span class="sig-name descname"><span class="pre">get_aisc_wide_flange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#efficalc.sections.AiscWideFlange" title="efficalc.sections.aisc_wide_flange.AiscWideFlange"><span class="pre">AiscWideFlange</span></a></span></span><a class="headerlink" href="#efficalc.sections.get_aisc_wide_flange" title="Link to this definition">#</a></dt>
+<dd><p>Fetches the properties of a specified AISC Wide Flange section from the sections database and returns a
+<a class="reference internal" href="#efficalc.sections.AiscWideFlange" title="efficalc.sections.AiscWideFlange"><code class="xref py py-class docutils literal notranslate"><span class="pre">efficalc.sections.AiscWideFlange</span></code></a> instance populated with these properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section_size</strong> (<em>str</em>) – The designation of the wide flange section size as the AISC_name property defined in the database.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A WideFlange populated with the properties of the specified section size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>efficalc.sections.AiscWideFlange</cite></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the specified section size cannot be found in the sections database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="math_operations.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Math Operations</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="calculation_helpers.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Calculation Helpers</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Andrew Young
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Section Properties</a><ul>
+<li><a class="reference internal" href="#efficalc.sections.AiscAngle"><code class="docutils literal notranslate"><span class="pre">AiscAngle</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.AiscChannel"><code class="docutils literal notranslate"><span class="pre">AiscChannel</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.AiscCircular"><code class="docutils literal notranslate"><span class="pre">AiscCircular</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.AiscDoubleAngle"><code class="docutils literal notranslate"><span class="pre">AiscDoubleAngle</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.AiscRectangular"><code class="docutils literal notranslate"><span class="pre">AiscRectangular</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.AiscTee"><code class="docutils literal notranslate"><span class="pre">AiscTee</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.AiscWideFlange"><code class="docutils literal notranslate"><span class="pre">AiscWideFlange</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_angle"><code class="docutils literal notranslate"><span class="pre">get_aisc_angle()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_channel"><code class="docutils literal notranslate"><span class="pre">get_aisc_channel()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_circular"><code class="docutils literal notranslate"><span class="pre">get_aisc_circular()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_double_angle"><code class="docutils literal notranslate"><span class="pre">get_aisc_double_angle()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_rectangular"><code class="docutils literal notranslate"><span class="pre">get_aisc_rectangular()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_tee"><code class="docutils literal notranslate"><span class="pre">get_aisc_tee()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.sections.get_aisc_wide_flange"><code class="docutils literal notranslate"><span class="pre">get_aisc_wide_flange()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

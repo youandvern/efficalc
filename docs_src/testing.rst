@@ -47,7 +47,7 @@ How To Test Your Calculations
     def test_calc_function():
         inputs = {"a": 5}
         calculation = CalculationRunner(calc_function_simple, inputs)
-        results = calculation.get_results_as_dict()
+        results = calculation.calculate_results("dict")
         assert results["calc"].result() == 25
 
 3. **Running Your Tests**: With your tests defined, you can run them using pytest or any other Python testing framework you prefer. Regularly running your tests after any changes to your calculations ensures ongoing accuracy and reliability.

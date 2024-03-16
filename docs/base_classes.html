@@ -1,0 +1,684 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Calculation Helpers" href="calculation_helpers.html" /><link rel="prev" title="Purpose and Background" href="purpose.html" />
+
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Base Classes - efficalc 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #004aad;
+  --color-brand-content: #004aad;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">efficalc 0.2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">efficalc 0.2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Get Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="purpose.html">Purpose and Background</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculation_helpers.html">Calculation Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section_properties.html">Section Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math_operations.html">Math Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants and Unit Conversions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">More:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">Styling Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Integrating and Extending efficalc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing Your Calculations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="base-classes">
+<span id="id1"></span><h1>Base Classes<a class="headerlink" href="#base-classes" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Assumption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Assumption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assumption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Assumption" title="Link to this definition">#</a></dt>
+<dd><p>This is meant to clearly declare important assumptions which form the basis of your calculation template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>assumption</strong> (<em>str</em>) – The text describing your assumption</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Assumption</span><span class="p">(</span><span class="s2">&quot;The seismic provisions of ASCE 7-16 control design&quot;</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt; [ASSUME] The seismic provisions of ASCE 7-16 control design</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Calculation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Calculation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Calculation" title="Link to this definition">#</a></dt>
+<dd><p>This is the primary object used to define a calculation expression or calculated variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<em>str</em>) – The symbolic name for the result of this calculation (LaTex formatted)</p></li>
+<li><p><strong>expression</strong> (<em>a variable expression</em><em> [</em><em>i.e. a+b</em><em>] or </em><em>a constant number</em>) – The calculation expression</p></li>
+<li><p><strong>unit</strong> (<em>str</em><em>, </em><em>optional</em>) – The physical units of the resulting variable (LaTex formatted), defaults to None</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A text description for the calculation, defaults to None</p></li>
+<li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short reference (e.g. code reference) to accompany the calculation, defaults to None</p></li>
+<li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a> that should be checked as a final result
+of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a> will be displayed in the “Results”
+section of your design portal in the hosted version of efficalc, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt; c = a + b = 1ft + 4ft = 5ft</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Calculation.estimate_display_length">
+<span class="sig-name descname"><span class="pre">estimate_display_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">CalculationLength</span></span></span><a class="headerlink" href="#efficalc.Calculation.estimate_display_length" title="Link to this definition">#</a></dt>
+<dd><p>Returns the estimated length of the LaTex formatted operation based on its symbolic and substituted
+representations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The estimated length of the <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CalculationLength</span></code></p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">estimate_display_length</span><span class="p">()</span>
+<span class="go">CalculationLength.SHORT</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Calculation.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Calculation.get_value" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">Calculation.result()</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Calculation.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#efficalc.Calculation.result" title="Link to this definition">#</a></dt>
+<dd><p>Returns the calculated result of the expression. If there is a ValueError or ZeroDivisionError, this will
+return 0 and set an error message in <cite>self.error</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The result of the evaluated expression</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_value</span><span class="p">())</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Calculation.str_result_with_description">
+<span class="sig-name descname"><span class="pre">str_result_with_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Calculation.str_result_with_description" title="Link to this definition">#</a></dt>
+<dd><p>Returns a LaTex formatted string representation of the operation in the form “description; name = symbolicExpr”</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Calculation.str_substituted">
+<span class="sig-name descname"><span class="pre">str_substituted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Calculation.str_substituted" title="Link to this definition">#</a></dt>
+<dd><p>Returns LaTex formatted representation of the operation with values substituted in for variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Calculation.str_symbolic">
+<span class="sig-name descname"><span class="pre">str_symbolic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Calculation.str_symbolic" title="Link to this definition">#</a></dt>
+<dd><p>Returns LaTex formatted symbolic representation of the operation using the variable names.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Comparison">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comparator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'&lt;'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&lt;='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'!='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'=='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&gt;'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&gt;='</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'OK'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">false_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ERROR'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Comparison" title="Link to this definition">#</a></dt>
+<dd><p>This is an object used to compare variables or constants as an explicit check in the calculations. It will
+compare the value of <cite>self.a</cite> against the value of <cite>self.b</cite> using the specified comparator and didplay a message
+depending on whether the comparison is true or false.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="#efficalc.Input" title="efficalc.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a>, <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a>, or a number) – The first variable or number</p></li>
+<li><p><strong>comparator</strong> (<em>'&lt;'</em><em>, </em><em>'&lt;='</em><em>, </em><em>'='</em><em>, </em><em>'!='</em><em>, </em><em>'=='</em><em>, </em><em>'&gt;'</em><em>, or </em><em>'&gt;='</em>) – The comparision symbol as a string</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#efficalc.Input" title="efficalc.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a>, <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a>, or a number) – The second variable or number</p></li>
+<li><p><strong>true_message</strong> (<em>str</em><em>, </em><em>optional</em>) – The message that should desplay if the <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> result is true, defaults to “OK”</p></li>
+<li><p><strong>false_message</strong> (<em>str</em><em>, </em><em>optional</em>) – The message that should desplay if the <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> result is false, defaults to
+“ERROR”</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A text description for the comparison, defaults to None</p></li>
+<li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (e.g. code reference) to accompany the comparison, defaults to None</p></li>
+<li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> that should be checked as a final result
+of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> will be displayed in the “Results”
+section of your design portal in the hosted version of efficalc, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Comparison</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt; Check a &gt; b</span>
+<span class="go">                                    1 ft &gt; 4 ft</span>
+<span class="go">                                    --&gt; ERROR</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Comparison.get_message">
+<span class="sig-name descname"><span class="pre">get_message</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Comparison.get_message" title="Link to this definition">#</a></dt>
+<dd><p>Returns the appropriate message for the result of the comparison (<cite>.true_message</cite> or <cite>.false_message</cite>). If
+there was an error in the comparison, this will return the error message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The message for the evaluated comparison reult</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Comparison</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">false_message</span><span class="o">=</span><span class="s2">&quot;NO GOOD&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_message</span><span class="p">())</span>
+<span class="go">NO GOOD</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Comparison.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#efficalc.Comparison.get_value" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">is_passing()</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Comparison.is_passing">
+<span class="sig-name descname"><span class="pre">is_passing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#efficalc.Comparison.is_passing" title="Link to this definition">#</a></dt>
+<dd><p>Returns the calculated value of the comparison (True or False).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The result of the evaluated comparison</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Comparison</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">is_passing</span><span class="p">())</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Comparison.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#efficalc.Comparison.result" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">is_passing()</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Comparison.str_substituted">
+<span class="sig-name descname"><span class="pre">str_substituted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Comparison.str_substituted" title="Link to this definition">#</a></dt>
+<dd><p>Returns LaTex formatted representation of the comparison with values substituted in for variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Comparison.str_symbolic">
+<span class="sig-name descname"><span class="pre">str_symbolic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Comparison.str_symbolic" title="Link to this definition">#</a></dt>
+<dd><p>Returns LaTex formatted representation of the comparison using variable names.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.ComparisonStatement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">ComparisonStatement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comparator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'&lt;'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&lt;='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'!='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'=='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&gt;'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&gt;='</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comparator2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'&lt;'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&lt;='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'!='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'=='</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&gt;'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'&gt;='</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.ComparisonStatement" title="Link to this definition">#</a></dt>
+<dd><p>This is an object for declaring the result of a comparison. It does not evaluate the values given, but
+rather displays the comparision exactly as it is given. This can be used to annotate or embellish if/else logic in
+your calculation templates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="#efficalc.Input" title="efficalc.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a>, <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a>, or a number) – The first variable or number</p></li>
+<li><p><strong>comparator</strong> (<em>'&lt;'</em><em>, </em><em>'&lt;='</em><em>, </em><em>'='</em><em>, </em><em>'!='</em><em>, </em><em>'=='</em><em>, </em><em>'&gt;'</em><em>, or </em><em>'&gt;='</em>) – The comparision symbol as a string</p></li>
+<li><p><strong>b</strong> (<a class="reference internal" href="#efficalc.Input" title="efficalc.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a>, <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a>, or a number) – The second variable or number</p></li>
+<li><p><strong>comparator2</strong> (<em>'&lt;'</em><em>, </em><em>'&lt;='</em><em>, </em><em>'='</em><em>, </em><em>'!='</em><em>, </em><em>'=='</em><em>, </em><em>'&gt;'</em><em>, or </em><em>'&gt;='</em><em>, </em><em>optional</em>) – A second comparision symbol as a string, defaults to None</p></li>
+<li><p><strong>c</strong> (<a class="reference internal" href="#efficalc.Input" title="efficalc.Input"><code class="xref py py-class docutils literal notranslate"><span class="pre">Input</span></code></a>, <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a>, or a number, optional) – A third variable or number, defaults to None</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A text description for the comparison, defaults to None</p></li>
+<li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (or code reference) to accompany the comparison, defaults to None</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ComparisonStatement</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Requirement for passing&quot;</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt; Requirement for passing:</span>
+<span class="go">                                    --&gt; a &gt; b</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.ComparisonStatement.str_symbolic">
+<span class="sig-name descname"><span class="pre">str_symbolic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.ComparisonStatement.str_symbolic" title="Link to this definition">#</a></dt>
+<dd><p>Returns LaTex formatted representation of the comparison using variable names.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Heading">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Heading</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">7</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numbered</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Heading" title="Link to this definition">#</a></dt>
+<dd><p>This object can be used to add headings/section titles to calculation reports. If numbered, the heading number
+will auto-increment. The text size will generally be larger for higher levels (i.e. 1) than lower levels (i.e. 6)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text for the heading or title</p></li>
+<li><p><strong>head_level</strong> (<em>int</em><em>, </em><em>optional</em>) – The level of the heading from 1 to 6. Each heading level in its corresponding position would
+display as 1.2.3.4.5.6. before the heading text, defaults to 1</p></li>
+<li><p><strong>numbered</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the heading should be numbered or not, defaults to True</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Heading</span><span class="p">(</span><span class="s2">&quot;Default First Heading&quot;</span><span class="p">,</span> <span class="n">head_level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Heading</span><span class="p">(</span><span class="s2">&quot;Second Level Heading&quot;</span><span class="p">,</span> <span class="n">head_level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Heading</span><span class="p">(</span><span class="s2">&quot;Another Second Level Heading&quot;</span><span class="p">,</span> <span class="n">head_level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Heading</span><span class="p">(</span><span class="s2">&quot;Heading Without Number&quot;</span><span class="p">,</span> <span class="n">head_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">numbered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt;    1.  Default First Heading</span>
+<span class="go">                                    1.1.  Second Level Heading</span>
+<span class="go">                                    1.2.  Another Second Level Heading</span>
+<span class="go">                                    Heading Without Number</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Input">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'number'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'text'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'select'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'number'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'any'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Input" title="Link to this definition">#</a></dt>
+<dd><p>This is the primary object used to define an input which can change from calculation to calculation. Inputs may
+be numbers, text, or select elements with multiple options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<em>str</em>) – The symbolic name for this input variable (LaTex formatted)</p></li>
+<li><p><strong>default_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>str</em>) – The default value for the input. This will be overridden when explicit calculation inputs are
+provided to the calculation runner or in the design portal on the hosted version of efficalc, defaults to 0</p></li>
+<li><p><strong>unit</strong> (<em>str</em><em>, </em><em>optional</em>) – The physical units of the input variable (LaTex formatted), defaults to None</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A text description for the input variable, defaults to None</p></li>
+<li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (e.g. code reference) to accompany the input, defaults to None</p></li>
+<li><p><strong>input_type</strong> (<em>&quot;number&quot;</em><em>, </em><em>&quot;text&quot;</em><em>, or </em><em>&quot;select&quot;</em><em>, </em><em>optional</em>) – The type of html input element to use in the design portal on the hosted version of efficalc,
+defaults to “number”.</p></li>
+<li><p><strong>select_options</strong> (<em>str</em><em>[</em><em>]</em><em>, </em><em>float</em><em>[</em><em>]</em><em>, or </em><em>int</em><em>[</em><em>]</em><em>, </em><em>optional</em>) – A list of options for a “select” input_type variable. This is only applicable when
+<cite>.input_type</cite> is “select”, defaults to None</p></li>
+<li><p><strong>min_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Set the minimum value a number input is allowed to be in the design portal on the hosted version
+of efficalc, defaults to None</p></li>
+<li><p><strong>max_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Set the maximum value a number input is allowed to be in the design portal on the hosted version
+of efficalc, or “any” if the input type is not a number in the design portal on the hosted version of efficalc, defaults to None</p></li>
+<li><p><strong>num_step</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Specifies the interval between legal numbers in a number input field in the design portal on the
+hosted version of efficalc; see
+<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step">https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step</a>, defaults to “any”</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Calculation</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt; c = a + b = 1ft + 4ft = 5ft</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Input.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Input.get_value" title="Link to this definition">#</a></dt>
+<dd><p>Returns the value of the input. Note that this will return the overridden input value when one is provided
+to the calculation runner or in the design portal on the hosted version of efficalc. If no override is provided,
+this will return the default value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current value of the input variable</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float, int, or str</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">get_value</span><span class="p">())</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Input.str_result_with_name">
+<span class="sig-name descname"><span class="pre">str_result_with_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Input.str_result_with_name" title="Link to this definition">#</a></dt>
+<dd><p>Returns a LaTex formatted string representation of the input name and value in the form “name = value unit”</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.TextBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">TextBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.TextBlock" title="Link to this definition">#</a></dt>
+<dd><p>This displays a block of text in the calculation report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text</p></li>
+<li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (e.g. code reference) to accompany the text, defaults to None</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Title">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Title" title="Link to this definition">#</a></dt>
+<dd><p>This can be used for the main title in the calculation report. It is larger and bolder than the
+<a class="reference internal" href="#efficalc.Heading" title="efficalc.Heading"><code class="xref py py-class docutils literal notranslate"><span class="pre">Heading</span></code></a> and does not have the option to be numbered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>title</strong> (<em>str</em>) – The title text</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="calculation_helpers.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Calculation Helpers</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="purpose.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Purpose and Background</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Andrew Young
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Base Classes</a><ul>
+<li><a class="reference internal" href="#efficalc.Assumption"><code class="docutils literal notranslate"><span class="pre">Assumption</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Calculation"><code class="docutils literal notranslate"><span class="pre">Calculation</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.Calculation.estimate_display_length"><code class="docutils literal notranslate"><span class="pre">Calculation.estimate_display_length()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Calculation.get_value"><code class="docutils literal notranslate"><span class="pre">Calculation.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Calculation.result"><code class="docutils literal notranslate"><span class="pre">Calculation.result()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Calculation.str_result_with_description"><code class="docutils literal notranslate"><span class="pre">Calculation.str_result_with_description()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Calculation.str_substituted"><code class="docutils literal notranslate"><span class="pre">Calculation.str_substituted()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Calculation.str_symbolic"><code class="docutils literal notranslate"><span class="pre">Calculation.str_symbolic()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.Comparison"><code class="docutils literal notranslate"><span class="pre">Comparison</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.Comparison.get_message"><code class="docutils literal notranslate"><span class="pre">Comparison.get_message()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Comparison.get_value"><code class="docutils literal notranslate"><span class="pre">Comparison.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Comparison.is_passing"><code class="docutils literal notranslate"><span class="pre">Comparison.is_passing()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Comparison.result"><code class="docutils literal notranslate"><span class="pre">Comparison.result()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Comparison.str_substituted"><code class="docutils literal notranslate"><span class="pre">Comparison.str_substituted()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Comparison.str_symbolic"><code class="docutils literal notranslate"><span class="pre">Comparison.str_symbolic()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.ComparisonStatement"><code class="docutils literal notranslate"><span class="pre">ComparisonStatement</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.ComparisonStatement.str_symbolic"><code class="docutils literal notranslate"><span class="pre">ComparisonStatement.str_symbolic()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.Heading"><code class="docutils literal notranslate"><span class="pre">Heading</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Input"><code class="docutils literal notranslate"><span class="pre">Input</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.Input.get_value"><code class="docutils literal notranslate"><span class="pre">Input.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Input.str_result_with_name"><code class="docutils literal notranslate"><span class="pre">Input.str_result_with_name()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.TextBlock"><code class="docutils literal notranslate"><span class="pre">TextBlock</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Title"><code class="docutils literal notranslate"><span class="pre">Title</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

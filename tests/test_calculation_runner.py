@@ -105,5 +105,5 @@ def calc_function_simple():
 def test_get_results_as_dict():
     inputs = {"a": 5}
     calculation = CalculationRunner(calc_function_simple, inputs)
-    results = calculation.get_results_as_dict()
+    results = calculation.calculate_results("dict")
     assert results["calc"].result() == 25
