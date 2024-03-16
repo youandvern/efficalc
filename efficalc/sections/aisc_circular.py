@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class Circular(object):
+class AiscCircular(object):
     """This is a dataclass containing the properties of an AISC Circular section. Properties follow the AISC shapes
     database.
 

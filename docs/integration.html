@@ -1,0 +1,493 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Testing Your Calculations" href="testing.html" /><link rel="prev" title="Styling Reports" href="styling.html" />
+
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Integrating and Extending efficalc - efficalc 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #004aad;
+  --color-brand-content: #004aad;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">efficalc 0.2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">efficalc 0.2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Get Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="purpose.html">Purpose and Background</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="base_classes.html">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculation_helpers.html">Calculation Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section_properties.html">Section Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math_operations.html">Math Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants and Unit Conversions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">More:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="styling.html">Styling Reports</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Integrating and Extending efficalc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing Your Calculations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="integrating-and-extending-efficalc">
+<span id="integration"></span><h1>Integrating and Extending efficalc<a class="headerlink" href="#integrating-and-extending-efficalc" title="Link to this heading">#</a></h1>
+<p>Efficalc is designed to be a great standalone resource for building the perfect calculations. But we also appreciate the huge ecosystem of other helpful Python libraries that could work in conjunction with efficalc.</p>
+<p>Not to mention the variety of modern workflows that engineers are coming up with everyday.</p>
+<p>Here are some ideas and concepts that may help you integrate efficalc with your design workflows or extend the power of efficalc with your favorite libraries.</p>
+<section id="parameters-and-return-values-in-calc-functions">
+<h2>Parameters and Return Values in Calc Functions<a class="headerlink" href="#parameters-and-return-values-in-calc-functions" title="Link to this heading">#</a></h2>
+<p>Efficalc is designed to simplify the creation of calculations by eliminating the necessity for parameters or return values. This approach is intended to make building calculations as easy as possible.</p>
+<p>However, there might be scenarios where incorporating parameters as input values or producing output from your calculations is necessary to enable other workflows.</p>
+<p>In this case, it’s best to provide a default value for each argument.</p>
+<p>For example, if we want to calculate the hypotenuse of a right triangle, our calculation could look like this:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">def</span> <span class="nf">pythagorean_with_params</span><span class="p">(</span><span class="n">default_a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">default_b</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+<span class="linenos">2</span>    <span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">default_a</span><span class="p">)</span>
+<span class="linenos">3</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">default_b</span><span class="p">)</span>
+<span class="linenos">4</span>    <span class="n">c</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Length of the hypotenuse&quot;</span><span class="p">)</span>
+<span class="linenos">5</span>    <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When running the <code class="code docutils literal notranslate"><span class="pre">ReportBuilder</span></code>, this is equivalent to:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">def</span> <span class="nf">pythagorean_without_params</span><span class="p">():</span>
+<span class="linenos">2</span>    <span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="linenos">3</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="linenos">4</span>    <span class="n">c</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Length of the hypotenuse&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>But, the calculation function with input parameters and a return value can also be used just like any other python function:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pythagorean_with_params</span><span class="p">())</span>
+<span class="go">    5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pythagorean_with_params</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="go">    7.810249675906654</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>With the <code class="code docutils literal notranslate"><span class="pre">ReportBuilder</span></code>, we can still update our inputs just the same as shown in <a class="reference internal" href="get_started.html#change-input-values"><span class="std std-ref">Change Input Values</span></a>.</p>
+</section>
+<section id="hundreds-of-calculations-with-one-function">
+<h2>Hundreds of Calculations with One Function<a class="headerlink" href="#hundreds-of-calculations-with-one-function" title="Link to this heading">#</a></h2>
+<p>Here we’ll see a simple example of how one calculation function can be used to design hundreds of beams, columns, or whatever else you’re calculating. This really highlights the power of Python over other solutions like Excel.</p>
+<p>In this example we will have one calculation and a collection of many inputs. The result will be a design for every input in the collection.</p>
+<p>As a bonus, fixing an error in your calculation function will also fix the report and results for all designs that are based on that function.</p>
+<p>For this example, we’ll use a calculation function with input parameters (see above).</p>
+<p>Here’s a simplified example that finds the most efficient beam size for a set of constraints:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Define a calc function for both optimization and the final report</span>
+<span class="linenos"> 2</span><span class="k">def</span> <span class="nf">beam_strength</span><span class="p">(</span><span class="n">default_size</span><span class="o">=</span><span class="s2">&quot;W10X12&quot;</span><span class="p">,</span> <span class="n">default_span</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">default_Fy</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="linenos"> 3</span>    <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Beam Design&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>    <span class="c1"># define inputs</span>
+<span class="linenos"> 6</span>    <span class="n">section_size</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="n">default_size</span><span class="p">)</span>
+<span class="linenos"> 7</span>    <span class="n">span</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;span&quot;</span><span class="p">,</span> <span class="n">default_span</span><span class="p">,</span> <span class="s2">&quot;ft&quot;</span><span class="p">)</span>
+<span class="linenos"> 8</span>    <span class="n">Fy</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;F_y&quot;</span><span class="p">,</span> <span class="n">default_Fy</span><span class="p">,</span> <span class="s2">&quot;ksi&quot;</span><span class="p">)</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>    <span class="c1"># get the section properties for the section size</span>
+<span class="linenos">11</span>    <span class="n">size_name</span> <span class="o">=</span> <span class="n">section_size</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>
+<span class="linenos">12</span>    <span class="n">section</span> <span class="o">=</span> <span class="n">get_aisc_wide_flange</span><span class="p">(</span><span class="n">size_name</span><span class="p">)</span>
+<span class="linenos">13</span>    <span class="n">Zx</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;Z_x&quot;</span><span class="p">,</span> <span class="n">section</span><span class="o">.</span><span class="n">Zx</span><span class="p">,</span> <span class="s2">&quot;in^3&quot;</span><span class="p">)</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="c1"># calculate the strength (more complex in real life)</span>
+<span class="linenos">16</span>    <span class="n">strength</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;M_p&quot;</span><span class="p">,</span> <span class="n">Fy</span> <span class="o">*</span> <span class="n">Zx</span><span class="p">,</span> <span class="s2">&quot;k-in&quot;</span><span class="p">)</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>    <span class="c1"># return information about this design for the optimization</span>
+<span class="linenos">19</span>    <span class="k">return</span> <span class="p">{</span>
+<span class="linenos">20</span>        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size_name</span><span class="p">,</span>
+<span class="linenos">21</span>        <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="n">section</span><span class="o">.</span><span class="n">W</span><span class="p">,</span>
+<span class="linenos">22</span>        <span class="s2">&quot;moment_strength&quot;</span><span class="p">:</span> <span class="n">strength</span><span class="o">.</span><span class="n">result</span><span class="p">(),</span>
+<span class="linenos">23</span>    <span class="p">}</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="c1"># now define an optimization function that uses beam_strength to find the optimal section size</span>
+<span class="linenos">27</span><span class="k">def</span> <span class="nf">find_lightest_beam_for_demand</span><span class="p">(</span><span class="n">size_options</span><span class="p">,</span> <span class="n">moment_demand</span><span class="p">):</span>
+<span class="linenos">28</span>    <span class="n">lightest_beam</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">999999</span><span class="p">,</span> <span class="s2">&quot;moment_strength&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="c1"># loop through all available sizes</span>
+<span class="linenos">31</span>    <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">size_options</span><span class="p">:</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span>        <span class="c1"># run the design calculation to get the strength of the section size</span>
+<span class="linenos">34</span>        <span class="n">strength_info</span> <span class="o">=</span> <span class="n">beam_strength</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<span class="linenos">35</span>        <span class="n">size_is_strong_enough</span> <span class="o">=</span> <span class="n">strength_info</span><span class="p">[</span><span class="s2">&quot;moment_strength&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">moment_demand</span>
+<span class="linenos">36</span>        <span class="n">size_is_lighter_than_best</span> <span class="o">=</span> <span class="n">strength_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lightest_beam</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span>        <span class="c1"># save the design output for this size if it&#39;s better than our previously saved section</span>
+<span class="linenos">39</span>        <span class="k">if</span> <span class="n">size_is_strong_enough</span> <span class="ow">and</span> <span class="n">size_is_lighter_than_best</span><span class="p">:</span>
+<span class="linenos">40</span>            <span class="n">lightest_beam</span> <span class="o">=</span> <span class="n">strength_info</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span>    <span class="c1"># return the most efficient option we found</span>
+<span class="linenos">43</span>    <span class="k">return</span> <span class="n">lightest_beam</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="c1"># only some beam sizes may be available for a certain project, we want to find the most efficient one</span>
+<span class="linenos">47</span><span class="n">available_beam_sections</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">48</span>    <span class="s2">&quot;W12X30&quot;</span><span class="p">,</span>
+<span class="linenos">49</span>    <span class="s2">&quot;W12X26&quot;</span><span class="p">,</span>
+<span class="linenos">50</span>    <span class="s2">&quot;W12X19&quot;</span><span class="p">,</span>
+<span class="linenos">51</span>    <span class="s2">&quot;W12X14&quot;</span><span class="p">,</span>
+<span class="linenos">52</span>    <span class="s2">&quot;W10X49&quot;</span><span class="p">,</span>
+<span class="linenos">53</span>    <span class="s2">&quot;W10X33&quot;</span><span class="p">,</span>
+<span class="linenos">54</span>    <span class="s2">&quot;W10X19&quot;</span><span class="p">,</span>
+<span class="linenos">55</span>    <span class="s2">&quot;W10X12&quot;</span><span class="p">,</span>
+<span class="linenos">56</span>    <span class="s2">&quot;W8X40&quot;</span><span class="p">,</span>
+<span class="linenos">57</span>    <span class="s2">&quot;W8X21&quot;</span><span class="p">,</span>
+<span class="linenos">58</span>    <span class="s2">&quot;W8X15&quot;</span><span class="p">,</span>
+<span class="linenos">59</span><span class="p">]</span>
+<span class="linenos">60</span>
+<span class="linenos">61</span><span class="n">moment_demand_on_beam</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># k-in</span>
+<span class="linenos">62</span><span class="n">lightest_beam_size</span> <span class="o">=</span> <span class="n">find_lightest_beam_for_demand</span><span class="p">(</span>
+<span class="linenos">63</span>    <span class="n">available_beam_sections</span><span class="p">,</span> <span class="n">moment_demand_on_beam</span>
+<span class="linenos">64</span><span class="p">)</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span><span class="c1"># view calculation report for the lightest beam</span>
+<span class="linenos">67</span><span class="n">builder</span> <span class="o">=</span> <span class="n">ReportBuilder</span><span class="p">(</span><span class="n">beam_strength</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">lightest_beam_size</span><span class="p">})</span>
+<span class="linenos">68</span><span class="n">builder</span><span class="o">.</span><span class="n">view_report</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>That was a lot to digest, but in summary this code:</p>
+<ol class="arabic simple">
+<li><p>Defined a beam strength calculation function <code class="code docutils literal notranslate"><span class="pre">beam_strength</span></code></p></li>
+<li><p>Defined an optimization function (<code class="code docutils literal notranslate"><span class="pre">find_lightest_beam_for_demand</span></code>) that uses the <code class="code docutils literal notranslate"><span class="pre">beam_strength</span></code> calculation to find the lightest beam that is strong enough for the given demand</p></li>
+<li><p>Found the lightest available beam shape (by calling <code class="code docutils literal notranslate"><span class="pre">find_lightest_beam_for_demand</span></code>)</p></li>
+<li><p>Generated the calculation report for our efficiently designed beam</p></li>
+</ol>
+</section>
+<section id="helper-functions">
+<h2>Helper Functions<a class="headerlink" href="#helper-functions" title="Link to this heading">#</a></h2>
+<p>Sometimes you may want to write helper functions that can be shared between multiple calculation functions. Or extracting a helper function might just help your calculation function be more clear and readable.</p>
+<p>Helper functions can be utilized within calculations in 2 different ways:</p>
+<section id="invisible-helpers">
+<h3>Invisible Helpers<a class="headerlink" href="#invisible-helpers" title="Link to this heading">#</a></h3>
+<p>These functions do not contain any efficalc calculation objects. Using this type of helper function will not show anything extra in a calculation report.</p>
+<p>In this example:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">def</span> <span class="nf">invisible_square_sum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="linenos">2</span>    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="k">def</span> <span class="nf">calculation</span><span class="p">():</span>
+<span class="linenos">5</span>    <span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="linenos">6</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="linenos">7</span>    <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">invisible_square_sum</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;An invisible result&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The calculation of variable “c” in this calculation report will simply show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">An</span> <span class="n">invisible</span> <span class="n">result</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mi">49</span>
+</pre></div>
+</div>
+</section>
+<section id="calculation-helpers">
+<h3>Calculation Helpers<a class="headerlink" href="#calculation-helpers" title="Link to this heading">#</a></h3>
+<p>These functions do contain efficalc calculation objects, so when you use this helper in a calculation function, the efficalc calculation objects within the function will be integrated into the calculation report.</p>
+<p>In this example:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">def</span> <span class="nf">calculate_square_sum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Input</span> <span class="o">|</span> <span class="n">Calculation</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Input</span> <span class="o">|</span> <span class="n">Calculation</span><span class="p">):</span>
+<span class="linenos">2</span>    <span class="n">s</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="linenos">3</span>    <span class="k">return</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span>
+<span class="linenos">4</span>
+<span class="linenos">5</span>
+<span class="linenos">6</span><span class="k">def</span> <span class="nf">calculation</span><span class="p">():</span>
+<span class="linenos">7</span>    <span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="linenos">8</span>    <span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="linenos">9</span>    <span class="n">Calculation</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">calculate_square_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A calculated result&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The calculation of variable “c” in this calculation report will now show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sum = a + b = 3 + 4
+    ∴ sum = 7
+
+A calculated result
+c = (sum)² = (7)²
+  ∴ c = 49
+</pre></div>
+</div>
+</section>
+</section>
+<section id="more-coming-soon">
+<h2>More coming soon<a class="headerlink" href="#more-coming-soon" title="Link to this heading">#</a></h2>
+<p>Request a feature in issues: <a class="reference external" href="https://github.com/youandvern/efficalc/issues">https://github.com/youandvern/efficalc/issues</a></p>
+<p>Or, feel free to propose an addition to efficalc through a new pull request: <a class="reference external" href="https://github.com/youandvern/efficalc/pulls">https://github.com/youandvern/efficalc/pulls</a></p>
+<p>Here are some ideas we’ve been thinking about:</p>
+<ul class="simple">
+<li><p>Graphs and Figures</p></li>
+<li><p>Matrices</p></li>
+<li><p>Tables</p></li>
+<li><p>Calculation report for batch calculations (detailed vs. summary)</p></li>
+<li><p>Excel plugin integration</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="testing.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Testing Your Calculations</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="styling.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Styling Reports</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Andrew Young
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Integrating and Extending efficalc</a><ul>
+<li><a class="reference internal" href="#parameters-and-return-values-in-calc-functions">Parameters and Return Values in Calc Functions</a></li>
+<li><a class="reference internal" href="#hundreds-of-calculations-with-one-function">Hundreds of Calculations with One Function</a></li>
+<li><a class="reference internal" href="#helper-functions">Helper Functions</a><ul>
+<li><a class="reference internal" href="#invisible-helpers">Invisible Helpers</a></li>
+<li><a class="reference internal" href="#calculation-helpers">Calculation Helpers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#more-coming-soon">More coming soon</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

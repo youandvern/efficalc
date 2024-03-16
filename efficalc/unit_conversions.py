@@ -7,7 +7,7 @@ k_to_lb = Variable(r"1000 \ \mathrm{lbs/kip}", 1000, "lbs/kip")
 
 .. code-block:: python
 
-        >>> v = Variable("v", 2, "kip")
+        >>> v = Input("v", 2, "kip")
         >>> Calculation('result',v * k_to_lb, "lbs")
         Calculation report will show --> result = v * 1000 lbs/kip = 2 kip * 1000 lbs/kip = 2000 lbs
 """
@@ -17,7 +17,7 @@ ft_to_in = Variable(r"12 \ \mathrm{in/ft}", 12, "in/ft")
 
 .. code-block:: python
 
-        >>> v = Variable("v", 2, "ft")
+        >>> v = Input("v", 2, "ft")
         >>> Calculation('result',v * ft_to_in, "in")
         Calculation report will show --> result = v * 12 in/ft = 2 ft * 12 in/ft = 24 in
 """
@@ -27,7 +27,7 @@ deg_to_rad = Variable(r"\pi / 180 \ \mathrm{rad/deg}", math.pi / 180, "rad/deg")
 
 .. code-block:: python
 
-        >>> v = Variable("v", 180, "deg")
+        >>> v = Input("v", 180, "deg")
         >>> Calculation('result',v * deg_to_rad, "rad")
         Calculation report will show --> result = v * pi / 180 rad/deg = 180deg * 3.142/180 rad/deg = 3.142 rad
 """

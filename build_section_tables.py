@@ -1,6 +1,11 @@
+"""
+This script can be used to build the sections database that is packaged with the library. It reads the individual CSV
+files for each section type and writes them to a table in the sections database with an index on the AISC_name column.
+"""
+
 import sqlite3
 
-# pandas is not required for any functionality in the efficalc package so it is exluded from the requirements. It is
+# pandas is not required for any functionality in the efficalc package, so it is excluded from the requirements. It is
 # only used to build the sections database that is packaged with the library.
 import pandas as pd
 

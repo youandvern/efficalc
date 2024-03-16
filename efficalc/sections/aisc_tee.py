@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class Tee(object):
+class AiscTee(object):
     """This is a dataclass containing the properties of an AISC Tee section, typically derived from W-shapes,
     M-shapes, or S-shapes by cutting along the web. Properties follow the AISC shapes database.
 

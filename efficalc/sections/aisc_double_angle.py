@@ -2,7 +2,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class DoubleAngle(object):
+class AiscDoubleAngle(object):
     """This is a dataclass containing the properties of an AISC Double Angle section. Properties follow the AISC shapes
     database.
 

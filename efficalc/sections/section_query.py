@@ -1,13 +1,13 @@
 import os
 import sqlite3
 
-from efficalc.sections.aisc_angle import Angle
-from efficalc.sections.aisc_channel import Channel
-from efficalc.sections.aisc_circular import Circular
-from efficalc.sections.aisc_double_angle import DoubleAngle
-from efficalc.sections.aisc_rectangular import Rectangular
-from efficalc.sections.aisc_tee import Tee
-from efficalc.sections.aisc_wide_flange import WideFlange
+from efficalc.sections.aisc_angle import AiscAngle
+from efficalc.sections.aisc_channel import AiscChannel
+from efficalc.sections.aisc_circular import AiscCircular
+from efficalc.sections.aisc_double_angle import AiscDoubleAngle
+from efficalc.sections.aisc_rectangular import AiscRectangular
+from efficalc.sections.aisc_tee import AiscTee
+from efficalc.sections.aisc_wide_flange import AiscWideFlange
 
 SECTIONS_DB_NAME = "section_properties.db"
 
@@ -22,7 +22,7 @@ AISC_WIDE_FLANGE_TABLE = "aisc_wide_flange"
 SECTION_SIZE_NAME_COLUMN = "AISC_name"
 
 
-def get_aisc_angle(section_size: str) -> Angle:
+def get_aisc_angle(section_size: str) -> AiscAngle:
     """Fetches the properties of a specified AISC Angle section from the sections database and returns an
     :class:`efficalc.sections.AiscAngle` instance populated with these properties.
 
@@ -35,14 +35,14 @@ def get_aisc_angle(section_size: str) -> Angle:
     row = _fetch_section_row(AISC_ANGLE_TABLE, section_size)
 
     if row:
-        return Angle(**row)
+        return AiscAngle(**row)
     else:
         raise ValueError(
             f"The AISC angle section size named {section_size} could not be found."
         )
 
 
-def get_aisc_channel(section_size: str) -> Channel:
+def get_aisc_channel(section_size: str) -> AiscChannel:
     """
     Fetches the properties of a specified AISC Channel section from the sections database and returns a
     :class:`efficalc.sections.AiscChannel` instance populated with these properties.
@@ -57,14 +57,14 @@ def get_aisc_channel(section_size: str) -> Channel:
     row = _fetch_section_row(AISC_CHANNEL_TABLE, section_size)
 
     if row:
-        return Channel(**row)
+        return AiscChannel(**row)
     else:
         raise ValueError(
             f"The AISC channel section size named {section_size} could not be found."
         )
 
 
-def get_aisc_circular(section_size: str) -> Circular:
+def get_aisc_circular(section_size: str) -> AiscCircular:
     """
     Fetches the properties of a specified AISC Circular section from the sections database and returns a
     :class:`efficalc.sections.AiscCircular` instance populated with these properties.
@@ -79,14 +79,14 @@ def get_aisc_circular(section_size: str) -> Circular:
     row = _fetch_section_row(AISC_CIRCULAR_TABLE, section_size)
 
     if row:
-        return Circular(**row)
+        return AiscCircular(**row)
     else:
         raise ValueError(
             f"The AISC circular section size named {section_size} could not be found."
         )
 
 
-def get_aisc_double_angle(section_size: str) -> DoubleAngle:
+def get_aisc_double_angle(section_size: str) -> AiscDoubleAngle:
     """
     Fetches the properties of a specified AISC Double Angle section from the sections database and returns a
     :class:`efficalc.sections.AiscDoubleAngle` instance populated with these properties.
@@ -101,14 +101,14 @@ def get_aisc_double_angle(section_size: str) -> DoubleAngle:
     row = _fetch_section_row(AISC_DOUBLE_ANGLE_TABLE, section_size)
 
     if row:
-        return DoubleAngle(**row)
+        return AiscDoubleAngle(**row)
     else:
         raise ValueError(
             f"The AISC double angle section size named {section_size} could not be found."
         )
 
 
-def get_aisc_rectangular(section_size: str) -> Rectangular:
+def get_aisc_rectangular(section_size: str) -> AiscRectangular:
     """
     Fetches the properties of a specified AISC Rectangular section from the sections database and returns a
     :class:`efficalc.sections.AiscRectangular` instance populated with these properties.
@@ -123,14 +123,14 @@ def get_aisc_rectangular(section_size: str) -> Rectangular:
     row = _fetch_section_row(AISC_RECTANGULAR_TABLE, section_size)
 
     if row:
-        return Rectangular(**row)
+        return AiscRectangular(**row)
     else:
         raise ValueError(
             f"The AISC rectangular section size named {section_size} could not be found."
         )
 
 
-def get_aisc_tee(section_size: str) -> Tee:
+def get_aisc_tee(section_size: str) -> AiscTee:
     """
     Fetches the properties of a specified AISC Tee section from the sections database and returns a
     :class:`efficalc.sections.AiscTee` instance populated with these properties.
@@ -145,14 +145,14 @@ def get_aisc_tee(section_size: str) -> Tee:
     row = _fetch_section_row(AISC_TEE_TABLE, section_size)
 
     if row:
-        return Tee(**row)
+        return AiscTee(**row)
     else:
         raise ValueError(
             f"The AISC tee section size named {section_size} could not be found."
         )
 
 
-def get_aisc_wide_flange(section_size: str) -> WideFlange:
+def get_aisc_wide_flange(section_size: str) -> AiscWideFlange:
     """
     Fetches the properties of a specified AISC Wide Flange section from the sections database and returns a
     :class:`efficalc.sections.AiscWideFlange` instance populated with these properties.
@@ -167,7 +167,7 @@ def get_aisc_wide_flange(section_size: str) -> WideFlange:
     row = _fetch_section_row(AISC_WIDE_FLANGE_TABLE, section_size)
 
     if row:
-        return WideFlange(**row)
+        return AiscWideFlange(**row)
     else:
         raise ValueError(
             f"The AISC wide flange section size named {section_size} could not be found."
