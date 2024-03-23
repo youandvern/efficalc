@@ -7,6 +7,8 @@ from efficalc import (
     CalculationLength,
     Comparison,
     ComparisonStatement,
+    FigureBase,
+    FigureFromFile,
     Heading,
     Input,
     TextBlock,
@@ -313,3 +315,37 @@ def test_title(common_setup_teardown):
     result = generate_html_for_calc_items([a])
     assert a.text in result
     assert "<h1>" in result
+
+
+def test_figure_default_values(common_setup_teardown):
+    fig = FigureBase()
+    fig._figure_bytes = b"the figure bytes"
+    result = generate_html_for_calc_items([fig])
+    assert "<figure>" in result
+    assert '<figcaption style="color:#6f6f6f; font-size:0.9em;">' not in result
+    assert f'<img src="data:image/png;base64,{fig.get_base64_str()}' in result
+    assert "; width:100%;" not in result
+    assert 'alt="Calculation figure"' in result
+    assert "None" not in result
+
+
+def test_figure_with_caption_and_full_width(common_setup_teardown):
+    fig = FigureBase(caption="Figure Description", full_width=True)
+    fig._figure_bytes = b"the figure bytes"
+    result = generate_html_for_calc_items([fig])
+    assert "<figure>" in result
+    assert '<figcaption style="color:#6f6f6f; font-size:0.9em;">' in result
+    assert f"{fig.caption}</figcaption>" in result
+    assert f'<img src="data:image/png;base64,{fig.get_base64_str()}' in result
+    assert "; width:100%;" in result
+    assert 'alt="Calculation figure"' not in result
+    assert f'alt="{fig.caption}"' in result
+
+
+def test_figure_invalid_path(common_setup_teardown):
+    invalid_image_path = "/invalid/path/none.jpg"
+    fig = FigureFromFile(invalid_image_path)
+    result = generate_html_for_calc_items([fig])
+    assert "<figure>" not in result
+    assert "There was an error loading this image" in result
+    assert invalid_image_path in result

@@ -42,7 +42,7 @@
 ## Links
 
 - [Read the full documentation](https://youandvern.github.io/efficalc) 
-- [See more examples](https://github.com/youandvern/efficalc/tree/main/examples).
+- [See more examples](https://github.com/youandvern/efficalc/tree/main/examples)
 - [The PyPI distribution](https://pypi.org/project/efficalc/)
 
 
@@ -50,25 +50,28 @@
 ## Features
 
 
-#### Automated Report Generation
+#### Automated report generation
 Generate detailed, professional reports automatically, ensuring clarity and precision in communication.
 
-#### Open Source
+#### Open source
 efficalc welcomes community contributions. Request features or contribute directly to enhance its capabilities.
 
-#### Engineering-Specific Features
-Benefit from built-in tools tailored to solving common engineering challenges.
+#### Engineering-specific features
+Benefit from built-in tools tailored to solving common engineering challenges. [See our section property library in action](https://github.com/youandvern/efficalc/blob/main/examples/advanced/steel_beam_moment_strength.py#L53).
 
 #### Reusable
 Create calculation templates once and reuse them across multiple designs and projects, saving time and ensuring consistency.
 
 #### Testable
-Easily test your calculations to reduce errors and improve confidence every design.
+Easily test your calculations to reduce errors and improve confidence every design. [Read the testing guide.](https://youandvern.github.io/efficalc/testing.html)
 
-#### Integrate With Other Workflows
-Seamlessly integrate with your existing Python-enabled workflows to boost efficiency and connectivity across tools and platforms.
+#### Integrate with other workflows
+Seamlessly integrate with your existing Python-enabled workflows to boost efficiency and connectivity across tools and platforms. [See some examples of this.](https://youandvern.github.io/efficalc/integration.html)
 
-#### Control Your Content
+#### Figures now supported
+Easily add figures to your calculation reports for even more clarity. [Read the full documentation for figures.](https://youandvern.github.io/efficalc/figures.html)
+
+#### Control your content
 Tailor your calculation reports to include only the most relevant information, making them as concise or detailed as you prefer.
 
 ## Quickstart

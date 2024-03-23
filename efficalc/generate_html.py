@@ -4,6 +4,7 @@ from efficalc import (
     CalculationLength,
     Comparison,
     ComparisonStatement,
+    FigureBase,
     Heading,
     Input,
     TextBlock,
@@ -54,6 +55,9 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
     elif isinstance(calculation_item, ComparisonStatement):
         return _generate_comparison_statement_html(calculation_item)
+
+    elif isinstance(calculation_item, FigureBase):
+        return _generate_figure_html(calculation_item)
 
     elif isinstance(calculation_item, Heading):
         if calculation_item.numbered:
@@ -171,6 +175,20 @@ def _generate_comparison_statement_html(item: ComparisonStatement) -> str:
     return _wrap_div(comp_html, class_name=CALC_ITEM_WRAPPER_CLASS)
 
 
+def _generate_figure_html(item: FigureBase) -> str:
+    try:
+        base64_figure = item.get_base64_str()
+    except Exception as e:
+        return _wrap_p(
+            f"<b>There was an error loading this image:</b>{e}",
+            f"color: red; {CALC_MARGIN}",
+        )
+    return _wrap_fig(
+        _wrap_img_base64(base64_figure, item.caption, item.full_width)
+        + _wrap_caption(item.caption)
+    )
+
+
 def _generate_input_html(item: Input) -> str:
 
     description = (
@@ -239,3 +257,21 @@ def _wrap_div(content: str, style: str = None, class_name: str = None) -> str:
 
 def _wrap_h(content: str, level: int) -> str:
     return f"<h{level}>{content}</h{level}>"
+
+
+def _wrap_fig(content: str) -> str:
+    return f"<figure>{content}</figure>"
+
+
+def _wrap_img_base64(
+    content: str, description: str = None, full_width: bool = False
+) -> str:
+    alt_text = "Calculation figure" if description is None else description
+    full_width_style = "width:100%;" if full_width else ""
+    return f'<img src="data:image/png;base64,{content}" alt="{alt_text}" style="max-width:100%; {full_width_style}"/>'
+
+
+def _wrap_caption(content: str) -> str:
+    if content is None:
+        return ""
+    return f'<figcaption style="color:#6f6f6f; font-size:0.9em;">{content}</figcaption>'
