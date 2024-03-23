@@ -46,6 +46,7 @@ API Documentation
 -----------------
 
 * :ref:`base_classes`
+* :ref:`figures`
 * :ref:`calculation_helpers`
 * :ref:`section_properties`
 * :ref:`math_operations`
@@ -76,6 +77,7 @@ More
     :hidden:
 
     base_classes
+    figures
     calculation_helpers
     section_properties
     math_operations

@@ -37,6 +37,12 @@ from .base_definitions.assumption import Assumption
 from .base_definitions.calculation import Calculation, CalculationLength
 from .base_definitions.comparison import Comparison
 from .base_definitions.comparison_statement import ComparisonStatement
+from .base_definitions.figure import (
+    FigureBase,
+    FigureFromFile,
+    FigureFromMatplotlib,
+    FigureFromBytes,
+)
 from .base_definitions.heading import Heading
 from .base_definitions.input import Input
 from .base_definitions.shared import (

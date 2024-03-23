@@ -7,6 +7,7 @@ from efficalc import (
     Calculation,
     Comparison,
     ComparisonStatement,
+    FigureFromFile,
     Heading,
     Input,
     TextBlock,
@@ -62,6 +63,9 @@ def calculation():
     Comparison(
         a, ">=", b, "Good", "Bad", "Checking that the comparison is all good", "ACI 318"
     )
+
+    FigureFromFile(r".\docs_src\efficalc.png", "Figure from my desktop", True)
+
     Comparison(
         e,
         "<=",
