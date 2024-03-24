@@ -1,3 +1,5 @@
+import html
+
 from efficalc import (
     Assumption,
     Calculation,
@@ -43,7 +45,7 @@ def generate_html_for_calc_items(calculation_items: list) -> str:
 def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) -> str:
     if isinstance(calculation_item, Assumption):
         return _wrap_p(
-            f'<span style="padding-right:0.5rem;">[ASSUME]</span> {calculation_item.text}',
+            f'<span style="padding-right:0.5rem;">[ASSUME]</span> {_esc(calculation_item.text)}',
             CALC_MARGIN,
         )
 
@@ -60,11 +62,12 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
         return _generate_figure_html(calculation_item)
 
     elif isinstance(calculation_item, Heading):
+        heading_text = _esc(calculation_item.text)
         if calculation_item.numbered:
             number = ".".join(map(str, header_numbers)) + "."
-            text = f"{number}\u00A0 {calculation_item.text}"
+            text = f"{number}\u00A0 {heading_text}"
         else:
-            text = calculation_item.text
+            text = heading_text
 
         heading_size = min(4, max(1, calculation_item.head_level) + 1)
 
@@ -75,14 +78,14 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
     elif isinstance(calculation_item, TextBlock):
         return _wrap_with_reference(
-            _wrap_p(calculation_item.text), calculation_item.reference
+            _wrap_p(_esc(calculation_item.text)), _esc(calculation_item.reference)
         )
 
     elif isinstance(calculation_item, Title):
-        return _wrap_h(calculation_item.text, 1)
+        return _wrap_h(_esc(calculation_item.text), 1)
 
     else:
-        return str(calculation_item)
+        return _esc(str(calculation_item))
 
 
 def _increment_headers_and_get_next(
@@ -108,41 +111,57 @@ def _increment_headers_and_get_next(
 def _generate_calculation_html(item: Calculation) -> str:
     calc_html = ""
 
-    if item.description is not None and item.description != "":
-        calc_html += _wrap_p(item.description, CALC_MARGIN)
+    description = _esc(item.description)
+    if description is not None and description != "":
+        calc_html += _wrap_p(description, CALC_MARGIN)
 
     item.result()
     if item.error is not None and item.error != "":
-        calc_html += _wrap_p(f"<b>ERROR:</b>{item.error}", f"color: red; {CALC_MARGIN}")
+        calc_html += _wrap_p(
+            f"<b>ERROR:</b>{_esc(item.error)}", f"color: red; {CALC_MARGIN}"
+        )
 
     display_length = item.estimate_display_length()
+    item_name = _esc(item.name)
+    str_with_unit = _esc(item.str_result_with_unit())
+
     if display_length == CalculationLength.NUMBER:
-        calc_tex = _wrap_math_inline(f"{item.name} = {item.str_result_with_unit()}")
+        calc_tex = _wrap_math_inline(f"{item_name} = {str_with_unit}")
+
     elif display_length == CalculationLength.SHORT:
+        str_symbolic = _esc(item.str_symbolic())
+        str_substituted = _esc(item.str_substituted())
+
         calc_tex = _wrap_math(
             _wrap_alignment(
-                f"{item.name} {ALIGN}= {item.str_symbolic()} = {item.str_substituted()} {LINE_BREAK} {ALIGN} \\therefore {item.name} = {item.str_result_with_unit()}"
-            )
-        )
-    else:
-        calc_tex = _wrap_math(
-            _wrap_alignment(
-                f"{item.name} {ALIGN}= {item.str_symbolic()} {LINE_BREAK} {ALIGN}= {item.str_substituted()} {LINE_BREAK} {ALIGN}\\therefore {item.name} = {item.str_result_with_unit()}"
+                f"{item_name} {ALIGN}= {str_symbolic} = {str_substituted} {LINE_BREAK} {ALIGN} \\therefore {item_name} = {str_with_unit}"
             )
         )
 
-    calc_html += _wrap_with_reference(_wrap_p(calc_tex), item.reference)
+    else:
+        str_symbolic = _esc(item.str_symbolic())
+        str_substituted = _esc(item.str_substituted())
+
+        calc_tex = _wrap_math(
+            _wrap_alignment(
+                f"{item_name} {ALIGN}= {str_symbolic} {LINE_BREAK} {ALIGN}= {str_substituted} {LINE_BREAK} {ALIGN}\\therefore {item_name} = {str_with_unit}"
+            )
+        )
+
+    calc_html += _wrap_with_reference(_wrap_p(calc_tex), _esc(item.reference))
 
     return _wrap_div(calc_html, class_name=CALC_ITEM_WRAPPER_CLASS)
 
 
 def _generate_comparison_html(item: Comparison) -> str:
     comp_html = ""
-    if item.description is not None and item.description != "":
-        comp_html += _wrap_p(item.description, CALC_MARGIN)
+    description = _esc(item.description)
 
-    symbolic = item.str_symbolic()
-    substituted = item.str_substituted()
+    if description is not None and description != "":
+        comp_html += _wrap_p(description, CALC_MARGIN)
+
+    symbolic = _esc(item.str_symbolic())
+    substituted = _esc(item.str_substituted())
     sym_and_sub = (
         f"{symbolic} {LINE_BREAK} {substituted}"
         if symbolic != substituted
@@ -152,11 +171,11 @@ def _generate_comparison_html(item: Comparison) -> str:
         _wrap_p(
             _wrap_math(
                 _wrap_alignment(
-                    f"Check {sym_and_sub} {LINE_BREAK} {ALIGN}\\therefore {item.get_message()}"
+                    f"Check {sym_and_sub} {LINE_BREAK} {ALIGN}\\therefore {_esc(item.get_message())}"
                 )
             )
         ),
-        item.reference,
+        _esc(item.reference),
     )
 
     return _wrap_div(comp_html, class_name=CALC_ITEM_WRAPPER_CLASS)
@@ -164,12 +183,14 @@ def _generate_comparison_html(item: Comparison) -> str:
 
 def _generate_comparison_statement_html(item: ComparisonStatement) -> str:
     comp_html = ""
-    if item.description is not None and item.description != "":
-        comp_html += _wrap_p(item.description, CALC_MARGIN)
+    description = _esc(item.description)
+
+    if description is not None and description != "":
+        comp_html += _wrap_p(description, CALC_MARGIN)
 
     comp_html += _wrap_with_reference(
-        _wrap_p(_wrap_math(f"\\rightarrow {item.str_symbolic()}")),
-        item.reference,
+        _wrap_p(_wrap_math(f"\\rightarrow {_esc(item.str_symbolic())}")),
+        _esc(item.reference),
     )
 
     return _wrap_div(comp_html, class_name=CALC_ITEM_WRAPPER_CLASS)
@@ -183,9 +204,12 @@ def _generate_figure_html(item: FigureBase) -> str:
             f"<b>There was an error loading this image:</b>{e}",
             f"color: red; {CALC_MARGIN}",
         )
+
+    caption = _esc(item.caption)
+    base64_figure = _esc(base64_figure)
     return _wrap_fig(
-        _wrap_img_base64(base64_figure, item.caption, item.full_width)
-        + _wrap_caption(item.caption)
+        _wrap_img_base64(base64_figure, caption, item.full_width)
+        + _wrap_caption(caption)
     )
 
 
@@ -194,11 +218,11 @@ def _generate_input_html(item: Input) -> str:
     description = (
         _wrap_p(f" ", "width:40px;")
         if not item.description
-        else _wrap_p(f"{item.description};", "width:350px;")
+        else _wrap_p(f"{_esc(item.description)};", "width:350px;")
     )
 
     tex = _wrap_p(
-        _wrap_math_inline(str(item)),
+        _wrap_math_inline(_esc(str(item))),
         "display:inline-block; margin-bottom:1rem; margin-left: 3rem",
     )
 
@@ -207,7 +231,7 @@ def _generate_input_html(item: Input) -> str:
             f"{description} {tex}",
             "display:flex; flex-direction:row; justify-content:flex-start",
         ),
-        item.reference,
+        _esc(item.reference),
     )
 
 
@@ -259,19 +283,26 @@ def _wrap_h(content: str, level: int) -> str:
     return f"<h{level}>{content}</h{level}>"
 
 
-def _wrap_fig(content: str) -> str:
-    return f"<figure>{content}</figure>"
+def _wrap_fig(html_content: str) -> str:
+    return f"<figure>{html_content}</figure>"
 
 
 def _wrap_img_base64(
-    content: str, description: str = None, full_width: bool = False
+    img_base64: str, description: str = None, full_width: bool = False
 ) -> str:
     alt_text = "Calculation figure" if description is None else description
     full_width_style = "width:100%;" if full_width else ""
-    return f'<img src="data:image/png;base64,{content}" alt="{alt_text}" style="max-width:100%; {full_width_style}"/>'
+    return f'<img src="data:image/png;base64,{img_base64}" alt="{alt_text}" style="max-width:100%; {full_width_style}"/>'
 
 
-def _wrap_caption(content: str) -> str:
-    if content is None:
+def _wrap_caption(caption: str) -> str:
+    if caption is None:
         return ""
-    return f'<figcaption style="color:#6f6f6f; font-size:0.9em;">{content}</figcaption>'
+    return f'<figcaption style="color:#6f6f6f; font-size:0.9em;">{caption}</figcaption>'
+
+
+def _esc(user_text: str | None) -> str | None:
+    if user_text is None:
+        return None
+    """Escape HTML special characters."""
+    return html.escape(user_text)
