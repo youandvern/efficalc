@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Section Properties" href="section_properties.html" /><link rel="prev" title="Base Classes" href="base_classes.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Section Properties" href="section_properties.html" /><link rel="prev" title="Figures in Calc Reports" href="figures.html" />
 
     <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Calculation Helpers - efficalc 1.0.0 documentation</title>
+        <title>Calculation Helpers - efficalc 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -126,7 +126,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">efficalc 1.0.0 documentation</div></a>
+      <a href="index.html"><div class="brand">efficalc 1.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">efficalc 1.0.0 documentation</span>
+  <span class="sidebar-brand-text">efficalc 1.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -168,6 +168,7 @@
 <p class="caption" role="heading"><span class="caption-text">API Documentation:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="base_classes.html">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Figures in Calc Reports</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Calculation Helpers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="section_properties.html">Section Properties</a></li>
 <li class="toctree-l1"><a class="reference internal" href="math_operations.html">Math Operations</a></li>
@@ -307,7 +308,7 @@ HTML document with the calculation report.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="efficalc.report_builder.ReportBuilder.save_report">
-<span class="sig-name descname"><span class="pre">save_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'calc_report'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_on_create</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.report_builder.ReportBuilder.save_report" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'calc_report'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_on_save</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.report_builder.ReportBuilder.save_report" title="Link to this definition">#</a></dt>
 <dd><p>Runs the calculation function with the provided input overrides and saves the calculation report at the
 specified location.</p>
 <p>The report is generated as an HTML file with the provided <cite>file_name</cite> and saved at the
@@ -316,9 +317,9 @@ the <cite>folder_path</cite> does not exist, it will be created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>folder_path</strong> (<em>str</em>) – the path to the folder where the report will be saved</p></li>
-<li><p><strong>file_name</strong> (<em>str</em><em>, </em><em>optional</em>) – the name of the html file that will be created in the <cite>folder_path</cite>, defaults to “calc_report”</p></li>
-<li><p><strong>open_on_create</strong> (<em>bool</em>) – if True, the report will be opened in the default web browser, defaults to False</p></li>
+<li><p><strong>save_folder</strong> (<em>str</em>) – the path to the folder where the report will be saved</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – the name of the html file that will be created in the <cite>folder_path</cite>, defaults to “calc_report”</p></li>
+<li><p><strong>open_on_save</strong> (<em>bool</em>) – if True, the report will be opened in the default web browser, defaults to False</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -401,14 +402,14 @@ the default value.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="base_classes.html">
+          <a class="prev-page" href="figures.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Base Classes</div>
+                <div class="title">Figures in Calc Reports</div>
                 
               </div>
             </a>
@@ -471,7 +472,7 @@ the default value.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8d563738"></script>
+</div><script src="_static/documentation_options.js?v=fc837d61"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

@@ -4,9 +4,9 @@
 
 <p align="center">
   <a href="https://github.com/youandvern/efficalc/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/youandvern/efficalc/actions/workflows/tests.yml/badge.svg"></a>&nbsp;&nbsp;&nbsp;
-  <a href="https://coveralls.io/github/youandvern/efficalc?branch=main"><img alt="Coverage Status" src="https://coveralls.io/repos/github/youandvern/efficalc/badge.svg?branch=main"></a>&nbsp;&nbsp;&nbsp;
+  <a href="https://coveralls.io/github/youandvern/efficalc?branch=main"><img alt="Coverage Status" src="https://coveralls.io/repos/github/youandvern/efficalc/badge.svg?branch=main&v=1.1.0"></a>&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/youandvern/efficalc/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>&nbsp;&nbsp;&nbsp;
-  <a href="https://badge.fury.io/py/efficalc"><img alt="PyPI version" src="https://badge.fury.io/py/efficalc.svg?version=1.0.0"></a>
+  <a href="https://badge.fury.io/py/efficalc"><img alt="PyPI version" src="https://badge.fury.io/py/efficalc.svg?version=1.1.0"></a>
 </p>
 
 
@@ -36,7 +36,7 @@
 
 **efficalc** is designed to transform how engineers approach calculations, moving away from traditional methods like manual spreadsheets and toward a more efficient, accurate, and collaborative engineering calculation process.
 
-![Efficalc Demo Typing](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo_typing.gif?raw=true)
+![Efficalc Demo Typing](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo_typing.jpg?raw=true)
 
 ![Efficalc Demo Report](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo2.png?raw=true)
 
