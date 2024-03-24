@@ -1,7 +1,6 @@
 import os
 import tempfile
 import webbrowser
-from dataclasses import dataclass
 from typing import Callable
 
 from efficalc.calculation_runner import CalculationRunner
@@ -65,9 +64,9 @@ class ReportBuilder(object):
 
     def save_report(
         self,
-        folder_path: str,
-        file_name: str = "calc_report",
-        open_on_create: bool = False,
+        save_folder: str,
+        filename: str = "calc_report",
+        open_on_save: bool = False,
     ) -> str:
         """Runs the calculation function with the provided input overrides and saves the calculation report at the
         specified location.
@@ -76,28 +75,27 @@ class ReportBuilder(object):
         provided `folder_path`. It will also open in the default web browser if `open_on_create` is set to True. If
         the `folder_path` does not exist, it will be created.
 
-        :param folder_path: the path to the folder where the report will be saved
-        :type folder_path: str
-        :param file_name: the name of the html file that will be created in the `folder_path`, defaults to "calc_report"
-        :type file_name: str, optional
-        :param open_on_create: if True, the report will be opened in the default web browser, defaults to False
-        :type open_on_create: bool
+        :param save_folder: the path to the folder where the report will be saved
+        :type save_folder: str
+        :param filename: the name of the html file that will be created in the `folder_path`, defaults to "calc_report"
+        :type filename: str, optional
+        :param open_on_save: if True, the report will be opened in the default web browser, defaults to False
+        :type open_on_save: bool
+
         :return: the complete filepath of the saved html file
         :rtype: str
         """
 
-        # Create the requested folder if it doesn't exist
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
+        _create_folder_if_not_exists(save_folder)
 
-        full_file_path = os.path.join(folder_path, f"{file_name}.html")
+        full_file_path = os.path.join(save_folder, f"{filename}.html")
 
         html_content = self.__generate_report_html()
 
         with open(full_file_path, "w") as file:
             file.write(html_content)
 
-        if open_on_create:
+        if open_on_save:
             # Open the created file in the default web browser
             webbrowser.open("file://" + os.path.realpath(full_file_path))
 
@@ -112,6 +110,11 @@ class ReportBuilder(object):
         report_items_html = generate_html_for_calc_items(all_items)
 
         return _wrap_report_in_html_page(report_items_html)
+
+
+def _create_folder_if_not_exists(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
 
 def _create_temp_html_file(html_content):
@@ -137,8 +140,8 @@ def _wrap_report_in_html_page(content: str) -> str:
         }
         p {
             margin-block-start: 0;
-            margin-block-end: 0;
-            line-height: 1.5;
+            margin-block-end: 0.5em;
+            line-height: 1.1;
         }
         .calc-item {
             margin-block: 1.5rem;

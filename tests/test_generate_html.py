@@ -1,3 +1,5 @@
+import html
+
 import pytest
 from latexexpr_efficalc import brackets
 
@@ -120,8 +122,8 @@ def test_comparison_number(common_setup_teardown):
     assert calc.reference in result
     assert ">" in result
     assert calc.get_message() in result
-    assert calc.str_symbolic() in result
-    assert calc.str_substituted() in result
+    assert html.escape(calc.str_symbolic()) in result
+    assert html.escape(calc.str_substituted()) in result
     assert r"\therefore" in result
 
 
@@ -135,8 +137,8 @@ def test_comparison_variable(common_setup_teardown):
     assert calc.reference in result
     assert ">" in result
     assert calc.get_message() in result
-    assert calc.str_symbolic() in result
-    assert calc.str_substituted() in result
+    assert html.escape(calc.str_symbolic()) in result
+    assert html.escape(calc.str_substituted()) in result
     assert r"\therefore" in result
 
 
@@ -148,8 +150,8 @@ def test_comparison_without_ref_or_desc(common_setup_teardown):
     result = generate_html_for_calc_items([calc])
     assert ">" in result
     assert calc.get_message() in result
-    assert calc.str_symbolic() in result
-    assert calc.str_substituted() in result
+    assert html.escape(calc.str_symbolic()) in result
+    assert html.escape(calc.str_substituted()) in result
     assert r"\therefore" in result
     assert "[]" not in result  # empty reference tag
     assert "None" not in result
@@ -161,14 +163,14 @@ def test_comparison_statement(common_setup_teardown):
     assert calc.description in result
     assert calc.reference in result
     assert ">" in result
-    assert calc.str_symbolic() in result
+    assert html.escape(calc.str_symbolic()) in result
 
 
 def test_comparison_statement_without_ref_or_desc(common_setup_teardown):
     calc = ComparisonStatement(5, ">", 2, ">=", 1.5)
     result = generate_html_for_calc_items([calc])
     assert ">" in result
-    assert calc.str_symbolic() in result
+    assert html.escape(calc.str_symbolic()) in result
     assert "[]" not in result  # empty reference tag
     assert "None" not in result
 
