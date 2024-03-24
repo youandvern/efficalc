@@ -36,7 +36,9 @@
 
 **efficalc** is designed to transform how engineers approach calculations, moving away from traditional methods like manual spreadsheets and toward a more efficient, accurate, and collaborative engineering calculation process.
 
-![Efficalc Demo Screenshot](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo2.jpg?raw=true)
+![Efficalc Demo Typing](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo_typing.gif?raw=true)
+
+![Efficalc Demo Report](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo2.png?raw=true)
 
 
 ## Links
