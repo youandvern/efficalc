@@ -140,8 +140,8 @@ def _wrap_report_in_html_page(content: str) -> str:
         }
         p {
             margin-block-start: 0;
-            margin-block-end: 0;
-            line-height: 1.5;
+            margin-block-end: 0.5em;
+            line-height: 1.1;
         }
         .calc-item {
             margin-block: 1.5rem;
