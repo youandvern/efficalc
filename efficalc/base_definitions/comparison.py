@@ -28,7 +28,7 @@ class Comparison(CalculationItem):
     :type reference: str, optional
     :param result_check: This is used to indicate any :class:`.Comparison` that should be checked as a final result
         of your calculation template. When set to True, this :class:`.Comparison` will be displayed in the "Results"
-        section of your design portal in the hosted version of efficalc, defaults to False
+        section of your design portal in the cloud version of efficalc, defaults to False
     :type result_check: bool, optional
 
     .. code-block:: python

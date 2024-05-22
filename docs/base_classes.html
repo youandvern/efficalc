@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Figures in Calc Reports" href="figures.html" /><link rel="prev" title="Purpose and Background" href="purpose.html" />
 
     <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Base Classes - efficalc 1.1.0 documentation</title>
+        <title>Base Classes - efficalc 1.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -126,7 +126,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">efficalc 1.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">efficalc 1.2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">efficalc 1.1.0 documentation</span>
+  <span class="sidebar-brand-text">efficalc 1.2.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -245,7 +245,7 @@
 <li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short reference (e.g. code reference) to accompany the calculation, defaults to None</p></li>
 <li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a> that should be checked as a final result
 of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Calculation" title="efficalc.Calculation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Calculation</span></code></a> will be displayed in the “Results”
-section of your design portal in the hosted version of efficalc, defaults to False</p></li>
+section of your design portal in the cloud version of efficalc, defaults to False</p></li>
 </ul>
 </dd>
 </dl>
@@ -344,7 +344,7 @@ depending on whether the comparison is true or false.</p>
 <li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (e.g. code reference) to accompany the comparison, defaults to None</p></li>
 <li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> that should be checked as a final result
 of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> will be displayed in the “Results”
-section of your design portal in the hosted version of efficalc, defaults to False</p></li>
+section of your design portal in the cloud version of efficalc, defaults to False</p></li>
 </ul>
 </dd>
 </dl>
@@ -496,20 +496,20 @@ be numbers, text, or select elements with multiple options.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>variable_name</strong> (<em>str</em>) – The symbolic name for this input variable (LaTex formatted)</p></li>
 <li><p><strong>default_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>str</em>) – The default value for the input. This will be overridden when explicit calculation inputs are
-provided to the calculation runner or in the design portal on the hosted version of efficalc, defaults to 0</p></li>
+provided to the calculation runner or in the design portal on the cloud version of efficalc, defaults to 0</p></li>
 <li><p><strong>unit</strong> (<em>str</em><em>, </em><em>optional</em>) – The physical units of the input variable (LaTex formatted), defaults to None</p></li>
 <li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A text description for the input variable, defaults to None</p></li>
 <li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (e.g. code reference) to accompany the input, defaults to None</p></li>
-<li><p><strong>input_type</strong> (<em>&quot;number&quot;</em><em>, </em><em>&quot;text&quot;</em><em>, or </em><em>&quot;select&quot;</em><em>, </em><em>optional</em>) – The type of html input element to use in the design portal on the hosted version of efficalc,
+<li><p><strong>input_type</strong> (<em>&quot;number&quot;</em><em>, </em><em>&quot;text&quot;</em><em>, or </em><em>&quot;select&quot;</em><em>, </em><em>optional</em>) – The type of html input element to use in the design portal on the cloud version of efficalc,
 defaults to “number”.</p></li>
 <li><p><strong>select_options</strong> (<em>str</em><em>[</em><em>]</em><em>, </em><em>float</em><em>[</em><em>]</em><em>, or </em><em>int</em><em>[</em><em>]</em><em>, </em><em>optional</em>) – A list of options for a “select” input_type variable. This is only applicable when
 <cite>.input_type</cite> is “select”, defaults to None</p></li>
-<li><p><strong>min_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Set the minimum value a number input is allowed to be in the design portal on the hosted version
+<li><p><strong>min_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Set the minimum value a number input is allowed to be in the design portal on the cloud version
 of efficalc, defaults to None</p></li>
-<li><p><strong>max_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Set the maximum value a number input is allowed to be in the design portal on the hosted version
-of efficalc, or “any” if the input type is not a number in the design portal on the hosted version of efficalc, defaults to None</p></li>
+<li><p><strong>max_value</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Set the maximum value a number input is allowed to be in the design portal on the cloud version
+of efficalc, or “any” if the input type is not a number in the design portal on the cloud version of efficalc, defaults to None</p></li>
 <li><p><strong>num_step</strong> (<em>float</em><em>, </em><em>int</em><em>, or </em><em>None</em><em>, </em><em>optional</em>) – Specifies the interval between legal numbers in a number input field in the design portal on the
-hosted version of efficalc; see
+cloud version of efficalc; see
 <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step">https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step</a>, defaults to “any”</p></li>
 </ul>
 </dd>
@@ -524,7 +524,7 @@ hosted version of efficalc; see
 <dt class="sig sig-object py" id="efficalc.Input.get_value">
 <span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Input.get_value" title="Link to this definition">#</a></dt>
 <dd><p>Returns the value of the input. Note that this will return the overridden input value when one is provided
-to the calculation runner or in the design portal on the hosted version of efficalc. If no override is provided,
+to the calculation runner or in the design portal on the cloud version of efficalc. If no override is provided,
 this will return the default value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -545,6 +545,107 @@ this will return the default value.</p>
 <dt class="sig sig-object py" id="efficalc.Input.str_result_with_name">
 <span class="sig-name descname"><span class="pre">str_result_with_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Input.str_result_with_name" title="Link to this definition">#</a></dt>
 <dd><p>Returns a LaTex formatted string representation of the input name and value in the form “name = value unit”</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Symbolic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Operation</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Expression</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Variable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Symbolic" title="Link to this definition">#</a></dt>
+<dd><p>This will disply a symbolic variable expression in the calculation report. A substituted expression with values
+will not be displayed, nor will the result of the expression. You can optionally evaluate the result to use as a
+number in pure python calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<em>str</em>) – The symbolic name for the result of this calculation (LaTex formatted)</p></li>
+<li><p><strong>expression</strong> (<em>a variable expression</em><em> [</em><em>i.e. a+b</em><em>] or </em><em>a constant number</em>) – The calculation expression</p></li>
+<li><p><strong>description</strong> (<em>str</em><em>, </em><em>optional</em>) – A text description for the calculation, defaults to None</p></li>
+<li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short reference (e.g. code reference) to accompany the calculation, defaults to None</p></li>
+<li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Symbolic" title="efficalc.Symbolic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbolic</span></code></a> that should be listed with the final results
+of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Symbolic" title="efficalc.Symbolic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbolic</span></code></a> will be displayed in the “Results”
+section of your design portal in the cloud version of efficalc, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Symbolic</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">Calculation report will show --&gt; c = a + b</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.estimate_display_length">
+<span class="sig-name descname"><span class="pre">estimate_display_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">CalculationLength</span></span></span><a class="headerlink" href="#efficalc.Symbolic.estimate_display_length" title="Link to this definition">#</a></dt>
+<dd><p>Returns the estimated length of the LaTex formatted operation based on its symbolic
+representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The estimated length of the <a class="reference internal" href="#efficalc.Symbolic" title="efficalc.Symbolic"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbolic</span></code></a></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CalculationLength</span></code></p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Symbolic</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">estimate_display_length</span><span class="p">()</span>
+<span class="go">CalculationLength.SHORT</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Symbolic.get_value" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">Symbolic.result()</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#efficalc.Symbolic.result" title="Link to this definition">#</a></dt>
+<dd><p>Returns the calculated result of the expression. If there is a ValueError or ZeroDivisionError, this will
+return 0 and set an error message in <cite>self.error</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The result of the evaluated expression</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Symbolic</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="s1">&#39;ft&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.str_result_with_description">
+<span class="sig-name descname"><span class="pre">str_result_with_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Symbolic.str_result_with_description" title="Link to this definition">#</a></dt>
+<dd><p>Returns a LaTex formatted string representation of the operation in the form “description; name = symbolicExpr”</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.str_result_with_unit">
+<span class="sig-name descname"><span class="pre">str_result_with_unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Symbolic.str_result_with_unit" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">Symbolic.__str__()</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.str_substituted">
+<span class="sig-name descname"><span class="pre">str_substituted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Symbolic.str_substituted" title="Link to this definition">#</a></dt>
+<dd><p>Alias for <code class="xref py py-func docutils literal notranslate"><span class="pre">Symbolic.str_symbolic()</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.Symbolic.str_symbolic">
+<span class="sig-name descname"><span class="pre">str_symbolic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.Symbolic.str_symbolic" title="Link to this definition">#</a></dt>
+<dd><p>Returns LaTex formatted symbolic representation of the operation using the variable names.</p>
 </dd></dl>
 
 </dd></dl>
@@ -662,6 +763,16 @@ this will return the default value.</p>
 <li><a class="reference internal" href="#efficalc.Input.str_result_with_name"><code class="docutils literal notranslate"><span class="pre">Input.str_result_with_name()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#efficalc.Symbolic"><code class="docutils literal notranslate"><span class="pre">Symbolic</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.Symbolic.estimate_display_length"><code class="docutils literal notranslate"><span class="pre">Symbolic.estimate_display_length()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Symbolic.get_value"><code class="docutils literal notranslate"><span class="pre">Symbolic.get_value()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Symbolic.result"><code class="docutils literal notranslate"><span class="pre">Symbolic.result()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Symbolic.str_result_with_description"><code class="docutils literal notranslate"><span class="pre">Symbolic.str_result_with_description()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Symbolic.str_result_with_unit"><code class="docutils literal notranslate"><span class="pre">Symbolic.str_result_with_unit()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Symbolic.str_substituted"><code class="docutils literal notranslate"><span class="pre">Symbolic.str_substituted()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.Symbolic.str_symbolic"><code class="docutils literal notranslate"><span class="pre">Symbolic.str_symbolic()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#efficalc.TextBlock"><code class="docutils literal notranslate"><span class="pre">TextBlock</span></code></a></li>
 <li><a class="reference internal" href="#efficalc.Title"><code class="docutils literal notranslate"><span class="pre">Title</span></code></a></li>
 </ul>
@@ -675,7 +786,7 @@ this will return the default value.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=fc837d61"></script>
+</div><script src="_static/documentation_options.js?v=6efca38a"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

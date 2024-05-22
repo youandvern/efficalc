@@ -60,10 +60,9 @@ def test_str_sub(common_setup_teardown):
     assert a.str_substituted() == r"\left( -5 \right) \ \mathrm{mm^2}"
 
 
-# TODO: upgrade latexexpr_efficalc to allow string input vals
-# def test_to_str_nan(common_setup_teardown):
-#     a = Input("a", "test", "mm^2")
-#     assert str(a) == "\mathrm{a} = \mathrm{test} \ \mathrm{mm^2}"
+def test_to_str_nan(common_setup_teardown):
+    a = Input("a", "test", "mm^2")
+    assert str(a) == "\mathrm{a} = \mathrm{test} \ mm^2"
 
 
 def test_to_str_number(common_setup_teardown):

@@ -13,6 +13,7 @@ from efficalc import (
     FigureFromFile,
     Heading,
     Input,
+    Symbolic,
     TextBlock,
     Title,
     clear_saved_objects,
@@ -110,6 +111,42 @@ def test_calculation_error(common_setup_teardown):
     assert calc.str_substituted() in result
     assert calc.str_result_with_unit() in result
     assert r"\therefore" in result
+    assert "ERROR:" in result
+    assert "could not be calculated because zero was in the denominator." in result
+
+
+def test_symbolic(common_setup_teardown):
+    a = Input("a", 2, "mm")
+    b = Input("b", 7, "mm")
+    sym = Symbolic("sym", a + b, "describing text", "refer to code")
+    result = generate_html_for_calc_items([sym])
+    assert sym.description in result
+    assert sym.reference in result
+    assert sym.name in result
+    assert sym.str_symbolic() in result
+    assert r"\therefore" not in result
+
+
+def test_symbolic_without_ref_or_desc(common_setup_teardown):
+    sym = Symbolic("calc_1", "sym_str")
+    result = generate_html_for_calc_items([sym])
+    assert sym.name in result
+    assert sym.str_symbolic() in result
+    assert r"\therefore" not in result
+    assert "[]" not in result  # empty reference tag
+
+
+def test_symbolic_error(common_setup_teardown):
+    a = Input("a", 2, "mm")
+    sym = Symbolic("sym", a / 0, "describing text", "refer to code")
+    sym.result()
+    result = generate_html_for_calc_items([sym])
+    assert sym.estimate_display_length() == CalculationLength.SHORT
+    assert sym.description in result
+    assert sym.reference in result
+    assert sym.name in result
+    assert sym.str_symbolic() in result
+    assert r"\therefore" not in result
     assert "ERROR:" in result
     assert "could not be calculated because zero was in the denominator." in result
 

@@ -69,10 +69,12 @@ def clear_all_input_default_overrides():
     _get_thread_local_store()[_DEFAULT_OVERRIDE_KEY] = {}
 
 
-def _get_float_safe_operation(
-    input_operation: Operation | Expression | Variable | float | int,
+def _get_float_or_str_safe_operation(
+    input_operation: Operation | Expression | Variable | float | int | str,
 ):
     if isinstance(input_operation, (float, int)):
         return Operation("", input_operation)
+    elif isinstance(input_operation, str):
+        return Variable(input_operation, input_operation)
     else:
         return input_operation

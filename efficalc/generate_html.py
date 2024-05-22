@@ -9,6 +9,7 @@ from efficalc import (
     FigureBase,
     Heading,
     Input,
+    Symbolic,
     TextBlock,
     Title,
 )
@@ -75,6 +76,9 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
     elif isinstance(calculation_item, Input):
         return _generate_input_html(calculation_item)
+
+    elif isinstance(calculation_item, Symbolic):
+        return _generate_symbolic_html(calculation_item)
 
     elif isinstance(calculation_item, TextBlock):
         return _wrap_with_reference(
@@ -148,6 +152,27 @@ def _generate_calculation_html(item: Calculation) -> str:
             )
         )
 
+    calc_html += _wrap_with_reference(_wrap_p(calc_tex), _esc(item.reference))
+
+    return _wrap_div(calc_html, class_name=CALC_ITEM_WRAPPER_CLASS)
+
+
+def _generate_symbolic_html(item: Symbolic) -> str:
+    calc_html = ""
+
+    description = _esc(item.description)
+    if description is not None and description != "":
+        calc_html += _wrap_p(description, CALC_MARGIN)
+
+    if item.error is not None and item.error != "":
+        calc_html += _wrap_p(
+            f"<b>ERROR:</b>{_esc(item.error)}", f"color: red; {CALC_MARGIN}"
+        )
+
+    item_name = _esc(item.name)
+    str_symbolic = _esc(item.str_symbolic())
+
+    calc_tex = _wrap_math(f"{item_name} = {str_symbolic}")
     calc_html += _wrap_with_reference(_wrap_p(calc_tex), _esc(item.reference))
 
     return _wrap_div(calc_html, class_name=CALC_ITEM_WRAPPER_CLASS)
