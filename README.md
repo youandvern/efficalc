@@ -16,21 +16,21 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#links">Links</a></li>
+  <summary style="font-size:1.5rem;"><b>Contents</b></summary>
+  <ul>
+    <li><a href="#introduction">Introduction</a><ul>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#documentation-and-distribution">Documentation</a></li></ul></li>
+    <li><a href="#quickstart">Quickstart</a><ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#first-calculation-function">First Calculation</a></li>
+        <li><a href="#view-the-report">View Report</a></li></ul></li>
     <li><a href="#features">Features</a></li>
-    <li><a href="#quickstart">Quickstart</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#built-with">Built With</a></li>
-    <li><a href="#license">License</a></li>
-  </ol>
+  </ul>
 </details>
 
 
-
-## Introduction
+# Introduction
 
 ##### efficalc provides an extensible, testable, and powerful framework for building and managing complex calculations.
 
@@ -45,42 +45,19 @@
 ![Efficalc Demo Report](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/efficalc_basic_demo2.png?raw=true)
 
 
-## Links
+## Examples
 
-- [Read the full documentation](https://youandvern.github.io/efficalc) 
-- [See more examples](https://github.com/youandvern/efficalc/tree/main/examples)
-- [The PyPI distribution](https://pypi.org/project/efficalc/)
+- [Simple Examples](https://github.com/youandvern/efficalc/tree/main/examples/simple)
+- [More Advanced Examples](https://github.com/youandvern/efficalc/tree/main/examples/advanced)
+
+## Documentation and Distribution
+
+- [Full documentation](https://youandvern.github.io/efficalc)
+- [PyPI distribution](https://pypi.org/project/efficalc/)
 
 
 
-## Features
-
-
-#### Automated report generation
-Generate detailed, professional reports automatically, ensuring clarity and precision in communication.
-
-#### Open source
-efficalc welcomes community contributions. Request features or contribute directly to enhance its capabilities.
-
-#### Engineering-specific features
-Benefit from built-in tools tailored to solving common engineering challenges. [See our section property library in action](https://github.com/youandvern/efficalc/blob/main/examples/advanced/steel_beam_moment_strength.py#L53).
-
-#### Reusable
-Create calculation templates once and reuse them across multiple designs and projects, saving time and ensuring consistency.
-
-#### Testable
-Easily test your calculations to reduce errors and improve confidence every design. [Read the testing guide.](https://youandvern.github.io/efficalc/testing.html)
-
-#### Integrate with other workflows
-Seamlessly integrate with your existing Python-enabled workflows to boost efficiency and connectivity across tools and platforms. [See some examples of this.](https://youandvern.github.io/efficalc/integration.html)
-
-#### Figures now supported
-Easily add figures to your calculation reports for even more clarity. [Read the full documentation for figures.](https://youandvern.github.io/efficalc/figures.html)
-
-#### Control your content
-Tailor your calculation reports to include only the most relevant information, making them as concise or detailed as you prefer.
-
-## Quickstart
+# Quickstart
 
 ### Installation
 
@@ -125,11 +102,11 @@ builder.view_report()
 ![The resulting calculation report](https://github.com/youandvern/efficalc/raw/main/docs_src/_static/pythagorean_default.png)
 
 
-### Update Input Values
+### Updating Input Values
 
-The value proved to the `Input` class in your calculation function is treated as a default value. 
+The value provided to the `Input` class in your calculation function is treated as a default value. 
 
-If you want to change any of your input values, pass in a dictionary of the default overrides as an optional second parameter to the `ReportBuilder`:
+When you run your calculation with different input values, pass in a dictionary of the default overrides into the optional second parameter of the `ReportBuilder`:
 
 
 ```python
@@ -138,14 +115,42 @@ builder = ReportBuilder(calculation, new_inputs)
 builder.view_report()
 ```
 
-## Contributing
+
+# Features
+
+
+#### Automated report generation
+Generate detailed, professional reports automatically, ensuring clarity and precision in communication.
+
+#### Open source
+efficalc welcomes community contributions. Request features or contribute directly to enhance its capabilities.
+
+#### Engineering-specific features
+Benefit from built-in tools tailored to solving common engineering challenges. [See our section property library in action](https://github.com/youandvern/efficalc/blob/main/examples/advanced/steel_beam_moment_strength.py#L53).
+
+#### Reusable
+Create calculation templates once and reuse them across multiple designs and projects, saving time and ensuring consistency.
+
+#### Testable
+Easily test your calculations to reduce errors and improve confidence every design. [Read the testing guide.](https://youandvern.github.io/efficalc/testing.html)
+
+#### Integrate with other workflows
+Seamlessly integrate with your existing Python-enabled workflows to boost efficiency and connectivity across tools and platforms. [See some examples of this.](https://youandvern.github.io/efficalc/integration.html)
+
+#### Figures now supported
+Easily add figures to your calculation reports for even more clarity. [Read the full documentation for figures.](https://youandvern.github.io/efficalc/figures.html)
+
+#### Control your content
+Tailor your calculation reports to include only the most relevant information, making them as concise or detailed as you prefer.
+
+# Contributing
 
 We welcome contributions of all kinds from the community! Whether it's reporting a bug, requesting a feature, or submitting a pull request, your input and engagement is invaluable to efficalc's development.
 
 - Report issues [here](https://github.com/youandvern/efficalc/issues).
 - Submit pull requests [here](https://github.com/youandvern/efficalc/pulls).
 
-## Built With
+# Built With
 
 * [latexexpr](https://github.com/kajusK/latexexpr) - [we use a forked version](https://github.com/youandvern/latexexpr_efficalc)
 * [pylatexenc](https://github.com/phfaist/pylatexenc)
@@ -157,7 +162,7 @@ We welcome contributions of all kinds from the community! Whether it's reporting
 * [sphinx-copybutton](https://github.com/executablebooks/sphinx-copybutton)
 * [sphinxcontrib-video](https://github.com/sphinx-contrib/video)
 
-## License
+# License
 
 efficalc is released under the [MIT License](https://github.com/youandvern/efficalc/tree/main/LICENSE).
 
