@@ -3,14 +3,17 @@
 build:
 	python -m build
 
-tests:
-	python -m pytest
-
 publish:
 	python -m twine upload --skip-existing dist/*
 
+# within venv
+tests:
+	python -m pytest
+
+# within venv
 docs:
 	sphinx-build docs_src docs
 
+# within venv
 sections:
 	python -m "build_section_tables.py"

@@ -27,6 +27,10 @@ Base Classes
     :members:
 
 
+.. autoclass:: efficalc.Symbolic
+    :members:
+
+
 .. autoclass:: efficalc.TextBlock
     :members:
 

@@ -39,9 +39,9 @@ from .base_definitions.comparison import Comparison
 from .base_definitions.comparison_statement import ComparisonStatement
 from .base_definitions.figure import (
     FigureBase,
+    FigureFromBytes,
     FigureFromFile,
     FigureFromMatplotlib,
-    FigureFromBytes,
 )
 from .base_definitions.heading import Heading
 from .base_definitions.input import Input
@@ -54,6 +54,7 @@ from .base_definitions.shared import (
     save_calculation_item,
     set_input_default_overrides,
 )
+from .base_definitions.symbolic import Symbolic
 from .base_definitions.text_block import TextBlock
 from .base_definitions.title import Title
 from .constants import ONE, PI, TWO, ZERO, E

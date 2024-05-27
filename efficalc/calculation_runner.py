@@ -7,6 +7,7 @@ from efficalc import (
     clear_saved_objects,
     get_all_calc_objects,
     set_input_default_overrides,
+    Symbolic,
 )
 
 ResultType = Union[Calculation, Comparison]
@@ -85,6 +86,10 @@ class CalculationRunner(object):
 
     @staticmethod
     def _is_calculated_result(ob) -> bool:
-        if not isinstance(ob, Calculation) and not isinstance(ob, Comparison):
+        if (
+            not isinstance(ob, Calculation)
+            and not isinstance(ob, Comparison)
+            and not isinstance(ob, Symbolic)
+        ):
             return False
         return ob.result_check

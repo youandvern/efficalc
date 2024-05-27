@@ -24,7 +24,7 @@ class Input(Variable, CalculationItem):
     :param variable_name: The symbolic name for this input variable (LaTex formatted)
     :type variable_name: str
     :param default_value: The default value for the input. This will be overridden when explicit calculation inputs are
-        provided to the calculation runner or in the design portal on the hosted version of efficalc, defaults to 0
+        provided to the calculation runner or in the design portal on the cloud version of efficalc, defaults to 0
     :type default_value: float, int, or str
     :param unit: The physical units of the input variable (LaTex formatted), defaults to None
     :type unit: str, optional
@@ -32,20 +32,20 @@ class Input(Variable, CalculationItem):
     :type description: str, optional
     :param reference: A short text reference (e.g. code reference) to accompany the input, defaults to None
     :type reference: str, optional
-    :param input_type: The type of html input element to use in the design portal on the hosted version of efficalc,
+    :param input_type: The type of html input element to use in the design portal on the cloud version of efficalc,
         defaults to "number".
     :type input_type: "number", "text", or "select", optional
     :param select_options: A list of options for a "select" input_type variable. This is only applicable when
         `.input_type` is "select", defaults to None
     :type select_options: str[], float[], or int[], optional
-    :param min_value: Set the minimum value a number input is allowed to be in the design portal on the hosted version
+    :param min_value: Set the minimum value a number input is allowed to be in the design portal on the cloud version
         of efficalc, defaults to None
     :type min_value: float, int, or None, optional
-    :param max_value: Set the maximum value a number input is allowed to be in the design portal on the hosted version
-        of efficalc, or "any" if the input type is not a number in the design portal on the hosted version of efficalc, defaults to None
+    :param max_value: Set the maximum value a number input is allowed to be in the design portal on the cloud version
+        of efficalc, or "any" if the input type is not a number in the design portal on the cloud version of efficalc, defaults to None
     :type max_value: float, int, or None, optional
     :param num_step: Specifies the interval between legal numbers in a number input field in the design portal on the
-        hosted version of efficalc; see
+        cloud version of efficalc; see
         https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step, defaults to "any"
     :type num_step: float, int, or None, optional
 
@@ -97,7 +97,7 @@ class Input(Variable, CalculationItem):
 
     def get_value(self):
         """Returns the value of the input. Note that this will return the overridden input value when one is provided
-        to the calculation runner or in the design portal on the hosted version of efficalc. If no override is provided,
+        to the calculation runner or in the design portal on the cloud version of efficalc. If no override is provided,
         this will return the default value.
 
         :return: The current value of the input variable

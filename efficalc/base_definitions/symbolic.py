@@ -1,8 +1,7 @@
-from enum import Enum
-
 from latexexpr_efficalc import Expression, Operation, Variable
 from pylatexenc.latex2text import LatexNodes2Text
 
+from .. import CalculationLength
 from .input import Input
 from .shared import (
     CalculationItem,
@@ -11,29 +10,21 @@ from .shared import (
 )
 
 
-class CalculationLength(Enum):
-    """Used to indicate the length of a calculation's LaTex formatted operation."""
-
-    NUMBER = "number"
-    SHORT = "short"
-    LONG = "long"
-
-
-class Calculation(Expression, CalculationItem):
-    """This is the primary object used to define a calculation expression or calculated variable.
+class Symbolic(Expression, CalculationItem):
+    """This will disply a symbolic variable expression in the calculation report. A substituted expression with values
+    will not be displayed, nor will the result of the expression. You can optionally evaluate the result to use as a
+    number in pure python calculations.
 
     :param variable_name: The symbolic name for the result of this calculation (LaTex formatted)
     :type variable_name: str
     :param expression: The calculation expression
     :type expression: a variable expression [i.e. a+b] or a constant number
-    :param unit: The physical units of the resulting variable (LaTex formatted), defaults to None
-    :type unit: str, optional
     :param description: A text description for the calculation, defaults to None
     :type description: str, optional
     :param reference: A short reference (e.g. code reference) to accompany the calculation, defaults to None
     :type reference: str, optional
-    :param result_check: This is used to indicate any :class:`.Calculation` that should be checked as a final result
-        of your calculation template. When set to True, this :class:`.Calculation` will be displayed in the "Results"
+    :param result_check: This is used to indicate any :class:`.Symbolic` that should be listed with the final results
+        of your calculation template. When set to True, this :class:`.Symbolic` will be displayed in the "Results"
         section of your design portal in the cloud version of efficalc, defaults to False
     :type result_check: bool, optional
 
@@ -41,24 +32,21 @@ class Calculation(Expression, CalculationItem):
 
         >>> a = Input("a",1,'ft')
         >>> b = Input('b',4,'ft')
-        >>> c = Calculation('c', a + b, 'ft')
-        Calculation report will show --> c = a + b = 1ft + 4ft = 5ft
+        >>> c = Symbolic('c', a + b)
+        Calculation report will show --> c = a + b
     """
 
     def __init__(
         self,
         variable_name: str,
-        expression: Operation | Expression | Variable | float | int,
-        unit: str = None,
+        expression: Operation | Expression | Variable | float | int | str,
         description: str = None,
         reference: str = None,
         result_check: bool = False,
     ):
 
-        if unit is None:
-            unit = ""
         super().__init__(
-            variable_name, _get_float_or_str_safe_operation(expression), unit
+            variable_name, _get_float_or_str_safe_operation(expression), ""
         )
         self.description: str = description
         self.reference: str = reference
@@ -69,14 +57,12 @@ class Calculation(Expression, CalculationItem):
     def str_result_with_description(self) -> str:
         """Returns a LaTex formatted string representation of the operation in the form "description; name = symbolicExpr" """
         if self.is_symbolic():
-            return f"{self.name} = {self.operation}"
+            return f"{self.description}; {self.name} = {self.operation}"
         return f"{self.description}; {self.name} = {self.operation.str_symbolic()}"
 
     def str_substituted(self) -> str:
-        """Returns LaTex formatted representation of the operation with values substituted in for variables."""
-        if self.is_symbolic():
-            return self.operation.str_symbolic()
-        return self.operation.str_substituted()
+        """Alias for :func:`.Symbolic.str_symbolic`"""
+        return self.str_symbolic()
 
     def str_symbolic(self) -> str:
         """Returns LaTex formatted symbolic representation of the operation using the variable names."""
@@ -93,8 +79,8 @@ class Calculation(Expression, CalculationItem):
 
             >>> a = Input('a',2,'ft')
             >>> b = Input('b',3,'ft')
-            >>> c = Calculation('c', a + b, 'ft')
-            >>> print(c.get_value())
+            >>> c = Symbolic('c', a + b, 'ft')
+            >>> print(c.result())
             5
         """
         try:
@@ -113,43 +99,40 @@ class Calculation(Expression, CalculationItem):
             return 0.0
 
     def get_value(self):
-        """Alias for :func:`.Calculation.result`"""
+        """Alias for :func:`.Symbolic.result`"""
         return self.result()
 
     def _estimate_operation_length(self):
-        latex_code = self.operation.str_substituted()
-        self.str_substituted()
+        latex_code = self.operation.str_symbolic()
         return len(LatexNodes2Text().latex_to_text(latex_code))
-
-    def _get_substituted_string(self):
-        latex_code = self.operation.str_substituted()
-        return LatexNodes2Text().latex_to_text(latex_code)
 
     def _get_symbolic_string(self):
         latex_code = self.operation.str_symbolic()
         return LatexNodes2Text().latex_to_text(latex_code)
 
     def estimate_display_length(self) -> CalculationLength:
-        """Returns the estimated length of the LaTex formatted operation based on its symbolic and substituted
-        representations.
+        """Returns the estimated length of the LaTex formatted operation based on its symbolic
+        representation.
 
-        :return: The estimated length of the :class:`.Calculation`
+        :return: The estimated length of the :class:`.Symbolic`
         :rtype: :class:`.CalculationLength`
 
         .. code-block:: python
 
             >>> a = Input('a',2,'ft')
             >>> b = Input('b',3,'ft')
-            >>> c = Calculation('c', a + b, 'ft')
+            >>> c = Symbolic('c', a + b, 'ft')
             >>> c.estimate_display_length()
             CalculationLength.SHORT
         """
-        if (
-            self._get_symbolic_string().strip()
-            == self._get_substituted_string().strip()
-        ):
-            return CalculationLength.NUMBER
-        elif self._estimate_operation_length() <= 50:
+        if self._estimate_operation_length() <= 50:
             return CalculationLength.SHORT
         else:
             return CalculationLength.LONG
+
+    def str_result_with_unit(self):
+        """Alias for :func:`.Symbolic.__str__`"""
+        return str(self)
+
+    def __str__(self):
+        return f"{self.name} = {self.str_symbolic()}"
