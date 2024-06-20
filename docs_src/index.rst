@@ -47,6 +47,7 @@ API Documentation
 
 * :ref:`base_classes`
 * :ref:`figures`
+* :ref:`canvas`
 * :ref:`calculation_helpers`
 * :ref:`section_properties`
 * :ref:`math_operations`
@@ -78,6 +79,7 @@ More
 
     base_classes
     figures
+    canvas
     calculation_helpers
     section_properties
     math_operations

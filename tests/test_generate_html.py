@@ -18,6 +18,7 @@ from efficalc import (
     Title,
     clear_saved_objects,
 )
+from efficalc.canvas import Canvas
 from efficalc.generate_html import generate_html_for_calc_items
 
 
@@ -388,3 +389,30 @@ def test_figure_invalid_path(common_setup_teardown):
     assert "<figure>" not in result
     assert "There was an error loading this image" in result
     assert invalid_image_path in result
+
+
+def test_canvas(common_setup_teardown):
+    canvas = Canvas(5, 5, caption=None)
+    result = generate_html_for_calc_items([canvas])
+    assert "<svg " in result
+    assert "<div style=" in result
+    assert "<p " not in result
+
+
+def test_canvas_caption(common_setup_teardown):
+    canvas = Canvas(5, 5, caption="test-description", centered=False)
+    result = generate_html_for_calc_items([canvas])
+    assert "<svg " in result
+    assert "<div style=" in result
+    assert f'<p style="color:#6f6f6f; font-size:0.9em;">test-description</p>' in result
+
+
+def test_canvas_centered_caption(common_setup_teardown):
+    canvas = Canvas(5, 5, caption="test-description", centered=True)
+    result = generate_html_for_calc_items([canvas])
+    assert "<svg " in result
+    assert "<div style=" in result
+    assert (
+        f'<p style="color:#6f6f6f; text-align:center; font-size:0.9em;">test-description</p>'
+        in result
+    )
