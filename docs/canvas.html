@@ -1,0 +1,808 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Calculation Helpers" href="calculation_helpers.html" /><link rel="prev" title="Figures in Calc Reports" href="figures.html" />
+
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Drawing on a Canvas - efficalc 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #004aad;
+  --color-brand-content: #004aad;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">efficalc 1.2.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">efficalc 1.2.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Get Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="purpose.html">Purpose and Background</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="base_classes.html">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="figures.html">Figures in Calc Reports</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Drawing on a Canvas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculation_helpers.html">Calculation Helpers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section_properties.html">Section Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math_operations.html">Math Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constants.html">Constants and Unit Conversions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">More:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">Styling Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Integrating and Extending efficalc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing Your Calculations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="drawing-on-a-canvas">
+<span id="canvas"></span><h1>Drawing on a Canvas<a class="headerlink" href="#drawing-on-a-canvas" title="Link to this heading">#</a></h1>
+<p>Well-written hand-calcs usually have helpful drawings and graphics to illustrate important aspects of the geometry or calculation. That’s where a <code class="code docutils literal notranslate"><span class="pre">Canvas</span></code> comes in!</p>
+<p>The Canvas class allows you to programmatically draw out any part of your calculation and include the graphic in your calculation report.</p>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
+<p>Here are some examples of things you may need to draw:</p>
+<section id="concrete-beam-cross-section">
+<h3>Concrete beam cross-section<a class="headerlink" href="#concrete-beam-cross-section" title="Link to this heading">#</a></h3>
+<img alt="A reinforced concrete beam section" class="align-center" src="_images/concrete_beam_section.png" />
+<p>The source code that generated this image:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Define beam geometry</span>
+<span class="linenos"> 2</span><span class="n">width</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos"> 3</span><span class="n">height</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="c1"># Define reinforcement properties</span>
+<span class="linenos"> 6</span><span class="n">cover</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="linenos"> 7</span><span class="n">num_long_bars</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="linenos"> 8</span><span class="n">long_bar_radius</span> <span class="o">=</span> <span class="mf">0.875</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="linenos"> 9</span><span class="n">stirrup_diameter</span> <span class="o">=</span> <span class="mf">0.375</span>
+<span class="linenos">10</span><span class="n">stirrup_bend_radius</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">stirrup_diameter</span>
+<span class="linenos">11</span><span class="n">stirrup_hook</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">stirrup_diameter</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="c1"># Set up the canvas</span>
+<span class="linenos">14</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Concrete Beam Section&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">default_element_stroke_width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="c1"># Draw the beam outline</span>
+<span class="linenos">17</span><span class="n">beam_outline</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#bdbdbd&quot;</span><span class="p">)</span>
+<span class="linenos">18</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">beam_outline</span><span class="p">)</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="c1"># Add some stirrups for transverse reinforcement (with hooks)</span>
+<span class="linenos">21</span><span class="n">stirrups</span> <span class="o">=</span> <span class="n">Polyline</span><span class="p">(</span>
+<span class="linenos">22</span>    <span class="n">points</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos">23</span>        <span class="p">(</span><span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_hook</span><span class="p">,</span> <span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_hook</span> <span class="o">+</span> <span class="n">stirrup_bend_radius</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">),</span>
+<span class="linenos">24</span>        <span class="p">(</span><span class="n">cover</span><span class="p">,</span> <span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_bend_radius</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">),</span>
+<span class="linenos">25</span>        <span class="p">(</span><span class="n">cover</span><span class="p">,</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">26</span>        <span class="p">(</span><span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_hook</span><span class="p">,</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">27</span>        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">cover</span><span class="p">,</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">28</span>        <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">cover</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">29</span>        <span class="p">(</span><span class="n">cover</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">30</span>        <span class="p">(</span><span class="n">cover</span><span class="p">,</span> <span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_hook</span><span class="p">),</span>
+<span class="linenos">31</span>        <span class="p">(</span><span class="n">cover</span><span class="p">,</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">32</span>        <span class="p">(</span><span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_bend_radius</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">,</span> <span class="n">cover</span><span class="p">),</span>
+<span class="linenos">33</span>        <span class="p">(</span><span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_hook</span> <span class="o">+</span> <span class="n">stirrup_bend_radius</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">,</span> <span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_hook</span><span class="p">),</span>
+<span class="linenos">34</span>    <span class="p">],</span>
+<span class="linenos">35</span>    <span class="n">corner_radius</span><span class="o">=</span><span class="n">stirrup_bend_radius</span><span class="p">,</span>
+<span class="linenos">36</span>    <span class="n">stroke_width</span><span class="o">=</span><span class="n">stirrup_diameter</span><span class="p">,</span>
+<span class="linenos">37</span>    <span class="n">stroke</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<span class="linenos">38</span><span class="p">)</span>
+<span class="linenos">39</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">stirrups</span><span class="p">)</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span><span class="c1"># Add longitudinal reinforcement (blue circles)</span>
+<span class="linenos">42</span><span class="n">long_bar_starting_x</span> <span class="o">=</span> <span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_diameter</span> <span class="o">+</span> <span class="n">long_bar_radius</span>
+<span class="linenos">43</span><span class="n">long_bar_spacing</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">long_bar_starting_x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_long_bars</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">44</span><span class="n">long_bar_y</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">cover</span> <span class="o">-</span> <span class="n">stirrup_diameter</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">long_bar_radius</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_long_bars</span><span class="p">):</span>
+<span class="linenos">47</span>    <span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+<span class="linenos">48</span>        <span class="n">Circle</span><span class="p">(</span>
+<span class="linenos">49</span>            <span class="n">long_bar_starting_x</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">long_bar_spacing</span><span class="p">,</span>
+<span class="linenos">50</span>            <span class="n">long_bar_y</span><span class="p">,</span>
+<span class="linenos">51</span>            <span class="n">long_bar_radius</span><span class="p">,</span>
+<span class="linenos">52</span>            <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#004aad&quot;</span><span class="p">,</span>
+<span class="linenos">53</span>        <span class="p">)</span>
+<span class="linenos">54</span>    <span class="p">)</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="c1"># Add placement bars for transverse reinforcement</span>
+<span class="linenos">57</span><span class="n">placement_bar</span> <span class="o">=</span> <span class="n">cover</span> <span class="o">+</span> <span class="n">stirrup_diameter</span> <span class="o">*</span> <span class="mf">1.5</span>
+<span class="linenos">58</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Circle</span><span class="p">(</span><span class="n">placement_bar</span><span class="p">,</span> <span class="n">placement_bar</span><span class="p">,</span> <span class="n">stirrup_diameter</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">))</span>
+<span class="linenos">59</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Circle</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">placement_bar</span><span class="p">,</span> <span class="n">placement_bar</span><span class="p">,</span> <span class="n">stirrup_diameter</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="beam-support-and-loading-scheme">
+<h3>Beam support and loading scheme<a class="headerlink" href="#beam-support-and-loading-scheme" title="Link to this heading">#</a></h3>
+<img alt="Beam geometry, supports, and loading" class="align-center" src="_images/beam_loading_canvas.png" />
+<p>The source code that generated this image:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">red</span> <span class="o">=</span> <span class="s2">&quot;#bf211e&quot;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># Helper function to draw a pin support at a given location</span>
+<span class="linenos"> 4</span><span class="k">def</span> <span class="nf">create_pin_support</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="linenos"> 5</span>    <span class="k">return</span> <span class="n">Polyline</span><span class="p">(</span>
+<span class="linenos"> 6</span>        <span class="n">points</span><span class="o">=</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)],</span>
+<span class="linenos"> 7</span>        <span class="n">stroke_width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="linenos"> 8</span>        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#004aad&quot;</span><span class="p">,</span>
+<span class="linenos"> 9</span>    <span class="p">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="c1"># Helper function to draw a loading arrow</span>
+<span class="linenos">12</span><span class="k">def</span> <span class="nf">create_load_arrow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+<span class="linenos">13</span>    <span class="k">return</span> <span class="n">Line</span><span class="p">(</span>
+<span class="linenos">14</span>        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">height</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="n">red</span><span class="p">,</span> <span class="n">marker_end</span><span class="o">=</span><span class="n">ArrowMarker</span><span class="p">()</span>
+<span class="linenos">15</span>    <span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="c1"># Helper function to draw a cap line</span>
+<span class="linenos">18</span><span class="k">def</span> <span class="nf">create_load_cap_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="linenos">19</span>    <span class="k">return</span> <span class="n">Line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="n">red</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="c1"># Set up the canvas</span>
+<span class="linenos">22</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span>
+<span class="linenos">23</span>    <span class="mi">100</span><span class="p">,</span>
+<span class="linenos">24</span>    <span class="mi">20</span><span class="p">,</span>
+<span class="linenos">25</span>    <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Beam geometry, supports, and loading&quot;</span><span class="p">,</span>
+<span class="linenos">26</span>    <span class="n">full_width</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">27</span><span class="p">)</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="c1"># Draw the beam</span>
+<span class="linenos">30</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">stroke_width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;#bdbdbd&quot;</span><span class="p">))</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="c1"># Draw the supports</span>
+<span class="linenos">33</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_pin_support</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="linenos">34</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_pin_support</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="linenos">35</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_pin_support</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="linenos">36</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_pin_support</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="c1"># Draw the arrows for the loading diagram</span>
+<span class="linenos">39</span><span class="n">arrow_count_per_section</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="linenos">40</span><span class="n">spacing</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">/</span> <span class="p">(</span><span class="n">arrow_count_per_section</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos">41</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arrow_count_per_section</span><span class="p">):</span>
+<span class="linenos">42</span>    <span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_load_arrow</span><span class="p">(</span><span class="mi">20</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="linenos">43</span>    <span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_load_arrow</span><span class="p">(</span><span class="mi">40</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="linenos">44</span>    <span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_load_arrow</span><span class="p">(</span><span class="mi">60</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="c1"># Draw the cap lines for the loading diagram</span>
+<span class="linenos">47</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_load_cap_line</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="linenos">48</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_load_cap_line</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="linenos">49</span><span class="n">canvas</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">create_load_cap_line</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="api-docs">
+<h2>API docs<a class="headerlink" href="#api-docs" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Canvas<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Canvas">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Canvas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centered</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_element_fill</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_element_stroke</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_element_stroke_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Canvas" title="Link to this definition">#</a></dt>
+<dd><p>Represents a canvas to hold and manage multiple SVG elements. This is the backdrop of the drawn figure. Coordinate
+system starts in the top left corner of the canvas with x-axis pointing right and y-axis pointing down.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> – Width of the canvas drawing space.</p></li>
+<li><p><strong>height</strong> – Height of the canvas drawing space.</p></li>
+<li><p><strong>background_color</strong> – Background color of the canvas, defaults to “white”.</p></li>
+<li><p><strong>border_width</strong> – Width of the border around the canvas, defaults to 0.</p></li>
+<li><p><strong>border_color</strong> – Color of the border around the canvas, defaults to “black”.</p></li>
+<li><p><strong>caption</strong> – Caption for the canvas, defaults to None.</p></li>
+<li><p><strong>centered</strong> – Whether to center the canvas, defaults to True.</p></li>
+<li><p><strong>full_width</strong> – Whether to make the canvas full width, defaults to False.</p></li>
+<li><p><strong>scale</strong> – Scale the display size of the canvas, defaults to 1.</p></li>
+<li><p><strong>default_element_fill</strong> – Default fill color for elements, defaults to “none”.</p></li>
+<li><p><strong>default_element_stroke</strong> – Default stroke color for elements, defaults to “black”.</p></li>
+<li><p><strong>default_element_stroke_width</strong> – Default stroke width for elements, defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Canvas.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.canvas.CanvasElement" title="efficalc.canvas.canvas_elements.CanvasElement"><span class="pre">CanvasElement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#efficalc.canvas.Canvas.add" title="Link to this definition">#</a></dt>
+<dd><p>Adds an element to the canvas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>element</strong> – The element to be added.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Canvas.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Canvas.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the canvas and its elements to their SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the canvas.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="canvas-elements">
+<h3>Canvas Elements<a class="headerlink" href="#canvas-elements" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Circle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Circle" title="Link to this definition">#</a></dt>
+<dd><p>Represents a circle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cx</strong> – X coordinate of the circle center.</p></li>
+<li><p><strong>cy</strong> – Y coordinate of the circle center.</p></li>
+<li><p><strong>r</strong> – Radius of the circle.</p></li>
+<li><p><strong>kwargs</strong> – Additional properties such as fill, stroke, and stroke_width.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Circle.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Circle.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Ellipse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Ellipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Ellipse" title="Link to this definition">#</a></dt>
+<dd><p>Represents an ellipse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cx</strong> – X coordinate of the ellipse center.</p></li>
+<li><p><strong>cy</strong> – Y coordinate of the ellipse center.</p></li>
+<li><p><strong>rx</strong> – X radius of the ellipse.</p></li>
+<li><p><strong>ry</strong> – Y radius of the ellipse.</p></li>
+<li><p><strong>kwargs</strong> – Additional properties such as fill, stroke, and stroke_width.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Ellipse.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Ellipse.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Line">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.canvas.Marker" title="efficalc.canvas.canvas_elements.Marker"><span class="pre">Marker</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.canvas.Marker" title="efficalc.canvas.canvas_elements.Marker"><span class="pre">Marker</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Line" title="Link to this definition">#</a></dt>
+<dd><p>Represents a line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> – X coordinate of the start point.</p></li>
+<li><p><strong>y1</strong> – Y coordinate of the start point.</p></li>
+<li><p><strong>x2</strong> – X coordinate of the end point.</p></li>
+<li><p><strong>y2</strong> – Y coordinate of the end point.</p></li>
+<li><p><strong>marker_start</strong> – Marker to display at the start, defaults to None.</p></li>
+<li><p><strong>marker_end</strong> – Marker to display at the end, defaults to None.</p></li>
+<li><p><strong>kwargs</strong> – Additional properties such as stroke and stroke_width.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Line.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Line.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Polyline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Polyline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.canvas.Marker" title="efficalc.canvas.canvas_elements.Marker"><span class="pre">Marker</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.canvas.Marker" title="efficalc.canvas.canvas_elements.Marker"><span class="pre">Marker</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_mid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.canvas.Marker" title="efficalc.canvas.canvas_elements.Marker"><span class="pre">Marker</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Polyline" title="Link to this definition">#</a></dt>
+<dd><p>Represents a polyline with optional corner rounding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> – A list of (x, y) tuples or lists defining the polyline points,
+i.e. [(0, 0), (50, 50), (100, 0)].</p></li>
+<li><p><strong>corner_radius</strong> – The radius of the rounded corners if &gt;0, defaults to 0.</p></li>
+<li><p><strong>marker_start</strong> – Marker to display at the start, defaults to None.</p></li>
+<li><p><strong>marker_end</strong> – Marker to display at the end, defaults to None.</p></li>
+<li><p><strong>marker_mid</strong> – Marker to display at midpoints, defaults to None.</p></li>
+<li><p><strong>kwargs</strong> – Additional properties such as fill, stroke, and stroke_width.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the requested radius does not fit for any corner of the polyline,
+that corner will not be rounded at all.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Polyline.to_path_commands">
+<span class="sig-name descname"><span class="pre">to_path_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Polyline.to_path_commands" title="Link to this definition">#</a></dt>
+<dd><p>Converts the polyline to an SVG path command string, applying a corner radius for rounded corners if specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG path string representation of the polyline.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Polyline.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Polyline.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Rectangle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Rectangle" title="Link to this definition">#</a></dt>
+<dd><p>Represents a rectangle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – X coordinate of the top-left corner.</p></li>
+<li><p><strong>y</strong> – Y coordinate of the top-left corner.</p></li>
+<li><p><strong>width</strong> – Width of the rectangle.</p></li>
+<li><p><strong>height</strong> – Height of the rectangle.</p></li>
+<li><p><strong>rx</strong> – Horizontal radius of the corners, defaults to 0.</p></li>
+<li><p><strong>ry</strong> – Vertical radius of the corners, defaults to 0.</p></li>
+<li><p><strong>kwargs</strong> – Additional properties such as fill, stroke, and stroke_width.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.Rectangle.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.Rectangle.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="line-polyline-markers">
+<h3>Line/Polyline Markers<a class="headerlink" href="#line-polyline-markers" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.ArrowMarker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">ArrowMarker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'auto'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'auto-start-reverse'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.ArrowMarker" title="Link to this definition">#</a></dt>
+<dd><p>Creates an arrow marker for a line or polyline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reverse</strong> – Whether the marker direction should be reversed, defaults to False.</p></li>
+<li><p><strong>orientation</strong> – The orientation of the marker, defaults to “auto”.</p></li>
+<li><p><strong>kwargs</strong> – Additional properties such as fill, stroke, stroke_width, and size.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.ArrowMarker.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.ArrowMarker.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.CircleMarker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">CircleMarker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.CircleMarker" title="Link to this definition">#</a></dt>
+<dd><p>Creates a circle marker for a line or polyline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Additional properties such as fill, stroke, stroke_width, and size.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.CircleMarker.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.CircleMarker.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="base-classes">
+<h3>Base Classes<a class="headerlink" href="#base-classes" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.CanvasElement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">CanvasElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fill</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stroke</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stroke_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.CanvasElement" title="Link to this definition">#</a></dt>
+<dd><p>Base class for SVG elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fill</strong> – Fill color of the element, defaults to None.</p></li>
+<li><p><strong>stroke</strong> – Stroke color of the element, defaults to None.</p></li>
+<li><p><strong>stroke_width</strong> – Stroke width of the element, defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.CanvasElement.get_common_svg_style_elements">
+<span class="sig-name descname"><span class="pre">get_common_svg_style_elements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.CanvasElement.get_common_svg_style_elements" title="Link to this definition">#</a></dt>
+<dd><p>Returns the common style elements for the svg element.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="efficalc.canvas.CanvasElement.to_svg">
+<span class="sig-name descname"><span class="pre">to_svg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#efficalc.canvas.CanvasElement.to_svg" title="Link to this definition">#</a></dt>
+<dd><p>Converts the element to its SVG representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SVG representation of the element.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.canvas.Marker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.canvas.</span></span><span class="sig-name descname"><span class="pre">Marker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fill</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'context-stroke'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stroke</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'none'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stroke_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.canvas.Marker" title="Link to this definition">#</a></dt>
+<dd><p>Base class for line and polyline end markers (arrows, circles, etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fill</strong> – Fill color of the marker, defaults to “context-stroke”. Marker fill can be set to “context-fill”
+or “context-stroke to match the fill or stroke of the element this marker is connected to.</p></li>
+<li><p><strong>stroke</strong> – Stroke color of the marker, defaults to “none”. Marker stroke can be set to “context-stroke”
+or “context-fill” to match the fill or stroke of the element this marker is connected to.</p></li>
+<li><p><strong>stroke_width</strong> – Stroke width of the marker, defaults to None.</p></li>
+<li><p><strong>size</strong> – Size scale of the arrow marker relative to the stroke-width, defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="calculation_helpers.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Calculation Helpers</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="figures.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Figures in Calc Reports</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Andrew Young
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Drawing on a Canvas</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#concrete-beam-cross-section">Concrete beam cross-section</a></li>
+<li><a class="reference internal" href="#beam-support-and-loading-scheme">Beam support and loading scheme</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api-docs">API docs</a><ul>
+<li><a class="reference internal" href="#id1">Canvas</a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Canvas"><code class="docutils literal notranslate"><span class="pre">Canvas</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Canvas.add"><code class="docutils literal notranslate"><span class="pre">Canvas.add()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.canvas.Canvas.to_svg"><code class="docutils literal notranslate"><span class="pre">Canvas.to_svg()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#canvas-elements">Canvas Elements</a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Circle"><code class="docutils literal notranslate"><span class="pre">Circle</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Circle.to_svg"><code class="docutils literal notranslate"><span class="pre">Circle.to_svg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.canvas.Ellipse"><code class="docutils literal notranslate"><span class="pre">Ellipse</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Ellipse.to_svg"><code class="docutils literal notranslate"><span class="pre">Ellipse.to_svg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.canvas.Line"><code class="docutils literal notranslate"><span class="pre">Line</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Line.to_svg"><code class="docutils literal notranslate"><span class="pre">Line.to_svg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.canvas.Polyline"><code class="docutils literal notranslate"><span class="pre">Polyline</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Polyline.to_path_commands"><code class="docutils literal notranslate"><span class="pre">Polyline.to_path_commands()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.canvas.Polyline.to_svg"><code class="docutils literal notranslate"><span class="pre">Polyline.to_svg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.canvas.Rectangle"><code class="docutils literal notranslate"><span class="pre">Rectangle</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.Rectangle.to_svg"><code class="docutils literal notranslate"><span class="pre">Rectangle.to_svg()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#line-polyline-markers">Line/Polyline Markers</a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.ArrowMarker"><code class="docutils literal notranslate"><span class="pre">ArrowMarker</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.ArrowMarker.to_svg"><code class="docutils literal notranslate"><span class="pre">ArrowMarker.to_svg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.canvas.CircleMarker"><code class="docutils literal notranslate"><span class="pre">CircleMarker</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.CircleMarker.to_svg"><code class="docutils literal notranslate"><span class="pre">CircleMarker.to_svg()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#base-classes">Base Classes</a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.CanvasElement"><code class="docutils literal notranslate"><span class="pre">CanvasElement</span></code></a><ul>
+<li><a class="reference internal" href="#efficalc.canvas.CanvasElement.get_common_svg_style_elements"><code class="docutils literal notranslate"><span class="pre">CanvasElement.get_common_svg_style_elements()</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.canvas.CanvasElement.to_svg"><code class="docutils literal notranslate"><span class="pre">CanvasElement.to_svg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#efficalc.canvas.Marker"><code class="docutils literal notranslate"><span class="pre">Marker</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=6efca38a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

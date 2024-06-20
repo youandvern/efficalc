@@ -13,6 +13,7 @@ from efficalc import (
     TextBlock,
     Title,
 )
+from efficalc.canvas import Canvas
 
 CALC_MARGIN = "margin-left: 2rem;"
 ALIGN = "&"
@@ -52,6 +53,9 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
     elif isinstance(calculation_item, Calculation):
         return _generate_calculation_html(calculation_item)
+
+    elif isinstance(calculation_item, Canvas):
+        return _generate_canvas_html(calculation_item)
 
     elif isinstance(calculation_item, Comparison):
         return _generate_comparison_html(calculation_item)
@@ -258,6 +262,16 @@ def _generate_input_html(item: Input) -> str:
         ),
         _esc(item.reference),
     )
+
+
+def _generate_canvas_html(item: Canvas) -> str:
+    text_align = " text-align:center;" if item.centered else ""
+    caption = (
+        f'<p style="color:#6f6f6f;{text_align} font-size:0.9em;">{item.caption}</p>'
+        if item.caption
+        else ""
+    )
+    return _wrap_div(item.to_svg() + caption, f"margin-bottom:2rem; {CALC_MARGIN}")
 
 
 def _wrap_math(content: str) -> str:
