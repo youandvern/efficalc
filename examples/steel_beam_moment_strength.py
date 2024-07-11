@@ -6,6 +6,7 @@ from efficalc import (
     ComparisonStatement,
     Heading,
     Input,
+    Symbolic,
     TextBlock,
     Title,
     brackets,
@@ -13,29 +14,35 @@ from efficalc import (
     minimum,
     sqrt,
 )
-from efficalc.sections import ALL_AISC_WIDE_FLANGE_NAMES, get_aisc_wide_flange
+from efficalc.sections import get_aisc_wide_flange
 
 
-def calculation():
+def calculation(chosen_section_name: str = None):
     Title("Steel Beam Moment Strength")
 
-    TextBlock("Flexural strength of a steel wide-flange beam section.")
+    TextBlock("Flexural design strength of a steel wide-flange beam section.")
 
     Heading("Assumptions", numbered=False)
     Assumption("AISC 14th Edition controls design")
     Assumption("Beam web is unstiffened")
+    Assumption("Beam design is not controlled by deflection requirements")
 
     Heading("Inputs", numbered=False)
 
     Mu = Input("M_u", 30, "kip-ft", "Beam ultimate moment demand")
     Lbu = Input("L_b", 20, "ft", "Beam unbraced length")
 
-    section = Input(
-        "section",
-        "W18X40",
-        description="Beam section size",
-        input_type="select",
-        select_options=ALL_AISC_WIDE_FLANGE_NAMES[150:200],
+    # Select a section size if one isn't provided as an input to the function
+    section = (
+        Input(
+            "section",
+            "W18X40",
+            description="Beam section size",
+            input_type="select",
+            select_options=EFFICIENT_AISC_WIDE_FLANGE_BEAM_NAMES,
+        )
+        if chosen_section_name is None
+        else None
     )
 
     Fy = Input("F_y", 50, "ksi", "Steel yield strength")
@@ -49,8 +56,15 @@ def calculation():
         reference="AISC F1(3)",
     )
 
+    # If a section size is provided as an input to the function, use that. Otherwise, use the section size selected
+    # using the input object.
     Heading("Section Properties", numbered=False)
-    chosen_section_props = get_aisc_wide_flange(section.get_value())
+    if chosen_section_name:
+        Symbolic("section", chosen_section_name, result_check=True)
+    else:
+        chosen_section_name = section.get_value()
+
+    chosen_section_props = get_aisc_wide_flange(chosen_section_name)
     Sx = Calculation("S_x", chosen_section_props.Sx, "in^3")
     Zx = Calculation("Z_x", chosen_section_props.Zx, "in^3")
     ry = Calculation("r_{y}", chosen_section_props.ry, "in")
@@ -109,11 +123,7 @@ def calculation():
     cc = Calculation("c", 1.0, "", reference="AISC Eq. F2-8a")
     Lr = Calculation(
         "L_{r}",
-        1.95
-        * rts
-        / ft_to_in
-        * Es
-        / (0.7 * Fy)
+        (1.95 * rts / ft_to_in * Es / (0.7 * Fy))
         * sqrt(
             J * cc / (Sx * ho)
             + sqrt((J * cc / (Sx * ho)) ** 2 + 6.76 * (0.7 * Fy / Es) ** 2)
@@ -170,3 +180,52 @@ def calculation():
         result_check=True,
     )
     Comparison(Mu, "<=", PMn)
+
+    return {"design_strength": PMn.result(), "demand": Mu.get_value()}
+
+
+# These are the W-Shapes Selection by Zx (AISC 14th edition Table 3-2)
+EFFICIENT_AISC_WIDE_FLANGE_BEAM_NAMES = [
+    "W40X167",
+    "W40X149",
+    "W36X160",
+    "W36X135",
+    "W33X141",
+    "W33X130",
+    "W33X118",
+    "W30X116",
+    "W30X108",
+    "W30X99",
+    "W30X90",
+    "W27X84",
+    "W24X84",
+    "W24X76",
+    "W24X68",
+    "W24X62",
+    "W24X55",
+    "W21X68",
+    "W21X62",
+    "W21X55",
+    "W21X50",
+    "W21X48",
+    "W21X44",
+    "W18X55",
+    "W18X40",
+    "W18X35",
+    "W16X40",
+    "W16X31",
+    "W16X26",
+    "W14X34",
+    "W14X30",
+    "W14X26",
+    "W14X22",
+    "W12X26",
+    "W12X22",
+    "W12X19",
+    "W12X16",
+    "W12X14",
+    "W10X22",
+    "W10X19",
+    "W10X12",
+    "W8X10",
+]
