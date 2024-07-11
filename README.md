@@ -47,8 +47,13 @@
 
 ## Examples
 
-- [Simple Examples](https://github.com/youandvern/efficalc/tree/main/examples/simple)
-- [More Advanced Examples](https://github.com/youandvern/efficalc/tree/main/examples/advanced)
+### Some simple examples
+- [Concrete beam neutral axis](https://github.com/youandvern/efficalc/tree/main/examples/concrete_beam_neutral_axis.py) - ([Calc Report](https://github.com/youandvern/efficalc/tree/main/examples/concrete_beam_neutral_axis.pdf))
+- [Point load moment and deflection plots](https://github.com/youandvern/efficalc/tree/main/examples/point_load_beam_moment_and_deflection.py) - ([Calc Report](https://github.com/youandvern/efficalc/tree/main/examples/point_load_beam_moment_and_deflection.pdf))
+
+### Some more complex examples
+- [Rectangular HSS compression design](https://github.com/youandvern/efficalc/tree/main/examples/rectangular_hss_compression_design.py) - ([Calc Report](https://github.com/youandvern/efficalc/tree/main/examples/rectangular_hss_compression_design.pdf))
+- [Steel WF beam moment design](https://github.com/youandvern/efficalc/tree/main/examples/steel_beam_moment_strength.py) - ([Calc Report](https://github.com/youandvern/efficalc/tree/main/examples/steel_beam_moment_strength.pdf))
 
 ## Documentation and Distribution
 
