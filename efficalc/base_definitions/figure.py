@@ -1,8 +1,11 @@
 import base64
 from io import BytesIO
 from os import PathLike
+from typing import Literal
 
 from .shared import CalculationItem, save_calculation_item
+
+FigureDisplayType = Literal["report-only", "report-input", "report-result"]
 
 
 class FigureBase(CalculationItem):
@@ -12,11 +15,19 @@ class FigureBase(CalculationItem):
     :type caption: str, optional
     :param full_width: Whether the figure should be full width, defaults to False
     :type full_width: bool, optional
+    :param display_type: Where the figure should be displayed, defaults to "report-only"
+    :type display_type: FigureDisplayType, optional
     """
 
-    def __init__(self, caption: str = None, full_width: bool = False):
+    def __init__(
+        self,
+        caption: str = None,
+        full_width: bool = False,
+        display_type: FigureDisplayType = "report-only",
+    ):
         self.caption = caption
         self.full_width = full_width
+        self.display_type = display_type
         self._figure_bytes = None
         save_calculation_item(self)
 
