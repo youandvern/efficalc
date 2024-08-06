@@ -113,6 +113,11 @@ def test_svg_includes_markers():
     assert ' marker-start="url(#test-start)" ' in svg
     assert ' marker-end="url(#test-end)" ' in svg
     assert ' marker-mid="url(#test-mid)" ' in svg
+    assert p.get_markers() == [
+        TestMarker("test-start"),
+        TestMarker("test-end"),
+        TestMarker("test-mid"),
+    ]
 
 
 def test_svg_no_markers_when_none():
@@ -128,6 +133,7 @@ def test_svg_no_markers_when_none():
     assert "marker-start" not in svg
     assert "marker-end" not in svg
     assert "marker-mid" not in svg
+    assert p.get_markers() == []
 
 
 def test_common_style_elements_not_requested():

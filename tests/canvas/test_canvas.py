@@ -45,6 +45,14 @@ def test_canvas_defaults_no_elements(common_setup_teardown):
     )
 
 
+def test_canvas_with_shifted_viewbox(common_setup_teardown):
+    c = Canvas(5, 5, min_xy=(-5, 100.2))
+    assert (
+        '<svg viewbox="-5 100.2 5 5" style="max-width: 100%; display: block; width: 5.0px; margin-inline: auto;" xmlns="http://www.w3.org/2000/svg">\n \n </svg>'
+        == c.to_svg()
+    )
+
+
 def test_canvas_with_one_element(common_setup_teardown):
     c = Canvas(5, 5)
     c.add(Line(0, 0, 5, 5))
