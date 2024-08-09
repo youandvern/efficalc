@@ -1,10 +1,22 @@
 import os
 import tempfile
 import webbrowser
+from enum import Enum
 from typing import Callable
 
 from efficalc.calculation_runner import CalculationRunner
 from efficalc.generate_html import generate_html_for_calc_items
+
+
+class LongCalcDisplayType(Enum):
+    """An enumeration for controlling how to display long mathematical expressions in reports.
+
+    :cvar SCALE: Scale the expression display and font size down to fit within the report width
+    :cvar LINEBREAK: Break the expression into multiple lines to fit within the report width
+    """
+
+    SCALE = "scale"
+    LINEBREAK = "linebreak"
 
 
 class ReportBuilder(object):
@@ -23,17 +35,21 @@ class ReportBuilder(object):
         be the names of the input objects in the calculation function and values should be the desired values for the
         input.
     :type input_vals: dict[str, any], optional
+    :param long_calc_display: How long expressions should be altered to fit within the calculation report width.
+        This can be either SCALE for scaling down the display size of the expression or LINEBREAK to break the
+        expression into multiple lines. defaults to SCALE
+    :type long_calc_display: LongCalcDisplayType, optional
     """
 
     def __init__(
         self,
         calc_function: Callable,
         input_vals: dict[str, any] = None,
+        long_calc_display: LongCalcDisplayType = LongCalcDisplayType.SCALE,
     ):
-        self.calc_function: Callable = calc_function
-        self.input_default_overrides: dict[str, any] = (
-            input_vals if input_vals is not None else {}
-        )
+        self.calc_function = calc_function
+        self.input_default_overrides = input_vals if input_vals is not None else {}
+        self.long_calc_display = long_calc_display
 
     def view_report(self) -> str:
         """Runs the calculation function with the provided input overrides and opens up the calculation report in the
@@ -109,7 +125,7 @@ class ReportBuilder(object):
         all_items = calculation.calculate_all_items()
         report_items_html = generate_html_for_calc_items(all_items)
 
-        return _wrap_report_in_html_page(report_items_html)
+        return _wrap_report_in_html_page(report_items_html, self.long_calc_display)
 
 
 def _create_folder_if_not_exists(folder_path):
@@ -126,32 +142,56 @@ def _create_temp_html_file(html_content):
         return temp_file.name
 
 
-def _wrap_report_in_html_page(content: str) -> str:
-    start = """
+def _wrap_report_in_html_page(
+    content: str, long_calc_display: LongCalcDisplayType
+) -> str:
+
+    start = f"""
     <!DOCTYPE html>
     <html style="background-color: #eeeeee;">
     <head>
+    <script>
+        window.MathJax = {{
+            output: {{
+                displayOverflow: "{long_calc_display.value}",
+            }},
+        }};
+    </script>
     <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.0.0-beta.7/tex-mml-chtml.min.js"></script>
     <style>
-        body {
+        body {{
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
             max-width: 850px; 
-        }
-        p {
+        }}
+        p {{
             margin-block-start: 0;
             margin-block-end: 0.5em;
             line-height: 1.1;
-        }
-        .calc-item {
+        }}
+        .calc-item {{
             margin-block: 1.5rem;
-        }
-        @media print {
-            body {
+        }}
+        table {{
+          border-collapse: collapse;
+        }}
+        td, th {{
+          border: 1px solid #bdbdbd;
+          text-align: left;
+          padding: 8px;
+        }}
+        th {{
+          border-bottom: 2px solid #424242;
+        }}
+        table.striped tr:nth-child(even) {{
+          background-color: #e0e0e0;
+        }}
+        @media print {{
+            body {{
                 box-shadow: none;
                 max-width: none;
-            }
-        }
+            }}
+        }}
     </style>
     </head>
     <body style="margin-inline: auto; padding: 1rem; background-color: #ffffff;">

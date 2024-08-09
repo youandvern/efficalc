@@ -275,7 +275,7 @@ based on the ‘return_type’ parameter.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="efficalc.report_builder.ReportBuilder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.report_builder.</span></span><span class="sig-name descname"><span class="pre">ReportBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calc_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.report_builder.ReportBuilder" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.report_builder.</span></span><span class="sig-name descname"><span class="pre">ReportBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calc_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_vals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_calc_display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#efficalc.report_builder.LongCalcDisplayType" title="efficalc.report_builder.LongCalcDisplayType"><span class="pre">LongCalcDisplayType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">LongCalcDisplayType.SCALE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.report_builder.ReportBuilder" title="Link to this definition">#</a></dt>
 <dd><p>A helper class to run calculation functions and generate reports based on the calculations.</p>
 <p>This class provides methods to run a calculation function with optional input value overrides and generate an HTML
 report to view or print the calculations. Reports can be viewed immediately in a web browser, saved to a file, or
@@ -289,6 +289,9 @@ performed and instantiate calculation objects accordingly. It will be executed u
 <li><p><strong>input_vals</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>any</em><em>]</em><em>, </em><em>optional</em>) – A dictionary of values to override the calculation function’s default input values. Keys should
 be the names of the input objects in the calculation function and values should be the desired values for the
 input.</p></li>
+<li><p><strong>long_calc_display</strong> (<a class="reference internal" href="#efficalc.report_builder.LongCalcDisplayType" title="efficalc.report_builder.LongCalcDisplayType"><em>LongCalcDisplayType</em></a><em>, </em><em>optional</em>) – How long expressions should be altered to fit within the calculation report width.
+This can be either SCALE for scaling down the display size of the expression or LINEBREAK to break the
+expression into multiple lines. defaults to SCALE</p></li>
 </ul>
 </dd>
 </dl>
@@ -348,6 +351,20 @@ format.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.report_builder.LongCalcDisplayType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.report_builder.</span></span><span class="sig-name descname"><span class="pre">LongCalcDisplayType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.report_builder.LongCalcDisplayType" title="Link to this definition">#</a></dt>
+<dd><p>An enumeration for controlling how to display long mathematical expressions in reports.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SCALE</strong> – Scale the expression display and font size down to fit within the report width</p></li>
+<li><p><strong>LINEBREAK</strong> – Break the expression into multiple lines to fit within the report width</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -456,6 +473,7 @@ the default value.</p>
 <li><a class="reference internal" href="#efficalc.report_builder.ReportBuilder.view_report"><code class="docutils literal notranslate"><span class="pre">ReportBuilder.view_report()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#efficalc.report_builder.LongCalcDisplayType"><code class="docutils literal notranslate"><span class="pre">LongCalcDisplayType</span></code></a></li>
 <li><a class="reference internal" href="#efficalc.save_calculation_item"><code class="docutils literal notranslate"><span class="pre">save_calculation_item()</span></code></a></li>
 <li><a class="reference internal" href="#efficalc.clear_saved_objects"><code class="docutils literal notranslate"><span class="pre">clear_saved_objects()</span></code></a></li>
 <li><a class="reference internal" href="#efficalc.get_override_or_default_value"><code class="docutils literal notranslate"><span class="pre">get_override_or_default_value()</span></code></a></li>
