@@ -31,6 +31,14 @@ Base Classes
     :members:
 
 
+.. autoclass:: efficalc.Table
+    :members:
+
+
+.. autoclass:: efficalc.InputTable
+    :members:
+
+
 .. autoclass:: efficalc.TextBlock
     :members:
 

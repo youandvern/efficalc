@@ -12,6 +12,10 @@ Calculation Helpers
     :members:
 
 
+.. autoclass:: efficalc.report_builder.LongCalcDisplayType
+    :members:
+
+
 .. autofunction:: efficalc.save_calculation_item
 
 

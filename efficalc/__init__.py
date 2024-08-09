@@ -55,6 +55,7 @@ from .base_definitions.shared import (
     set_input_default_overrides,
 )
 from .base_definitions.symbolic import Symbolic
+from .base_definitions.table import InputTable, Table
 from .base_definitions.text_block import TextBlock
 from .base_definitions.title import Title
 from .constants import ONE, PI, TWO, ZERO, E

@@ -10,6 +10,7 @@ from efficalc import (
     Heading,
     Input,
     Symbolic,
+    Table,
     TextBlock,
     Title,
 )
@@ -83,6 +84,9 @@ def _generate_html_for_calc_item(calculation_item, header_numbers: list[int]) ->
 
     elif isinstance(calculation_item, Symbolic):
         return _generate_symbolic_html(calculation_item)
+
+    elif isinstance(calculation_item, Table):
+        return _generate_result_table_html(calculation_item)
 
     elif isinstance(calculation_item, TextBlock):
         return _wrap_with_reference(
@@ -208,6 +212,28 @@ def _generate_comparison_html(item: Comparison) -> str:
     )
 
     return _wrap_div(comp_html, class_name=CALC_ITEM_WRAPPER_CLASS)
+
+
+def _generate_result_table_html(item: Table) -> str:
+    full_width = " width:100%;" if item.full_width else ""
+    striped_class = ' class="striped"' if item.striped else ""
+    style = f' style="margin:auto;{full_width}"'
+    table_html = f"<table{striped_class}{style}>"
+    if item.title:
+        table_html += f"<caption><b>{item.title}</b></caption>"
+    if item.headers:
+        table_html += "<thead><tr>"
+        for header in item.headers:
+            table_html += f"<th>{header}</th>"
+        table_html += "</tr></thead>"
+    table_html += "<tbody>"
+    for row in item.data:
+        table_html += "<tr>"
+        for cell in row:
+            table_html += f"<td>{cell}</td>"
+        table_html += "</tr>"
+    table_html += "</tbody></table>"
+    return _wrap_div(table_html, CALC_MARGIN, class_name=CALC_ITEM_WRAPPER_CLASS)
 
 
 def _generate_comparison_statement_html(item: ComparisonStatement) -> str:
