@@ -1,20 +1,25 @@
 import try_axis
 import get_error
+import math
 
 
 def limit_comp(col, guess, target):
+    guess[0] = min(0, max(guess[0], -math.pi / 2))
+    guess[1] = max(1e-6, guess[1])
+    #  guess[1]=max(c_lims[0],max(c_lims[1],guess[1]))
     output = try_axis.try_axis(col, guess[0], guess[1])
-
-    tot = 1  # keep record of calls to "try_axis"
-    while output[3] > 0.99 * col.PHI_COMP * col.max_pn:
+    lim_factor = 0.999
+    while output[3] > lim_factor * col.PHI_COMP * col.max_pn:
         # the current phi_pn (without the 0.8) is at or almost at its
         # maximum value, which means the column is probably in full
         # compression, which must be avoided or derivatives will be zero
         guess[1] /= 2
         output = try_axis.try_axis(col, guess[0], guess[1])
-        tot += 1
-    error = get_error.get_error(
-        output, target, col.load_span
-    )  # update the distance from
-    # the target point
-    return (output, error, guess, tot)
+    while output[3] < lim_factor * col.min_phi_pn:
+        # the current phi_pn is at or almost at its minimum value, so c must
+        # b increased
+        guess[1] *= 10
+        output = try_axis.try_axis(col, guess[0], guess[1])
+    # update the distance from the target point
+    error = get_error.get_error(output, target, col.load_span)
+    return output, error

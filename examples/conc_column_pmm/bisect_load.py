@@ -64,11 +64,8 @@ def bisect(col, target, guess):
 
             # get the output for this guess, reducing c if the compression
             # is too high to
-            (output, error, guess_pt, tot3) = limit_comp.limit_comp(
-                col, [-target[0]] + [guess], target
-            )
-            guess = guess_pt[1]
-            counter += tot3
+            output, error = limit_comp.limit_comp(col, [-target[0]] + [guess], target)
+            counter += 1
 
         # update the current and previous point
         pts[0] = pts[1]

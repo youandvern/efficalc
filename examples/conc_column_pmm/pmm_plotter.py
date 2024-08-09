@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-import bisection_factored
+import point_search
 import bisect_load
 
 
@@ -71,7 +71,7 @@ def plot(col, intervals, load_spaces, plot):
         # PMM diagram
         lambda_target = lambda_space  # the current target lambda
         for i in range(1, quarter):
-            out = bisection_factored.bisect(
+            out = point_search.search(
                 col, [lambda_target, load_target], [theta_guesses[i - 1], c_guess]
             )
             quarter_mesh[vert_count][i] = out[:3]

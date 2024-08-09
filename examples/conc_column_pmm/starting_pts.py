@@ -27,6 +27,6 @@ def starting_pts(col, guess, depth, load_only, target):
         guess[1] = max(1e-6, guess[1])
 
         # calculate and store the load output for the current guess point
-        (output, error, guess, tot3) = limit_comp.limit_comp(col, pts[i], target)
+        output, error = limit_comp.limit_comp(col, pts[i], target)
         pts[i].extend([output[0], output[3]])
     return pts
