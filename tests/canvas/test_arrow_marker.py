@@ -3,19 +3,19 @@ from efficalc.canvas import ArrowMarker
 
 def test_arrow_marker_id_with_defaults():
     m = ArrowMarker()
-    assert m.id == "ArrowMarker-context-stroke-none-None-1-False-auto"
+    assert m.id == "ArrowMarker-context-stroke-none-None-1-False-auto-center"
 
 
 def test_arrow_marker_id_with_some_customization():
     m = ArrowMarker(orientation="auto-start-reverse", fill="blue")
-    assert m.id == "ArrowMarker-blue-none-None-1-False-auto-start-reverse"
+    assert m.id == "ArrowMarker-blue-none-None-1-False-auto-start-reverse-center"
 
 
 def test_arrow_marker_id_with_full_customization():
     m = ArrowMarker(
         reverse=True, orientation=30, fill="red", stroke="blue", stroke_width=5, size=3
     )
-    assert m.id == "ArrowMarker-red-blue-5-3-True-30"
+    assert m.id == "ArrowMarker-red-blue-5-3-True-30-center"
 
 
 def test_svg_style_props_default():
@@ -122,3 +122,24 @@ def test_svg_reverse():
     assert 'viewBox="0 0 4 4"' in svg
     assert 'd="M 0 2.0 L 4 0 L 4 4 z"' in svg
     assert 'orient="auto"' in svg
+
+
+def test_svg_base_point_center():
+    m = ArrowMarker(base="center", size=3)
+    svg = m.to_svg()
+    assert 'viewBox="0 0 12 12"' in svg
+    assert 'refX="6.0" refY="6.0"' in svg
+
+
+def test_svg_base_point_point():
+    m = ArrowMarker(base="point", size=3)
+    svg = m.to_svg()
+    assert 'viewBox="0 0 12 12"' in svg
+    assert 'refX="12" refY="6.0"' in svg
+
+
+def test_svg_base_point_flat():
+    m = ArrowMarker(base="flat", size=3)
+    svg = m.to_svg()
+    assert 'viewBox="0 0 12 12"' in svg
+    assert 'refX="0" refY="6.0"' in svg

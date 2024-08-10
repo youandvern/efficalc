@@ -1,8 +1,10 @@
 import copy
-from typing import List, Set
+from typing import List, Literal, Set
 
 from efficalc import CalculationItem, save_calculation_item
-from efficalc.canvas.canvas_elements import CanvasElement, Line, Marker, Polyline
+from efficalc.canvas.canvas_elements import CanvasElement, ElementWithMarkers, Marker
+
+CanvasDisplayType = Literal["report-only", "report-input", "report-result"]
 
 
 class Canvas(CalculationItem):
@@ -12,12 +14,14 @@ class Canvas(CalculationItem):
 
     :param width: Width of the canvas drawing space.
     :param height: Height of the canvas drawing space.
-    :param background_color: Background color of the canvas, defaults to "white".
-    :param border_width: Width of the border around the canvas, defaults to 0.
-    :param border_color: Color of the border around the canvas, defaults to "black".
+    :param min_xy: Minimum x and y values of the canvas drawing space, defaults to (0, 0).
     :param caption: Caption for the canvas, defaults to None.
     :param centered: Whether to center the canvas, defaults to True.
     :param full_width: Whether to make the canvas full width, defaults to False.
+    :param display_type: Where the canvas should be displayed, defaults to "report-only"
+    :param background_color: Background color of the canvas, defaults to "white".
+    :param border_width: Width of the border around the canvas, defaults to 0.
+    :param border_color: Color of the border around the canvas, defaults to "black".
     :param scale: Scale the display size of the canvas, defaults to 1.
     :param default_element_fill: Default fill color for elements, defaults to "none".
     :param default_element_stroke: Default stroke color for elements, defaults to "black".
@@ -28,9 +32,11 @@ class Canvas(CalculationItem):
         self,
         width: float,
         height: float,
+        min_xy: tuple[float, float] = (0, 0),
         caption: str = None,
         centered: bool = True,
         full_width: bool = False,
+        display_type: CanvasDisplayType = "report-only",
         background_color: str = None,
         border_width: float = None,
         border_color: str = None,
@@ -42,10 +48,12 @@ class Canvas(CalculationItem):
 
         self.width = width
         self.height = height
+        self.min_xy = min_xy
         self.elements: List[CanvasElement] = []
         self.caption = caption
         self.centered = centered
         self.full_width = full_width
+        self.display_type = display_type
         self.background_color = background_color
         self.border_width = border_width
         self.border_color = border_color
@@ -56,48 +64,14 @@ class Canvas(CalculationItem):
         save_calculation_item(self)
 
     @classmethod
-    def _apply_context_marker_styles(
-        cls, element: CanvasElement, marker: Marker
-    ) -> None:
-        """
-        Applies context fill and stroke to marker if they are set to "context-fill" or "context-stroke".
-        :param element: The element to get context fill and stroke from.
-        :param marker: The marker to apply context fill and stroke to if context styles are requested.
-
-        .. note::
-            This method modifies the marker in place.
-        """
-        if marker.fill == "context-fill":
-            marker.fill = element.fill
-        if marker.stroke == "context-stroke":
-            marker.stroke = element.stroke
-
-    @classmethod
     def _process_markers(cls, element: CanvasElement) -> list[Marker]:
         """
-        Apply context marker properties to markers if they are set to "context-fill" or "context-stroke" and return all
-        markers for the element.
+        Get formatted markers from an element if it includes them.
 
-        :param element: The element to get context fill and stroke from.
-
-        .. note::
-            This method modifies the markers in place.
+        :param element: The element to get markers from.
         """
-        markers = []
 
-        def process_marker(marker: Marker):
-            cls._apply_context_marker_styles(element, marker)
-            markers.append(marker)
-
-        if isinstance(element, Line | Polyline):
-            if element.marker_start is not None:
-                process_marker(element.marker_start)
-            if element.marker_end is not None:
-                process_marker(element.marker_end)
-            if element.marker_mid is not None:
-                process_marker(element.marker_mid)
-
-        return markers
+        return element.get_markers() if isinstance(element, ElementWithMarkers) else []
 
     def _set_defaults(self, element: CanvasElement):
         """
@@ -168,8 +142,9 @@ class Canvas(CalculationItem):
         )
 
         elements_svg = "\n".join([element.to_svg() for element in processed_elements])
+        min_x, min_y = self.min_xy
         return (
-            f'<svg viewbox="0 0 {self.width} {self.height}" style="{style}" xmlns="http://www.w3.org/2000/svg">\n'
+            f'<svg viewbox="{min_x} {min_y} {self.width} {self.height}" style="{style}" xmlns="http://www.w3.org/2000/svg">\n'
             f"{self._generate_marker_defs(included_markers)} {elements_svg}"
             f"\n </svg>"
         )

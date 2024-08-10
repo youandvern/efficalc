@@ -82,6 +82,40 @@ class Marker(CanvasElement):
         return self.id
 
 
+class ElementWithMarkers(CanvasElement):
+    """
+    Base class for elements with markers. Subclasses must implement the _get_markers method.
+    """
+
+    def _get_markers(self) -> List[Marker]:
+        """
+        Returns a list of all unformatted markers contained by the element.
+        """
+        raise NotImplementedError("Must be implemented by subclasses")
+
+    def get_markers(self) -> list[Marker]:
+        """
+        Returns a list of all markers contained by the element with formatting applied.
+        """
+        markers = self._get_markers()
+        for marker in markers:
+            self._apply_context_marker_styles(marker)
+        return markers
+
+    def _apply_context_marker_styles(self, marker: Marker) -> Marker:
+        """
+        Applies context fill and stroke to marker if they are set to "context-fill" or "context-stroke".
+        :param marker: The marker to apply context fill and stroke to if context styles are requested.
+
+        """
+        if marker.fill == "context-fill":
+            marker.fill = self.fill
+        if marker.stroke == "context-stroke":
+            marker.stroke = self.stroke
+
+        return marker
+
+
 class Rectangle(CanvasElement):
     """
     Represents a rectangle.
@@ -162,7 +196,7 @@ class Ellipse(CanvasElement):
         return f'<ellipse cx="{self.cx}" cy="{self.cy}" rx="{self.rx}" ry="{self.ry}" {self.get_common_svg_style_elements()} />'
 
 
-class Line(CanvasElement):
+class Line(ElementWithMarkers):
     """
     Represents a line.
 
@@ -192,7 +226,14 @@ class Line(CanvasElement):
         self.y2 = y2
         self.marker_start = marker_start
         self.marker_end = marker_end
-        self.marker_mid = None
+
+    def _get_markers(self) -> List[Marker]:
+        markers = []
+        if self.marker_start:
+            markers.append(self.marker_start)
+        if self.marker_end:
+            markers.append(self.marker_end)
+        return markers
 
     def to_svg(self) -> str:
         starting_marker = (
@@ -204,7 +245,7 @@ class Line(CanvasElement):
         return f'<line x1="{self.x1}" y1="{self.y1}" x2="{self.x2}" y2="{self.y2}"{starting_marker}{ending_marker}{self.get_common_svg_style_elements()} />'
 
 
-class Polyline(CanvasElement):
+class Polyline(ElementWithMarkers):
     """
     Represents a polyline with optional corner rounding.
 
@@ -353,8 +394,348 @@ class Polyline(CanvasElement):
             assignments += f' marker-mid="url(#{self.marker_mid.id})"'
         return assignments
 
+    def _get_markers(self) -> List[Marker]:
+        markers = []
+        if self.marker_start:
+            markers.append(self.marker_start)
+        if self.marker_end:
+            markers.append(self.marker_end)
+        if self.marker_mid:
+            markers.append(self.marker_mid)
+        return markers
+
     def to_svg(self) -> str:
         return f'<path d="{self.to_path_commands()}"{self.get_common_svg_style_elements()}{self._get_marker_assignments()} />'
+
+
+class Text(CanvasElement):
+    """
+    Represents a text element in the canvas.
+
+    :param text: The text content to be rendered.
+    :param x: The x-coordinate of the text base point.
+    :param y: The y-coordinate of the text base point.
+    :param font_size: The font size of the text.
+    :param rotate: The rotation angle of the text about the base point (clockwise in degrees).
+    :param horizontal_base: The horizontal base point location of the text.
+    :param vertical_base: The vertical base point location of the text.
+    :param fill: The fill color of the text.
+    :param stroke: The stroke color of the text.
+    :param stroke_width: The stroke width of the text.
+    """
+
+    def __init__(
+        self,
+        text: str,
+        x: float,
+        y: float,
+        font_size: float | str = "auto",
+        rotate: float = 0,
+        horizontal_base: Literal["start", "center", "end"] = "start",
+        vertical_base: Literal["auto", "top", "middle", "bottom"] = "auto",
+        fill: str = "black",
+        stroke: str = "none",
+        stroke_width: float = 0,
+    ):
+        self.text = text
+        self.x = x
+        self.y = y
+        self.font_size = font_size
+        self.rotate = rotate
+        self.horizontal_base = horizontal_base
+        self.vertical_base = vertical_base
+
+        super().__init__(fill=fill, stroke=stroke, stroke_width=stroke_width)
+
+    def _get_horizontal_base_prop(self) -> str:
+        default_text_anchor = "start"
+        horizontal_base_to_text_anchor = {
+            "start": "start",
+            "center": "middle",
+            "end": "end",
+        }
+        if (
+            self.horizontal_base == default_text_anchor
+            or self.horizontal_base not in horizontal_base_to_text_anchor
+        ):
+            return ""
+        return f' text-anchor="{horizontal_base_to_text_anchor[self.horizontal_base]}"'
+
+    def _get_vertical_base_prop(self) -> str:
+        default_dominant_baseline = "auto"
+        vertical_base_to_dominant_baseline = {
+            "auto": "auto",
+            "top": "hanging",
+            "middle": "middle",
+            "bottom": "text-top",
+        }
+        if (
+            self.vertical_base == default_dominant_baseline
+            or self.vertical_base not in vertical_base_to_dominant_baseline
+        ):
+            return ""
+        return f' dominant-baseline="{vertical_base_to_dominant_baseline[self.vertical_base]}"'
+
+    def to_svg(self) -> str:
+        rotate = f' transform="translate({self.x}, {self.y}) rotate({self.rotate})"'
+        font_size = "" if self.font_size == "auto" else f' font-size="{self.font_size}"'
+        return (
+            f'<text x="0" y="0"{rotate}{font_size}{self.get_common_svg_style_elements()}'
+            f"{self._get_horizontal_base_prop()}{self._get_vertical_base_prop()}>{self.text}</text>"
+        )
+
+
+class Dimension(ElementWithMarkers):
+    """
+    Represents a dimension line between two points.
+
+    :param x1: X coordinate of the start point.
+    :param y1: Y coordinate of the start point.
+    :param x2: X coordinate of the end point.
+    :param y2: Y coordinate of the end point.
+    :param text: The text to display as the dimension, defaults to the length of the dimension line.
+    :param gap: The gap between the points being dimensioned and the start of the extension lines, defaults to 2.
+    :param offset: Offset distance from the parallel dimension line to the dimensioned points. Positive offset will
+        result in the dimension extending upward, negative offset will result in the dimension extending downward.
+        Defaults to 10.
+    :param unit: The unit of the dimension, defaults to None.
+    :param text_position: The position of the text relative to the dimension line. Defaults to 'top'.
+    :param text_size: Scaling factor for text size. Defaults to 1.
+    :param kwargs: Additional properties such as fill, stroke, and stroke_width.
+    """
+
+    def __init__(
+        self,
+        x1: float,
+        y1: float,
+        x2: float,
+        y2: float,
+        text: Optional[str] = None,
+        gap: float = 0,
+        offset: float = 10,
+        unit: Optional[str] = None,
+        text_position: Literal["top", "bottom"] = "top",
+        text_size: float = 1.0,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        normalize_direction = x1 > x2
+        self.x1 = x2 if normalize_direction else x1
+        self.y1 = y2 if normalize_direction else y1
+        self.x2 = x1 if normalize_direction else x2
+        self.y2 = y1 if normalize_direction else y2
+        self.text = text
+        self.gap = gap
+        self.offset = offset
+        self.unit = unit
+        self.text_position = text_position
+        self.text_size = text_size
+        self.additional_props = kwargs
+
+    def _calc_length(self) -> float:
+        return math.sqrt((self.x2 - self.x1) ** 2 + (self.y2 - self.y1) ** 2)
+
+    @staticmethod
+    def _calc_unit_vector(
+        x1: float, y1: float, x2: float, y2: float
+    ) -> tuple[float, float]:
+        dx, dy = x2 - x1, y2 - y1
+        length = math.sqrt(dx**2 + dy**2)
+        return dx / length, dy / length
+
+    def _calc_perpendicular_vector(self) -> tuple[float, float]:
+        # Calculate direction vector for dimension line
+        ux, uy = self._calc_unit_vector(self.x1, self.y1, self.x2, self.y2)
+
+        # Return perpendicular vector for offset
+        return -uy, ux
+
+    @property
+    def _stroke_width(self) -> float:
+        return self.stroke_width or 1
+
+    @property
+    def _scaled_offset(self) -> float:
+        return self.offset * -1
+
+    def _get_dimension_line(self) -> Line:
+        offset = self._scaled_offset
+        perp_ux, perp_uy = self._calc_perpendicular_vector()
+        marker_start = ArrowMarker(orientation="auto-start-reverse", base="point")
+        marker_end = ArrowMarker(base="point")
+        # Calculate dimension line points
+        d1_x, d1_y = self.x1 + offset * perp_ux, self.y1 + offset * perp_uy
+        d2_x, d2_y = self.x2 + offset * perp_ux, self.y2 + offset * perp_uy
+        return Line(
+            x1=d1_x,
+            y1=d1_y,
+            x2=d2_x,
+            y2=d2_y,
+            marker_start=marker_start,
+            marker_end=marker_end,
+            stroke=self.stroke,
+            stroke_width=self._stroke_width,
+        )
+
+    def _get_markers(self) -> List[Marker]:
+        return self._get_dimension_line().get_markers()
+
+    def to_svg(self) -> str:
+        perp_ux, perp_uy = self._calc_perpendicular_vector()
+        stroke_width = self._stroke_width
+        offset = self._scaled_offset
+        offset_sign = -1 if offset < 0 else 1
+
+        # Calculate points for extension lines
+        gap = self.gap * offset_sign
+        ex1_x_start, ex1_y_start = self.x1 + gap * perp_ux, self.y1 + gap * perp_uy
+        ex2_x_start, ex2_y_start = self.x2 + gap * perp_ux, self.y2 + gap * perp_uy
+
+        ext_len = offset + stroke_width * 4 * offset_sign
+        ex1_x_end, ex1_y_end = self.x1 + ext_len * perp_ux, self.y1 + ext_len * perp_uy
+        ex2_x_end, ex2_y_end = self.x2 + ext_len * perp_ux, self.y2 + ext_len * perp_uy
+
+        dimension_line = self._get_dimension_line()
+
+        # Calculate position for dimension text
+        text_offset_sign = -1 if self.text_position == "top" else 1
+        text_gap = 2 * stroke_width * text_offset_sign
+        dim_x1, dim_y1 = dimension_line.x1, dimension_line.y1
+        dim_x2, dim_y2 = dimension_line.x2, dimension_line.y2
+        text_x = (dim_x1 + dim_x2) / 2 + text_gap * perp_ux
+        text_y = (dim_y1 + dim_y2) / 2 + text_gap * perp_uy
+
+        # Calculate rotation angle for dimension text
+        ux, uy = self._calc_unit_vector(dim_x1, dim_y1, dim_x2, dim_y2)
+        angle_rad = math.atan2(uy, ux)
+        text_rotation = math.degrees(angle_rad)
+
+        # Use provided text or default to length
+        dimension_text = (
+            self.text if self.text is not None else f"{self._calc_length():.2f}"
+        )
+
+        # Create SVG elements with scaling
+        extension_line1 = Line(
+            x1=ex1_x_start,
+            y1=ex1_y_start,
+            x2=ex1_x_end,
+            y2=ex1_y_end,
+            stroke=self.stroke,
+            stroke_width=stroke_width,
+        )
+        extension_line2 = Line(
+            x1=ex2_x_start,
+            y1=ex2_y_start,
+            x2=ex2_x_end,
+            y2=ex2_y_end,
+            stroke=self.stroke,
+            stroke_width=stroke_width,
+        )
+        text_element = Text(
+            text=(
+                f"{dimension_text}{self.unit}"
+                if self.unit is not None
+                else dimension_text
+            ),
+            x=text_x,
+            y=text_y,
+            rotate=text_rotation,
+            font_size=stroke_width * 7 * self.text_size,
+            horizontal_base="center",
+            vertical_base="bottom" if self.text_position == "top" else "top",
+            fill=self.stroke,
+        )
+
+        # Combine SVG elements into one group
+        svg_elements = (
+            extension_line1.to_svg()
+            + extension_line2.to_svg()
+            + dimension_line.to_svg()
+            + text_element.to_svg()
+        )
+        return f"<g>{svg_elements}</g>"
+
+
+class Leader(ElementWithMarkers):
+    """
+    Represents a leader text with a polyline leader.
+
+    :param marker_x: X coordinate of the marker point.
+    :param marker_y: Y coordinate of the marker point.
+    :param text_x: X coordinate of the text position.
+    :param text_y: Y coordinate of the text position.
+    :param text: The text content to display.
+    :param marker: The marker at the end of the leader, defaults to None.
+    :param landing_len: The length of the landing line.
+    :param direction: Relative position of the text in relationship to the landing line ('right' or 'left').
+    :param text_size: Scaling factor for text size. Defaults to 1.
+    :param kwargs: Additional properties such as fill, stroke, and stroke_width.
+    """
+
+    def __init__(
+        self,
+        marker_x: float,
+        marker_y: float,
+        text_x: float,
+        text_y: float,
+        text: str,
+        marker: Marker = None,
+        landing_len: float = 5,
+        direction: Literal["right", "left"] = "right",
+        text_size: float = 1.0,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.marker_x = marker_x
+        self.marker_y = marker_y
+        self.text_x = text_x
+        self.text_y = text_y
+        self.text = text
+        self.marker = marker
+        self.landing_distance = landing_len
+        self.direction = direction
+        self.text_size = text_size
+        self.additional_props = kwargs
+
+    @property
+    def _stroke_width(self) -> float:
+        return self.stroke_width or 1
+
+    def _get_leader_line(self) -> Polyline:
+        direction = -1 if self.direction == "right" else 1
+        leader_gap = direction * 2 * self._stroke_width
+        points = [
+            (self.text_x + leader_gap, self.text_y),
+            (self.text_x + direction * self.landing_distance + leader_gap, self.text_y),
+            (self.marker_x, self.marker_y),
+        ]
+        return Polyline(
+            points=points,
+            marker_end=self.marker,
+            stroke=self.stroke,
+            stroke_width=self._stroke_width,
+            fill="none",
+        )
+
+    def _get_markers(self) -> List[Marker]:
+        return self._get_leader_line().get_markers()
+
+    def to_svg(self) -> str:
+        leader_line = self._get_leader_line()
+
+        text_element = Text(
+            text=self.text,
+            x=self.text_x,
+            y=self.text_y,
+            font_size=7 * self._stroke_width * self.text_size,
+            horizontal_base="start" if self.direction == "right" else "end",
+            vertical_base="middle",
+            fill=self.stroke,
+        )
+
+        svg_elements = leader_line.to_svg() + text_element.to_svg()
+        return f"<g>{svg_elements}</g>"
 
 
 MarkerOrientation = Union[Literal["auto", "auto-start-reverse"], float]
@@ -370,23 +751,37 @@ class ArrowMarker(Marker):
     """
 
     def __init__(
-        self, reverse: bool = False, orientation: MarkerOrientation = "auto", **kwargs
+        self,
+        reverse: bool = False,
+        orientation: MarkerOrientation = "auto",
+        base: Literal["point", "center", "flat"] = "center",
+        **kwargs,
     ):
         self.reversed = reverse
         self.orientation = orientation
+        self.base_point = base
         super().__init__(**kwargs)
 
     @property
     def id(self) -> str:
-        return f"{self.__class__.__name__}-{self.fill}-{self.stroke}-{self.stroke_width}-{self.size}-{self.reversed}-{self.orientation}"
+        return f"{self.__class__.__name__}-{self.fill}-{self.stroke}-{self.stroke_width}-{self.size}-{self.reversed}-{self.orientation}-{self.base_point}"
+
+    @property
+    def marker_size(self) -> float:
+        return self.size * 4
 
     def to_svg(self) -> str:
-        marker_size = self.size * 4
+        marker_size = self.marker_size
         stroke_width = self.stroke_width if self.stroke_width is not None else 0
         view_size = marker_size + 2 * stroke_width
         min_position = stroke_width
         max_position = marker_size + min_position
         half_position = view_size / 2
+        ref_x = (
+            half_position
+            if self.base_point == "center"
+            else 0 if self.base_point == "flat" else view_size
+        )
 
         path = (
             f"M {min_position} {half_position} L {max_position} {min_position} L {max_position} {max_position} z"
@@ -395,7 +790,7 @@ class ArrowMarker(Marker):
         )
         return (
             f'<marker id="{self.id}" viewBox="0 0 {view_size} {view_size}" '
-            f'refX="{half_position}" refY="{half_position}" markerUnits="strokeWidth" '
+            f'refX="{ref_x}" refY="{half_position}" markerUnits="strokeWidth" '
             f'markerWidth="{view_size}" markerHeight="{view_size}" orient="{self.orientation}"><path '
             f'd="{path}" {self.get_common_svg_style_elements()} /></marker>'
         )

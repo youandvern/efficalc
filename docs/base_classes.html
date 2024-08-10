@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Figures in Calc Reports" href="figures.html" /><link rel="prev" title="Purpose and Background" href="purpose.html" />
 
     <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>Base Classes - efficalc 1.2.0 documentation</title>
+        <title>Base Classes - efficalc 1.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -126,7 +126,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">efficalc 1.2.0 documentation</div></a>
+      <a href="index.html"><div class="brand">efficalc 1.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -152,7 +152,7 @@
     <img class="sidebar-logo" src="_static/efficalc.png" alt="Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">efficalc 1.2.0 documentation</span>
+  <span class="sidebar-brand-text">efficalc 1.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -169,6 +169,7 @@
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Base Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="figures.html">Figures in Calc Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="canvas.html">Drawing on a Canvas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="calculation_helpers.html">Calculation Helpers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="section_properties.html">Section Properties</a></li>
 <li class="toctree-l1"><a class="reference internal" href="math_operations.html">Math Operations</a></li>
@@ -344,7 +345,7 @@ depending on whether the comparison is true or false.</p>
 <li><p><strong>reference</strong> (<em>str</em><em>, </em><em>optional</em>) – A short text reference (e.g. code reference) to accompany the comparison, defaults to None</p></li>
 <li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> that should be checked as a final result
 of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Comparison" title="efficalc.Comparison"><code class="xref py py-class docutils literal notranslate"><span class="pre">Comparison</span></code></a> will be displayed in the “Results”
-section of your design portal in the cloud version of efficalc, defaults to False</p></li>
+section of your design portal in the cloud version of efficalc, defaults to True</p></li>
 </ul>
 </dd>
 </dl>
@@ -651,6 +652,45 @@ return 0 and set an error message in <cite>self.error</cite>.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="efficalc.Table">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">striped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.Table" title="Link to this definition">#</a></dt>
+<dd><p>An object to display a table of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Any</em><em>]</em><em>] </em><em>(</em><em>a 2d list where each inner list is a row in the table</em><em>)</em>) – The data in the table. If this is an input table, the data will act as default data to be overridden
+by the calculation runner.</p></li>
+<li><p><strong>headers</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em><em>, </em><em>optional</em>) – The headers for the table, defaults to None</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – The table title, defaults to None</p></li>
+<li><p><strong>striped</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the table should be striped, defaults to False</p></li>
+<li><p><strong>full_width</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the table should be full width, defaults to False</p></li>
+<li><p><strong>result_check</strong> (<em>bool</em><em>, </em><em>optional</em>) – This is used to indicate any <a class="reference internal" href="#efficalc.Table" title="efficalc.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a> that should be checked as a final result
+of your calculation template. When set to True, this <a class="reference internal" href="#efficalc.Table" title="efficalc.Table"><code class="xref py py-class docutils literal notranslate"><span class="pre">Table</span></code></a> will be displayed in the “Results”
+section of your design portal in the cloud version of efficalc, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="efficalc.InputTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">InputTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">striped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.InputTable" title="Link to this definition">#</a></dt>
+<dd><p>A table that can be used to accept dynamic input data with the calculation runner and cloud version of efficalc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default_data</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – The default data for the table. This will be overridden when explicit calculation inputs are
+provided to the calculation runner or in the design portal on the cloud version of efficalc</p></li>
+<li><p><strong>headers</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – The headers for the table. This will be used as the unique identifier for the input table</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – The table title, defaults to None</p></li>
+<li><p><strong>striped</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the table should be striped, defaults to False</p></li>
+<li><p><strong>full_width</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the table should be full width, defaults to True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="efficalc.TextBlock">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">efficalc.</span></span><span class="sig-name descname"><span class="pre">TextBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#efficalc.TextBlock" title="Link to this definition">#</a></dt>
 <dd><p>This displays a block of text in the calculation report.</p>
@@ -773,6 +813,8 @@ return 0 and set an error message in <cite>self.error</cite>.</p>
 <li><a class="reference internal" href="#efficalc.Symbolic.str_symbolic"><code class="docutils literal notranslate"><span class="pre">Symbolic.str_symbolic()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#efficalc.Table"><code class="docutils literal notranslate"><span class="pre">Table</span></code></a></li>
+<li><a class="reference internal" href="#efficalc.InputTable"><code class="docutils literal notranslate"><span class="pre">InputTable</span></code></a></li>
 <li><a class="reference internal" href="#efficalc.TextBlock"><code class="docutils literal notranslate"><span class="pre">TextBlock</span></code></a></li>
 <li><a class="reference internal" href="#efficalc.Title"><code class="docutils literal notranslate"><span class="pre">Title</span></code></a></li>
 </ul>
@@ -786,7 +828,7 @@ return 0 and set an error message in <cite>self.error</cite>.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6efca38a"></script>
+</div><script src="_static/documentation_options.js?v=ca842793"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

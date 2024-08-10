@@ -4,9 +4,13 @@ from .canvas_elements import (
     CanvasElement,
     Circle,
     CircleMarker,
+    Dimension,
+    ElementWithMarkers,
     Ellipse,
+    Leader,
     Line,
     Marker,
     Polyline,
     Rectangle,
+    Text,
 )

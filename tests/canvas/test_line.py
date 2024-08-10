@@ -25,6 +25,7 @@ def test_line_defaults():
     assert "marker-start" not in svg
     assert "marker-end" not in svg
     assert " />" in svg
+    assert l.get_markers() == []
 
 
 def test_line_with_markers():
@@ -39,6 +40,7 @@ def test_line_with_markers():
     svg = l.to_svg()
     assert ' marker-start="url(#test-start)" ' in svg
     assert ' marker-end="url(#test-end)" ' in svg
+    assert l.get_markers() == [TestMarker("test-start"), TestMarker("test-end")]
 
 
 def test_line_custom_style():
