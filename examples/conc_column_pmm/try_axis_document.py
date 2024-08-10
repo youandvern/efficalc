@@ -15,6 +15,7 @@ from efficalc import (
     maximum,
     PI,
     sqrt,
+    Table,
 )
 import math
 import random
@@ -253,56 +254,44 @@ def calculation(
 
     def add_bar(coords):
         nonlocal pn, mnx, mny
+        bar_calc = coords.copy()
         # "offset" is the distance from the center of the bar to the line
         # passing through the top right corner of the section and parallel to
         # the neutral axis
-        offset = Calculation(
-            "d",
-            r_brackets(w / 2 - coords[0]) * cos(theta + PI / 2)
-            + r_brackets(h / 2 - coords[1]) * sin(theta + PI / 2),
-            "in",
-            "Calculate the distance of the center of this bar from the neutral axis:",
-        )
-
-        stress = Calculation(
-            "f_s",
-            minimum(
-                fy, maximum(-fy, CONC_EPSILON * STEEL_E * r_brackets(offset - c) / c)
+        offset = (col.w / 2 - coords[0]) * math.cos(theta.get_value() + math.pi / 2) + (
+            col.h / 2 - coords[1]
+        ) * math.sin(theta.get_value() + math.pi / 2)
+        bar_calc.append(round(offset, 2))
+        strain = CONC_EPSILON.get_value() * (offset - c.get_value()) / c.get_value()
+        bar_calc.append(round(strain, 1))
+        stress = min(
+            fy.get_value(),
+            max(
+                -fy.get_value(),
+                CONC_EPSILON.get_value()
+                * STEEL_E.get_value()
+                * (offset - c.get_value())
+                / c.get_value(),
             ),
-            "ksi",
-            "Stress in bar:",
         )
-        in_comp_zone = Comparison(
-            offset,
-            "<",
-            a,
-            true_message="\\mathrm{This\\ bar\\ is\\ in\\ the\\ equivalent\\ compression\\ zone.}",
-            false_message="\\mathrm{This\\ bar\\ is\\ outside\\ the\\ equivalent\\ compression\\ zone.}",
-        )
-        if in_comp_zone.is_passing():
-            # this means this bar is within the compression range,
-            # so subtract the stress in the concrete, the stress
-            # will be negative in this case, so add to it
-            stress = Calculation(
-                "f_s",
-                stress + 0.85 * fc,
-                "ksi",
-                "Correct for the stress already accounted for in the concrete displaced by this bar:",
-            )
+        bar_calc.append(round(stress, 1))
+        in_comp_zone = offset < a.get_value()
+        if in_comp_zone:
+            stress += 0.85 * fc.get_value()
+            bar_calc.append(round(0.85 * fc.get_value(), 1))
+        else:
+            bar_calc.append(0)
         # since negative strain and negative stress are defined as
         # compression for rebar but compression is positive in the conc.
         # the sign of everything needs to be changed
-        pn = Calculation("P_{\\mathrm{n, cumulative}}", pn - bar_area * stress, "kips")
-        mnx = Calculation(
-            "M_{\\mathrm{nx, cumulative}}",
-            mnx - bar_area * stress * coords[1],
-            "kip-in",
-        )
-        mny = Calculation(
-            "M_{\\mathrm{ny, cumulative}}",
-            mny - bar_area * stress * coords[0],
-            "kip-in",
-        )
+        pn -= bar_area.get_value() * stress
+        bar_calc.append(round(-bar_area.get_value() * stress, 1))
+        mnx -= bar_area.get_value() * stress * coords[1]
+        bar_calc.append(round(-bar_area.get_value() * stress * coords[1], 1))
+        mny -= bar_area.get_value() * stress * coords[0]
+        bar_calc.append(round(-bar_area.get_value() * stress * coords[0], 1))
+
+        rebar_matrix.append(bar_calc)
 
     Heading("Forces in the Rebar", 3)
     right_bar_x = col.half_w - col.edge_to_bar_center  # x coordinate of bars on the
@@ -311,13 +300,23 @@ def calculation(
     # iterate over the bars along the left and right lines
     # (this includes corner bars)
     bar_count = 0
+
+    headers = [
+        "X Coordinate (in)",
+        "Y Coordinate (in)",
+        "Effective Depth d (in)",
+        "Strain (unitless)",
+        "Stress (ksi)",
+        "Stress Correction for Displaced Concrete (ksi)",
+        "Axial Force (kips)",
+        "Contribution to M_x (kip-in)",
+        "Contribution to M_y (kip-in)",
+    ]
+    rebar_matrix = []
     for i in range(col.bars_y):
         for x in (-right_bar_x, right_bar_x):
             coords = [x, y]
             bar_count += 1
-            Heading("Calculations for Bar " + str(bar_count), 4)
-            coords[0] = Input("x_{\\mathrm{bar}}", coords[0], "in")
-            coords[1] = Input("y_{\\mathrm{bar}}", coords[1], "in")
             add_bar(coords)
         y += col.y_space
 
@@ -328,13 +327,10 @@ def calculation(
         # iterate over the bars along the top and bottom lines, and add the
         # force for each one
         for y in (-top_bar_y, top_bar_y):
-            coords = (x, y)
-            bar_count += 1
-            Heading("Calculations for Bar " + str(bar_count), 4)
-            Calculation("x_{\\mathrm{bar}}", coords[0], "in")
-            Calculation("y_{\\mathrm{bar}}", coords[1], "in")
+            coords = [x, y]
             add_bar(coords)
         x += col.x_space
+    Table(rebar_matrix, headers, "Rebar Calculations")
 
     Heading("Capacity Calculations", 3)
     lambda1 = math.atan2(mny, mnx)  # atan2 takes y,x, and we want mny at top

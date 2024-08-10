@@ -23,8 +23,7 @@ def plot(col, intervals, load_spaces, plot):
     y.append([0] * (intervals + 1))
     z.append([col.min_phi_pn] * (intervals + 1))
 
-    vert_span = col.max_phi_pn - col.min_phi_pn
-    vert_space = vert_span / load_spaces
+    vert_space = col.load_span / load_spaces
     c_guess = 0  # the starting guess for neutral axis
 
     quarter = math.floor(intervals / 4)  # number of angle spaces in one quadrant

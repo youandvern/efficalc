@@ -127,7 +127,6 @@ def try_axis(col, theta, c):
     if not any(mn):
         lambda1 = random.uniform(0, math.pi / 2)
     mn_xy = math.sqrt(mn[0] ** 2 + mn[1] ** 2) / 12  # the moment resultant in kip-ft
-    ecc = mn_xy / pn  # the eccentricity in ft
 
     # calculate the factor of safety depending on the maximum steel strain
     phi = min(
@@ -140,10 +139,21 @@ def try_axis(col, theta, c):
             / STEEL_ADD_STRAIN,
         ),
     )
-    phi_pn = phi * pn
-    phi_mn_xy = mn_xy * phi_pn / pn
+    # the following values ignore the limit on phi_pn to help convergence near that value
+    # (so there will still be derivatives above that value)
+    phi_pn_not_limited = phi * pn
+    phi_mn_xy = phi * mn_xy
+
+    # the eccentricity does include the limit on phi_pn, and it is reported as
+    # angle from the Mx-My axis for numerical stability. This won't work at the
+    # very top and bottom of the pmm diagram since "ecc" will be infinite, but
+    # this search is not intended for points in those locations
+    phi_pn = min(phi_pn_not_limited, col.max_phi_pn)
+    ecc = math.atan2(
+        phi_pn, phi_mn_xy
+    )  # the eccentricity as an angle above the M-M plane
 
     # returning the angle of eccentricity, the eccentricity in ft, the nominal
     # axial capacity in kip, the factored axial capacity in kip, and the
     # factored moment capacity in kip-ft
-    return (lambda1, ecc, pn, phi_pn, phi_mn_xy)
+    return (lambda1, ecc, pn, phi_pn_not_limited, phi_mn_xy)
