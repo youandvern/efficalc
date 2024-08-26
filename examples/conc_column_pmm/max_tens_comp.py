@@ -9,46 +9,41 @@ from efficalc import (
     r_brackets,
 )
 import try_axis
+import col_inputs_document
 
 
 def calculation(col):
-    Heading("Inputs")
+    efficalc_inputs = col_inputs_document.get_inputs(col)
+    (
+        w,
+        h,
+        bar_area,
+        bar_cover,
+        cover_type,
+        transverse_type,
+        bars_x,
+        bars_y,
+        fc,
+        fy,
+        STEEL_E,
+        CONC_EPSILON,
+    ) = efficalc_inputs
 
-    w = Input("w", col.w, "in", description="Column section width (x dimension)")
-    h = Input("h", col.h, "in", description="Column section height (y dimension)")
-    Input("", "\\" + col.bar_size, "", description="Rebar size")
-    bar_area = Input(
-        "A_{\\mathrm{bar}}", col.bar_area, "in^2", description="Area of one bar"
-    )
-    transverse_type = "Spiral" if col.spiral_reinf else "Tied"
-    Input("", transverse_type, "", description="Transverse reinforcement type")
-    bars_x = Input(
-        "\mathrm{n_{bars,\ x}}",
-        col.bars_x,
-        "",
-        description="Number of bars on the top/bottom edges",
-    )
-    bars_y = Input(
-        "\mathrm{n_{bars,\ y}}",
-        col.bars_y,
-        "",
-        description="Number of bars on the left/right edges",
-    )
-    fc = Input("f'_c", col.fc / 1000, "ksi", description="Concrete strength")
-    fy = Input("f_y", col.fy, "ksi", description="Steel strength")
+    Heading("Axial Capacity Calculations")
 
     steel_area = Calculation(
         "A_{st}",
         bar_area * r_brackets(2 * bars_x + 2 * bars_y - 4),
         "in^2",
-        "Total area of longitudinal reinforcement",
+        "Total area of longitudinal reinforcement:",
     )
     tot_area = Calculation("A_g", w * h, "in^2", "Gross section area")
+    Heading("Compressive Capacity", 2)
     max_pn = Calculation(
         "P_0",
-        0.85 * fc * r_brackets(tot_area - steel_area) + fy * steel_area,
+        0.85 * fc / 1000 * r_brackets(tot_area - steel_area) + fy * steel_area,
         "kips",
-        "Compressive capacity",
+        "",
         "ACI 318-19 22.4.2.2",
     )
     if col.spiral_reinf:
@@ -73,7 +68,7 @@ def calculation(col):
             "P_{\mathrm{n,max}}",
             0.80 * max_pn,
             "kips",
-            "Maximum axial strength",
+            "",
             "ACI 318-19 22.4.2.1(a)",
         )
         phi = Calculation(
@@ -86,11 +81,12 @@ def calculation(col):
 
     max_phi_pn = Calculation("{\\phi}P_{\mathrm{n,max}}", phi * max_pn_limit, "kips")
 
+    Heading("Tensile Capacity", 2)
     min_pn = Calculation(
         "P_{\mathrm{nt,max}}",
         fy * steel_area,
         "kips",
-        "Tensile capacity",
+        "",
         "ACI 318-19 22.4.3.1",
     )
 
@@ -107,4 +103,5 @@ def calculation(col):
         max_phi_pn.get_value(),
         -min_pn.get_value(),
         -min_phi_pn.get_value(),
+        efficalc_inputs,
     )

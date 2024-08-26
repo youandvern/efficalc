@@ -51,5 +51,5 @@ def search(col, target, guess):
     # it is possible that the point will be on the top plateau, so the
     # axial force must be limited
     P = min(col.max_pn, output[3])
-    print("error for ecc", error)
-    return Mx, My, P
+    print("error for ecc", guess, error)
+    return Mx, My, P, guess

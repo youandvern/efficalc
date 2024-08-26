@@ -5,7 +5,7 @@ import point_search
 import bisect_load
 
 
-def plot(col, intervals, load_spaces, plot):
+def plot(col, intervals, load_spaces):
     # This function plots the factored load capacity diagram for the column
     # col. "intervals" is the number of spaces in the angle of eccentricity,
     # "load_spaces" is the number of vertical spaces in the PMM diagram, and
@@ -94,26 +94,26 @@ def plot(col, intervals, load_spaces, plot):
         y.append(coords[1])
         z.append(coords[2])
 
-    if plot:
-        x.append([0] * (intervals + 1))
-        y.append([0] * (intervals + 1))
-        z.append([col.max_phi_pn] * (intervals + 1))
+    x.append([0] * (intervals + 1))
+    y.append([0] * (intervals + 1))
+    z.append([col.max_phi_pn] * (intervals + 1))
 
-        x = np.array(x)
-        y = np.array(y)
-        z = np.array(z)
+    x = np.array(x)
+    y = np.array(y)
+    z = np.array(z)
 
-        ax = plt.axes(projection="3d")
+    fig = plt.figure
+    ax = plt.axes(projection="3d")
 
-        # set the aspect ratio so that Mx and My will be proportional
-        ax.set_box_aspect((np.ptp(x), np.ptp(y), 0.6 * np.ptp(z)))
+    # set the aspect ratio so that Mx and My will be proportional
+    ax.set_box_aspect((np.ptp(x), np.ptp(y), 0.6 * np.ptp(z)))
 
-        ax.plot_surface(x, y, z, cmap="viridis", edgecolor="green")
-        ax.set_title("PMM Diagram")
+    ax.plot_surface(x, y, z, cmap="viridis", edgecolor="green")
+    ax.set_title("PMM Diagram")
 
-        ax.zaxis.set_rotate_label(False)
-        ax.set_xlabel("${\phi}M_{nx}$", fontsize=12, rotation=0)
-        ax.set_ylabel("${\phi}M_{ny}$", fontsize=12, rotation=0)
-        ax.set_zlabel("${\phi}P_n$", fontsize=12, rotation=0)
-        plt.show()
-    return quarter_mesh
+    ax.zaxis.set_rotate_label(False)
+    ax.set_xlabel("${\phi}M_{nx}$", fontsize=12, rotation=0)
+    ax.set_ylabel("${\phi}M_{ny}$", fontsize=12, rotation=0)
+    ax.set_zlabel("${\phi}P_n$", fontsize=12, rotation=0)
+    #  plt.show()
+    return quarter_mesh, fig

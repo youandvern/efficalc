@@ -1,14 +1,4 @@
 import max_tens_comp
-from efficalc import (
-    Calculation,
-    Comparison,
-    Heading,
-    Input,
-    TextBlock,
-    Title,
-    Symbolic,
-    r_brackets,
-)
 
 """
 The class Column takes the following parameters:
@@ -105,11 +95,3 @@ class Column:
         self.spiral_reinf = spiral_reinf
         # safety factor for compression-controlled column
         self.PHI_COMP = 0.75 if spiral_reinf else 0.65
-
-        # max compression and tension capacity
-        (self.max_pn, self.max_phi_pn, self.min_pn, self.min_phi_pn) = (
-            max_tens_comp.calculation(self)
-        )
-
-        self.load_span = self.max_phi_pn - self.min_phi_pn  # difference between the
-        # maximum and minimum allowable loads, to be used for normalizing error

@@ -20,86 +20,43 @@ from efficalc import (
 import math
 import random
 import sections
+import col_inputs_document
+import draw_column
 
 
-def calculation(
+def try_axis(
     col=sections.Column(20, 30, "#8", 1.5, 3, 5, 8000, 60, False, False),
     theta_input=0,
     c_input=10,
 ):
 
-    Title("Concrete Column Biaxial Bending")
+    (
+        w,
+        h,
+        bar_area,
+        bar_cover,
+        cover_type,
+        transverse_type,
+        bars_x,
+        bars_y,
+        fc,
+        fy,
+        STEEL_E,
+        CONC_EPSILON,
+    ) = col.efficalc_inputs
     TextBlock(
-        "Determine axial and moment capacity of a symmetrically-reinforced rectangular concrete column subject to "
-        + "bending on a given neutral axis angle and depth."
+        "The neutral axis angle and depth below are chosen to produce a capacity point aligning exactly with the"
+        + " PMM vector of the applied load. \n"
     )
-
-    Assumption("ACI 318-19 controls the design")
-    Assumption("Reinforcement is non-prestressed")
-    Assumption(
-        "Lap splices of longitudinal reinforcement are in accordance with ACI 318-19 Table 10.7.5.2.2"
-    )
-    Assumption(
-        "Strain in concrete and reinforcement is proportional to distance from the neutral axis, per ACI 318-19 22.2.1.2 "
-    )
-
-    Heading("Inputs")
-    w = Input("w", col.w, "in", description="Column section width (x dimension)")
-    h = Input("h", col.h, "in", description="Column section height (y dimension)")
-    Input("", "\\" + col.bar_size, "", description="Rebar size")
-    bar_area = Input(
-        "A_{\\mathrm{bar}}", col.bar_area, "in^2", description="Area of one bar"
-    )
-    bar_cover = Input("", col.bar_cover, "in", description="Rebar cover")
-
-    cover_type = (
-        "to\\ center\\ of\\ bar\\ (not\\ clear\\ cover)"
-        if col.cover_to_center
-        else "to\\ edge\\ of\\ bar\\ (clear\\ cover)"
-    )
-    Input("", cover_type, "", description="Rebar cover type")
-
-    transverse_type = "Spiral" if col.spiral_reinf else "Tied"
-    Input("", transverse_type, "", description="Transverse reinforcement type")
-
-    bars_x = Input(
-        "", col.bars_x, "", description="Number of bars on the top/bottom edges"
-    )
-    bars_y = Input(
-        "", col.bars_y, "", description="Number of bars on the left/right edges"
-    )
-    fc = Input("f'_c", col.fc, "psi", description="Concrete strength")
-    fy = Input("f_y", col.fy, "ksi", description="Steel strength")
     theta = Input("\\theta", theta_input, "rad", description="Neutral axis angle")
     c = Input("c", c_input, "in", description="Neutral axis depth")
-
-    STEEL_E = Input(
-        "E_s", 29000, "ksi", "Steel modulus of elasticity", "ACI 318-19 20.2.2.2"
-    )
-    CONC_EPSILON = Input(
-        "\\epsilon_u", 0.003, "", "Concrete strain at f'c,", "ACI 318-19 22.2.2.1"
-    )
-
-    Heading("Calculations")
-
-    # this function returns the lambda, eccentricity, pn, phi_pn, and phi_mn
-    # from particular neutral axis angle and neutral axis depth c. The neutral
-    # axis angle must be between -90 degrees and 0 degrees, inclusive, and the
-    # neutral axis depth must be greater than or equal to 0
 
     if c == 0:
         TextBlock(
             "Because the neutral axis depth is zero, the column is in pure tension."
         )
         return
-    TextBlock(
-        "Define variables for summing the contributions to the axial and moment capacities:"
-    )
-    pn = Calculation("P_{\\mathrm{n, cumulative}}", 0, "kips")
-    mnx = Calculation("M_{\\mathrm{nx, cumulative}}", 0, "kip-in")
-    mny = Calculation("M_{\\mathrm{ny, cumulative}}", 0, "kip-in")
-
-    Heading("Forces in the Concrete", 3)
+    Heading("Forces in the Concrete", 2)
 
     if fc.get_value() <= 4000:
         ComparisonStatement(2500, "<=", fc, "<=", 4000)
@@ -108,7 +65,7 @@ def calculation(
             0.85,
             "",
             "",
-            "ACI318-19 Table 22.2.2.4.3(a)",
+            "ACI 318-19 Table 22.2.2.4.3(a)",
         )
     elif fc.get_value() < 8000:
         ComparisonStatement(4000, "<", fc, "<", 8000)
@@ -117,7 +74,7 @@ def calculation(
             0.85 - 0.05 * r_brackets(fc - 4000) / 1000,
             "",
             "",
-            "ACI318-19 Table 22.2.2.4.3(b)",
+            "ACI 318-19 Table 22.2.2.4.3(b)",
         )
     else:
         ComparisonStatement(fc, ">=", 8000)
@@ -126,13 +83,13 @@ def calculation(
             0.65,
             "",
             "",
-            "ACI318-19 Table 22.2.2.4.3(c)",
+            "ACI 318-19 Table 22.2.2.4.3(c)",
         )
     a = Calculation(
         "a",
         beta1 * c,
         "in",
-        "Depth of equivalent compression zone",
+        "Depth of equivalent compression zone:",
         "ACI 318-19 22.2.2.4.1",
     )
     fc = Calculation(
@@ -191,17 +148,57 @@ def calculation(
         if intersects[3]:
             bot_x = Calculation(
                 "x_{\\mathrm{bottom}}",
-                w / 2 + a / cos(theta) + h * tan(theta),
+                w / 2 + a / sin(theta) + h * tan(PI / 2 + theta),
                 "in",
                 " x coordinate of equivalent compression zone intersection with bottom edge:",
             )
 
+    # define accumulator variables
+    pn_tot = 0
+    mnx_tot = 0
+    mny_tot = 0
+
     if not any(intersects):  # the whole concrete section is in compression
-        pn = Calculation("P_{\\mathrm{n, cumulative}}", 0.85 * fc * w * h, "kips")
+        TextBlock("The equivalent compression zone covers the whole concrete section. ")
+        pn_conc = Calculation("P_{\\mathrm{n, conc.}}", 0.85 * fc * w * h, "kips")
+        mnx_conc = Input(
+            "M_{\\mathrm{nx, conc.}}",
+            0,
+            "kip-in",
+        )
+        mny_conc = Input(
+            "M_{\\mathrm{ny, conc.}}",
+            0,
+            "kip-in",
+        )
     else:
+        conc_area_num = 0
 
         def add_axial_moment(pt_a, pt_b, pt_c):
-            nonlocal pn, mnx, mny
+            nonlocal pn_tot, mnx_tot, mny_tot, conc_area_num
+            conc_area_num += 1
+            Heading("Forces in Concrete Area " + str(conc_area_num), 3)
+            TextBlock(
+                "Below are the coordinates of the three points A, B, and C which define compression area"
+                " number " + str(conc_area_num) + "."
+            )
+            pt_a = (
+                Calculation("A_x", pt_a[0]),
+                Calculation("A_y", pt_a[1]),
+            )
+            pt_b = (
+                Calculation("B_x", pt_b[0]),
+                Calculation("B_y", pt_b[1]),
+            )
+            pt_c = (
+                Calculation("C_x", pt_c[0]),
+                Calculation("C_y", pt_c[1]),
+            )
+            points = (pt_a, pt_b, pt_c)
+            points = [((pt[0]).get_value(), (pt[1]).get_value()) for pt in points]
+            draw_column.draw_column_with_triangle(
+                col, "Compression Area Outline", conc_area_num, points
+            )
             tri_area = Calculation(
                 "A_{\\mathrm{triangle}}",
                 0.5
@@ -217,7 +214,9 @@ def calculation(
                 "Calculate the area of this triangular compression zone:",
             )
             pn = Calculation(
-                "P_{\\mathrm{n, cumulative}}", pn + 0.85 * fc * tri_area, "kips"
+                "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area,
+                "kips",
             )
             centr_x = Calculation(
                 "x_{\\mathrm{centroid}}",
@@ -232,29 +231,70 @@ def calculation(
                 "y coordinate of the centroid of this zone:",
             )
             mnx = Calculation(
-                "M_{\\mathrm{nx, cumulative}}",
-                mnx + 0.85 * fc * tri_area * centr_y,
+                "M_{\\mathrm{nx,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area * centr_y,
                 "kip-in",
             )
             mny = Calculation(
-                "M_{\\mathrm{ny, cumulative}}",
-                mny + 0.85 * fc * tri_area * centr_x,
+                "M_{\\mathrm{ny,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area * centr_x,
                 "kip-in",
             )
+            pn_tot += pn.get_value()
+            mnx_tot += mnx.get_value()
+            mny_tot += mny.get_value()
 
         pt1 = (-w / 2, left_y) if intersects[0] else (top_x, h / 2)
         pt2 = (bot_x, -h / 2) if intersects[3] else (w / 2, right_y)
+        points_block = [(col.w / 2, col.h / 2)]
+        if intersects[2]:
+            points_block.append((col.w / 2, right_y.get_value()))
+        else:
+            points_block.append((col.w / 2, -col.h / 2))
+            points_block.append((bot_x.get_value(), -col.h / 2))
+        if intersects[1]:
+            points_block.append((top_x.get_value(), col.h / 2))
+        else:
+            points_block.append((-col.w / 2, left_y.get_value()))
+            points_block.append((-col.w / 2, col.h / 2))
+        draw_column.draw_column_comp_zone(
+            col, "Equivalent compression zone outlined in red. ", points_block
+        )
+        TextBlock(
+            "The equivalent stress block is now broken down into triangular areas and the forces are calculated for each."
+        )
 
         add_axial_moment(pt1, pt2, (w / 2, h / 2))  # compression triangle to
         # top right corner
         if intersects[0]:  # there is a compression triangle to top left corner
             add_axial_moment((-w / 2, h / 2), (w / 2, h / 2), pt1)
         if intersects[3]:  # there is a compression triangle to bot right corner
-            add_axial_moment((w / 2, -h / 1), (w / 2, h / 2), pt2)
+            add_axial_moment((w / 2, -h / 2), (w / 2, h / 2), pt2)
+        Heading("Total Forces in Concrete", 3)
+        pn_conc = Input("P_{\\mathrm{n, conc.}}", pn_tot, "kips")
+        mnx_conc = Input(
+            "M_{\\mathrm{nx, conc.}}",
+            mnx_tot,
+            "kip-in",
+        )
+        mny_conc = Input(
+            "M_{\\mathrm{ny, conc.}}",
+            mny_tot,
+            "kip-in",
+        )
+
+    # define new accumulators
+    pn = 0
+    mnx = 0
+    mny = 0
+
+    bar_num = 0
 
     def add_bar(coords):
-        nonlocal pn, mnx, mny
-        bar_calc = coords.copy()
+        nonlocal pn, mnx, mny, bar_num
+        bar_num += 1
+        bar_calc = [bar_num]
+        bar_calc.extend([round(val, 2) for val in coords])
         # "offset" is the distance from the center of the bar to the line
         # passing through the top right corner of the section and parallel to
         # the neutral axis
@@ -263,7 +303,7 @@ def calculation(
         ) * math.sin(theta.get_value() + math.pi / 2)
         bar_calc.append(round(offset, 2))
         strain = CONC_EPSILON.get_value() * (offset - c.get_value()) / c.get_value()
-        bar_calc.append(round(strain, 1))
+        bar_calc.append(round(strain, 4))
         stress = min(
             fy.get_value(),
             max(
@@ -274,11 +314,11 @@ def calculation(
                 / c.get_value(),
             ),
         )
-        bar_calc.append(round(stress, 1))
+        bar_calc.append(round(stress, 2))
         in_comp_zone = offset < a.get_value()
         if in_comp_zone:
             stress += 0.85 * fc.get_value()
-            bar_calc.append(round(0.85 * fc.get_value(), 1))
+            bar_calc.append(round(0.85 * fc.get_value(), 2))
         else:
             bar_calc.append(0)
         # since negative strain and negative stress are defined as
@@ -287,13 +327,14 @@ def calculation(
         pn -= bar_area.get_value() * stress
         bar_calc.append(round(-bar_area.get_value() * stress, 1))
         mnx -= bar_area.get_value() * stress * coords[1]
-        bar_calc.append(round(-bar_area.get_value() * stress * coords[1], 1))
+        # the +0 is to avoid rounding to -0
+        bar_calc.append(round(-bar_area.get_value() * stress * coords[1], 1) + 0)
         mny -= bar_area.get_value() * stress * coords[0]
-        bar_calc.append(round(-bar_area.get_value() * stress * coords[0], 1))
+        bar_calc.append(round(-bar_area.get_value() * stress * coords[0], 1) + 0)
 
         rebar_matrix.append(bar_calc)
 
-    Heading("Forces in the Rebar", 3)
+    Heading("Forces in the Rebar", 2)
     right_bar_x = col.half_w - col.edge_to_bar_center  # x coordinate of bars on the
     # right edge
     y = col.y_start
@@ -302,15 +343,16 @@ def calculation(
     bar_count = 0
 
     headers = [
-        "X Coordinate (in)",
-        "Y Coordinate (in)",
+        "Bar Number",
+        "X Coord. (in)",
+        "Y Coord. (in)",
         "Effective Depth d (in)",
         "Strain (unitless)",
         "Stress (ksi)",
         "Stress Correction for Displaced Concrete (ksi)",
         "Axial Force (kips)",
-        "Contribution to M_x (kip-in)",
-        "Contribution to M_y (kip-in)",
+        "Contribution to Mx (kip-in)",
+        "Contribution to My (kip-in)",
     ]
     rebar_matrix = []
     for i in range(col.bars_y):
@@ -332,7 +374,31 @@ def calculation(
         x += col.x_space
     Table(rebar_matrix, headers, "Rebar Calculations")
 
-    Heading("Capacity Calculations", 3)
+    Heading("Force Totals", 2)
+    pn_steel = Input("P_{\\mathrm{n, steel}}", pn, "kips")
+    mnx_steel = Input(
+        "M_{\\mathrm{nx, steel}}",
+        mnx,
+        "kip-in",
+    )
+    mny_steel = Input(
+        "M_{\\mathrm{ny, steel}}",
+        mny,
+        "kip-in",
+    )
+    pn = Calculation("P_{\\mathrm{n, tot}}", pn_conc + pn_steel, "kips")
+    mnx = Calculation(
+        "M_{\\mathrm{nx, tot}}",
+        mnx_conc + mnx_steel,
+        "kip-in",
+    )
+    mny = Calculation(
+        "M_{\\mathrm{ny, tot}}",
+        mny_conc + mny_steel,
+        "kip-in",
+    )
+
+    Heading("Capacity Calculation", 2)
     lambda1 = math.atan2(mny, mnx)  # atan2 takes y,x, and we want mny at top
 
     # if Mx and My are both zero, the angle isn't defined, so return a random
@@ -355,17 +421,17 @@ def calculation(
     )
     yield_strain = Calculation("\\epsilon_{ty}", fy / STEEL_E, "")
     if max_strain.get_value() <= yield_strain.get_value():
-        Comparison(max_strain, "<=", yield_strain)
+        ComparisonStatement(max_strain, "<=", yield_strain)
         strain_level = 0
     elif (
         yield_strain.get_value()
         < max_strain.get_value()
         < yield_strain.get_value() + 0.003
     ):
-        Comparison(yield_strain, "<", max_strain, "<", yield_strain + 0.003)
+        ComparisonStatement(yield_strain, "<", max_strain, "<", yield_strain + 0.003)
         strain_level = 1
     else:
-        Comparison(max_strain, ">=", yield_strain + 0.003)
+        ComparisonStatement(max_strain, ">=", yield_strain + 0.003)
         strain_level = 2
     if col.spiral_reinf:
         if strain_level == 0:
@@ -420,6 +486,8 @@ def calculation(
     TextBlock("Factored axial and moment capacities:")
     phi_pn = Calculation("{\\phi}P_n", phi * pn, "kips")
     phi_mnx = Calculation("{\\phi}M_{nx}", phi * mnx / 12, "kip-ft")
-    phi_mny = Calculation("{\\phi}M_{nx}", phi * mny / 12, "kip-ft")
+    phi_mny = Calculation("{\\phi}M_{ny}", phi * mny / 12, "kip-ft")
 
     phi_mn_xy = Calculation("{\\phi}M_{nxy}", sqrt(phi_mnx**2 + phi_mny**2), "kip-ft")
+
+    return phi_mnx, phi_mny, phi_pn

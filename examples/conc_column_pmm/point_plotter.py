@@ -54,4 +54,5 @@ def plot(capacity_pts, point):
     plt.plot(pos[0], pos[1], marker="+", ms=12, mew=1.2, c="red")
     plt.text(pos[0] + label_offsets[0], pos[1] + label_offsets[1], label)
 
-    plt.show()
+    # plt.show()
+    return fig
