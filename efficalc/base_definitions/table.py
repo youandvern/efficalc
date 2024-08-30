@@ -25,6 +25,8 @@ class Table(CalculationItem):
         of your calculation template. When set to True, this :class:`.Table` will be displayed in the "Results"
         section of your design portal in the cloud version of efficalc, defaults to False
     :type result_check: bool, optional
+    :param numbered_rows: Whether to add row numbers (starting at 1) to each row, defaults to False
+    :type numbered_rows: bool, optional
 
     """
 
@@ -36,6 +38,7 @@ class Table(CalculationItem):
         striped: bool = False,
         full_width: bool = False,
         result_check: bool = False,
+        numbered_rows: bool = False,
     ) -> None:
         self.data = data
         self.headers = headers
@@ -43,6 +46,7 @@ class Table(CalculationItem):
         self.striped = striped
         self.full_width = full_width
         self.result_check = result_check
+        self.numbered_rows = numbered_rows
         save_calculation_item(self)
 
     def __str__(self) -> str:
@@ -63,6 +67,8 @@ class InputTable(Table):
     :type striped: bool, optional
     :param full_width: Whether the table should be full width, defaults to True
     :type full_width: bool, optional
+    :param numbered_rows: Whether to add row numbers (starting at 1) to each row, defaults to False
+    :type numbered_rows: bool, optional
     """
 
     def __init__(
@@ -71,11 +77,13 @@ class InputTable(Table):
         headers: List[any],
         title: Optional[str] = None,
         striped: bool = False,
-        full_width: bool = True,
+        full_width: bool = False,
+        numbered_rows: bool = False,
     ) -> None:
-        super().__init__(default_data, headers, title, striped, full_width)
+        super().__init__(
+            default_data, headers, title, striped, full_width, False, numbered_rows
+        )
         self.data = get_override_or_default_value(self.identifier, default_data)
-        self.result_check = False
 
     @property
     def identifier(self):

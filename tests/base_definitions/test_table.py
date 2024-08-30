@@ -26,6 +26,7 @@ def test_default_values(common_setup_teardown):
     assert a.striped is False
     assert a.full_width is False
     assert a.result_check is False
+    assert a.numbered_rows is False
 
 
 def test_set_values(common_setup_teardown):
@@ -36,6 +37,7 @@ def test_set_values(common_setup_teardown):
         striped=True,
         full_width=False,
         result_check=True,
+        numbered_rows=True,
     )
     assert a.data == [[1, 2, 3, 4], [5, 6, 7, 8]]
     assert a.headers == ["a", "b", "c", "d"]
@@ -43,6 +45,7 @@ def test_set_values(common_setup_teardown):
     assert a.striped is True
     assert a.full_width is False
     assert a.result_check is True
+    assert a.numbered_rows is True
 
 
 def test_save_calc_item(common_setup_teardown):
@@ -66,6 +69,7 @@ def test_input_table_set_values(common_setup_teardown):
         title="my table",
         striped=True,
         full_width=False,
+        numbered_rows=True,
     )
     assert a.data == [[1, 2, 3, 4], [5, 6, 7, "test"]]
     assert a.headers == ["a", "b", "c", "d"]
@@ -73,6 +77,7 @@ def test_input_table_set_values(common_setup_teardown):
     assert a.striped is True
     assert a.full_width is False
     assert a.result_check is False
+    assert a.numbered_rows is True
 
 
 def test_input_table_identifier(common_setup_teardown):

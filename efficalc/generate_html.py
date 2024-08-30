@@ -223,12 +223,16 @@ def _generate_result_table_html(item: Table) -> str:
         table_html += f"<caption><b>{item.title}</b></caption>"
     if item.headers:
         table_html += "<thead><tr>"
+        if item.numbered_rows:
+            table_html += "<th></th>"
         for header in item.headers:
             table_html += f"<th>{header}</th>"
         table_html += "</tr></thead>"
     table_html += "<tbody>"
-    for row in item.data:
+    for row_num, row in enumerate(item.data):
         table_html += "<tr>"
+        if item.numbered_rows:
+            table_html += f"<td>{row_num+1}</td>"
         for cell in row:
             table_html += f"<td>{cell}</td>"
         table_html += "</tr>"
