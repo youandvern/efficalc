@@ -1,0 +1,136 @@
+import pytest
+from examples.conc_col_pmm.col.column import Column
+from examples.conc_col_pmm.col.assign_max_min import assign
+from efficalc import (
+    Heading,
+    Input,
+    InputTable,
+)
+from examples.conc_col_pmm.calc_document.add_col_inputs_document import add_inputs
+
+
+# inputs for the example column
+example_data = [40, 40, "#7", 1.5, 8, 9, 8000, 80, False, False]
+
+# for each load case: P, Mx, My, and whether the calc should be shown
+load_cases = [[8000, 1500, 100, True], [0, 0, -2200, False]]
+
+
+@pytest.fixture
+def example_col():
+    col = Column(*example_data)
+    example_data[7] = str(example_data[7]) + " ksi"
+
+    w = Input("w", example_data[0])
+    h = Input("h", example_data[1])
+    # zero spaces
+    bar_size = Input("", example_data[2])
+
+    bar_cover = Input(" ", example_data[3])
+
+    bars_x = Input("    ", example_data[4])
+    bars_y = Input("     ", example_data[5])
+    fc = Input("f'_c", example_data[6])
+    fy = Input("f_y", example_data[7])
+
+    col_data = [w, h, bar_size, bar_cover, bars_x, bars_y, fc, fy]
+    # above were the efficalc Inputs we already have, and below some additional inputs and assumptions
+    # are created and added to the calc report
+    additional_inputs = add_inputs(col)
+
+    # assign efficalc objects to this column for later use
+    col_data[7] = additional_inputs[1]
+    col_data[2] = additional_inputs[0]
+    col.efficalc_inputs = col_data + additional_inputs[2:]
+
+    assign(col)
+    col.shear_bar_size = "#4"
+
+    return col
+
+
+@pytest.fixture
+def col_data():
+    example_data[7] = str(example_data[7]) + " ksi"
+    example_data[8] = "Center" if example_data[8] else "Edge"
+    example_data[9] = "Spiral" if example_data[9] else "Tied"
+    return example_data
+
+
+@pytest.fixture
+def loads():
+    return load_cases
+
+
+example_data2 = [16, 20, "#8", 2.5, 3, 4, 6000, 60, True, False]
+
+
+@pytest.fixture
+def example_col2():
+    example_data = example_data2
+    col = Column(*example_data)
+    example_data[7] = str(example_data[7]) + " ksi"
+
+    w = Input("w", example_data[0])
+    h = Input("h", example_data[1])
+    # zero spaces
+    bar_size = Input("", example_data[2])
+
+    bar_cover = Input(" ", example_data[3])
+
+    bars_x = Input("    ", example_data[4])
+    bars_y = Input("     ", example_data[5])
+    fc = Input("f'_c", example_data[6])
+    fy = Input("f_y", example_data[7])
+
+    col_data = [w, h, bar_size, bar_cover, bars_x, bars_y, fc, fy]
+    # above were the efficalc Inputs we already have, and below some additional inputs and assumptions
+    # are created and added to the calc report
+    additional_inputs = add_inputs(col)
+
+    # assign efficalc objects to this column for later use
+    col_data[7] = additional_inputs[1]
+    col_data[2] = additional_inputs[0]
+    col.efficalc_inputs = col_data + additional_inputs[2:]
+
+    assign(col)
+    col.shear_bar_size = "#4"
+
+    return col
+
+
+example_data3 = [24, 36, "#8", 1.5, 3, 4, 4000, 40, False, False]
+
+
+@pytest.fixture
+def example_col3():
+    example_data = example_data3
+    col = Column(*example_data)
+    example_data[7] = str(example_data[7]) + " ksi"
+
+    w = Input("w", example_data[0])
+    h = Input("h", example_data[1])
+    # zero spaces
+    bar_size = Input("", example_data[2])
+
+    bar_cover = Input(" ", example_data[3])
+
+    bars_x = Input("    ", example_data[4])
+    bars_y = Input("     ", example_data[5])
+    fc = Input("f'_c", example_data[6])
+    fy = Input("f_y", example_data[7])
+
+    col_data = [w, h, bar_size, bar_cover, bars_x, bars_y, fc, fy]
+    # above were the efficalc Inputs we already have, and below some additional inputs and assumptions
+    # are created and added to the calc report
+    additional_inputs = add_inputs(col)
+
+    # assign efficalc objects to this column for later use
+    col_data[7] = additional_inputs[1]
+    col_data[2] = additional_inputs[0]
+    col.efficalc_inputs = col_data + additional_inputs[2:]
+
+    assign(col)
+    col.shear_bar_size = "#4"
+
+    return col
