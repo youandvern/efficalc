@@ -318,8 +318,10 @@ def _wrap_with_reference(primary_content: str, reference: str | None) -> str:
         "display: flex; flex-direction: column; justify-content: center;"
     )
 
+    ref_only_styles = "margin-left:1rem;text-wrap:no-wrap;"
+
     return _wrap_div(
-        f"{_wrap_div(primary_content, vertical_justified)} {_wrap_div(ref, vertical_justified)}",
+        f"{_wrap_div(primary_content, vertical_justified)} {_wrap_div(ref, vertical_justified+ref_only_styles)}",
         f"display:flex; flex-direction:row; justify-content:space-between; {CALC_MARGIN}",
     )
 

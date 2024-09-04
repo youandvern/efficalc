@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "efficalc"
 copyright = "2024, Andrew Young"
 author = "Andrew Young"
-release = "1.2.2"
+release = "1.2.3"
 html_favicon = "_static/favicon.ico"
 
 # -- General configuration ---------------------------------------------------
