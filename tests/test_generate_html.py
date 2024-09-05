@@ -514,3 +514,32 @@ def test_table_with_row_numbers_without_headers(common_setup_teardown):
     assert "<table" in result
     assert "<tr><td>1</td><td>f</td></tr>" in result
     assert "2</td>" not in result
+
+
+def test_inline_equation_escapes_hash_character(common_setup_teardown):
+    a = Input("calc#", 5, "in", "describing text", "refer to code")
+    result = generate_html_for_calc_items([a])
+    assert r"calc\#" in result
+    assert r"calc#" not in result
+    assert a.description in result
+    assert "[" + a.reference + "]" in result
+
+
+def test_equation_escapes_hash_character(common_setup_teardown):
+    a = Input("a", 2)
+    b = Input("b", 3)
+    c = Calculation("c", a + b)
+    calc = Calculation(
+        "calc #1",
+        a - c + brackets(b * a * c) + b - c - a - b,
+        "in",
+        "describing # text",
+        "refer to code",
+    )
+    result = generate_html_for_calc_items([calc])
+    assert calc.estimate_display_length() == CalculationLength.LONG
+    assert calc.name not in result
+    assert "calc \#1" in result
+    assert calc.description in result
+    assert calc.reference in result
+    assert r"\therefore" in result

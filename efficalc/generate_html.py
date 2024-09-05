@@ -305,11 +305,15 @@ def _generate_canvas_html(item: Canvas) -> str:
 
 
 def _wrap_math(content: str) -> str:
-    return rf"\[ {content} \]"
+    return rf"\[ {_escape_tex_characters(content)} \]"
 
 
 def _wrap_math_inline(content: str) -> str:
-    return rf"\( {content} \)"
+    return rf"\( {_escape_tex_characters(content)} \)"
+
+
+def _escape_tex_characters(content: str) -> str:
+    return content.replace("#", "\\#")
 
 
 def _wrap_with_reference(primary_content: str, reference: str | None) -> str:
