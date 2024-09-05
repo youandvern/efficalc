@@ -34,14 +34,15 @@ $$
 <img src="https://github.com/janderson4/efficalc/blob/main/examples/conc_col_pmm/images/ColumnNA-cropped.svg" width="350">
 
 - **Neutral axis depth (c)**: The distance from the neutral axis to a parallel line passing through the column corner in maximum compression. 
-- **PMM diagram**: The 3D plot of the PMM surface, which describes the capacity of a given column in $P$, $M_{x}$, $M_{y}$ (any load case whose plot falls inside the PMM surface is within capacity, and any load case falling outside the PMM surface exceeds capacity). 
+- **PMM diagram**: The 3D plot of the PMM surface, which describes the capacity of a given column in $P$, $M_x$, $M_y$ (any load case whose plot falls inside the PMM surface is within capacity, and any load case falling outside the PMM surface exceeds capacity). 
 - **PM diagram**: The 2D plot of a cut of the PMM surface at a given eccentricity angle (λ). This diagram is useful for visualizing the capacity of the column relative to demand for a given load case. 
 - **PM Vector DCR**: The ratio of the length of the demand vector (in PMM space) to the length of a parallel vector beginning at the origin and continuing until it reaches the capacity surface. 
-- **Axial to Moment Angle (α)**: This is a custom-defined variable used in this program that describes the height of a load case above the $M_{x}$-$M_{y}$ plane. It is a proxy for the inverse of the eccentricity resultant.
+- **Axial to Moment Angle (α)**: This is a custom-defined variable used in this program that describes the height of a load case above the $M_x-M_y$ plane. It is a proxy for the inverse of the eccentricity resultant.
 
 $$
-\alpha = \arctan\left(\frac{P_n}{\sqrt{M_{nx}^2+M_{ny}^2}\right)
+\alpha = \arctan\left(\frac{P_n}{\sqrt{M_{nx}^2+M_{ny}^2}}\right)
 $$
+
 It seems intuitive that the neutral axis should be parallel to the axis of the resultant moment, which would mean the relation λ=-θ would hold. However, this holds only in special cases, which means determining the neutral axis angle required to produce a given eccentricity is not straightforward. For more information see [1]. 
 
 # How It Works
