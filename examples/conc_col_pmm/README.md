@@ -9,22 +9,38 @@ This program supports the analysis of rectangular, symmetric, perimeter-reinforc
 # Definitions and Theory
 This program calculates column capacity according to the exact capacity method, which means it calculates the column’s exact reaction to bending at any angle. 
 
-- **Axial force (P)**: The force in the column parallel to its length, where a positive value indicates compression. 
-- **Ultimate axial force (Pu)**: The axial force applied to a column (typically calculated using a factored load combination).  
-- **Nominal axial capacity (Pn)**: The calculated axial load capacity, without a safety factor. 
-- **Moments (Mx, My)**: These measure moments about axes indicated by their subscripts, i.e., positive Mx indicates compression in the +y region and positive My indicates compression in the +x region. 
-- **Ultimate moments (Mux, Muy)**: The moments applied to a column (typically calculated using a factored load combination).  
-- **Nominal moment capacity (Mnx, Mny)**: The calculated moment capacities, without a safety factor. 
-- **Load case**: A given combination of axial load and moments (Pu, Mux, Muy). 
-- **Eccentricity angle (λ)**: The angle taken clockwise from the positive y-axis to a vector from the column centroid to the location where an equivalent axial load could be applied that would be equivalent to the combination of P, Mx, and My for a given load case. 
+- **Axial force ($P$)**: The force in the column parallel to its length, where a positive value indicates compression. 
+- **Ultimate axial force ($P_u$)**: The axial force applied to a column (typically calculated using a factored load combination).  
+- **Nominal axial capacity ($P_n$)**: The calculated axial load capacity, without a safety factor. 
+- **Moments ($M_x$, $M_y$)**: These measure moments about axes indicated by their subscripts, i.e., positive $M_{x}$ indicates compression in the +y region and positive $M_{y}$ indicates compression in the +x region. 
+- **Ultimate moments ($M_{ux}$, $M_{uy}$)**: The moments applied to a column (typically calculated using a factored load combination).  
+- **Nominal moment capacity ($M_{nx}$, $M_{ny}$)**: The calculated moment capacities, without a safety factor. 
+- **Load case**: A given combination of axial load and moments ($P_{u}$, $M_{ux}$, $M_{uy}$).
+- **Eccentricity ($e_x$, $e_y$)**: This is the location that a load would have to have on the x or y axis to produce an equivalent moment to the moment at the given load case with the same axial load.
+
+$$
+e_x=\frac{M_x}{P}
+$$
+
+$$
+e_y=\frac{M_y}{P}
+$$
+- **Eccentricity angle (λ)**: The angle taken clockwise from the positive y-axis to a vector from the column centroid to the location where an equivalent axial load could be applied that would be equivalent to the combination of $P$, $M_{x}$, and $M_{y}$ for a given load case.
+
+$$
+\lambda = \arctan\left(\frac{e_x}{e_y}\right) = \arctan\left(\frac{M_{ny}}{M_{nx}}\right)
+$$
 - **Neutral axis**: The line across the column section on which strain is assumed to be 0. 
 - **Neutral axis angle (θ)**: The angle from the positive x-axis to the neutral axis. Counter-clockwise is taken as positive, and the region of compression is on the side of the neutral axis further counter-clockwise than θ. 
 - **Neutral axis depth (c)**: The distance from the neutral axis to a parallel line passing through the column corner in maximum compression. 
-- **PMM diagram**: The 3D plot of the PMM surface, which describes the capacity of a given column in P, Mx, and My (any load case whose plot falls inside the PMM surface is within capacity, and any load case falling outside the PMM surface exceeds capacity). 
+- **PMM diagram**: The 3D plot of the PMM surface, which describes the capacity of a given column in $P$, $M_{x}$, $M_{y}$ (any load case whose plot falls inside the PMM surface is within capacity, and any load case falling outside the PMM surface exceeds capacity). 
 - **PM diagram**: The 2D plot of a cut of the PMM surface at a given eccentricity angle (λ). This diagram is useful for visualizing the capacity of the column relative to demand for a given load case. 
 - **PM Vector DCR**: The ratio of the length of the demand vector (in PMM space) to the length of a parallel vector beginning at the origin and continuing until it reaches the capacity surface. 
-- **Axial to Moment Angle (α)**: This is a custom-defined variable used in this program that describes the height of a load case above the Mx-My plane.
+- **Axial to Moment Angle (α)**: This is a custom-defined variable used in this program that describes the height of a load case above the $M_{x}$-$M_{y}$ plane. It is a proxy for the inverse of the eccentricity resultant.
 
+$$
+\alpha = \arctan\left(\frac{P_n}{\sqrt{M_{nx}^2+M_{ny}^2}\right)
+$$
 It seems intuitive that the neutral axis should be parallel to the axis of the resultant moment, which would mean the relation λ=-θ would hold. However, this holds only in special cases, which means determining the neutral axis angle required to produce a given eccentricity is not straightforward. For more information see [1]. 
 
 # How It Works
@@ -33,13 +49,79 @@ It seems intuitive that the neutral axis should be parallel to the axis of the r
 - **DCRs**: These are calculated by finding a point on the PMM surface such that a vector from the origin to that point is parallel to a vector from the origin to the PMM point for the given load case and then taking a ratio of the lengths of the two vectors. To find the capacity point, a search of the PMM surface is again required, but in this case, the target variables are λ and α. Searching this domain is equivalent to searching in the domain of spherical coordinates. Unlike in the case of the point search for the PMM diagram, this search is performed on the fully-factored PMM surface (including the plateau). The search algorithm is [below](#search-algorithm). 
 
 # Search Algorithm
+## Summary
 In both search problems, there are two input and two output variables and the target output variables are known. The algorithm is given a starting point, and it proceeds as follows:
 1.	Calculate first derivatives—the full 4x4 Jacobian—at the current input point using finite differences. 
 2.	Use the derivatives as linear approximations for the two output variables as functions of the two variables and solve for the input point at which both output variables are expected to equal their target values. 
-3.	Move to the input point calculated in (2) and repeat from (1). 
+3.	Move to the input point calculated in (2) and repeat from (1).
+
+## Update Method
+For simplicity, assume that the two input variables are x and y and the two output functions are f and g, where f and g have been shifted so that the target outputs are f=0 and g=0. Then the Jacobian is as follows:
+
+$$
+J =
+\begin{bmatrix}
+\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
+\frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
+\end{bmatrix}
+$$
+
+Then the linear approximator can be written:
+
+$$
+\begin{bmatrix}
+f_1 \\
+g_1
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
+\frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}+
+\begin{bmatrix}
+f_0 \\
+g_0
+\end{bmatrix}
+$$
+
+Since the target is f=0, g=0, this is equivalent to the following system:
+
+$$
+-\begin{bmatrix}
+f_0 \\
+g_0
+\end{bmatrix}=
+\begin{bmatrix}
+\frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\
+\frac{\partial g}{\partial x} & \frac{\partial g}{\partial y}
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
+$$
+
+This equation yields solutions for x and y:
+![Uploading examples_conc_col_pmm_calc_document_full_calc_document.svg…]()
+
+$$
+x = -\frac{\frac{\partial g}{\partial y} f_0 - \frac{\partial f}{\partial y} g_0}{\frac{\partial f}{\partial x} \frac{\partial g}{\partial y} - \frac{\partial f}{\partial y} \frac{\partial g}{\partial x}} 
+$$
+
+$$
+y = -\frac{-\frac{\partial g}{\partial x} f_0 + \frac{\partial f}{\partial x} g_0}{\frac{\partial f}{\partial x} \frac{\partial g}{\partial y} - \frac{\partial f}{\partial y} \frac{\partial g}{\partial x}} 
+$$
+
+This program uses the formulas above to calculate the next guess of both inputs at each iteration. 
+
 
 # Modules
 The following commands define an example column and plot the PMM diagram:
+
+
 
 ```python
 column1 = sections.Column(20, 30, "#8", 1.5, 3, 5, 8000, 60, False, False)
