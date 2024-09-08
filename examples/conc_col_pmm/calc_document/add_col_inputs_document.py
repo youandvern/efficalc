@@ -3,37 +3,10 @@ from examples.conc_col_pmm.constants.rebar_data import fy_dict
 
 
 def add_inputs(col):
-    """
-    Heading("Column Inputs")
-    w = Input("w", w, "in", description="Column section width (x dimension)")
-    h = Input("h", h, "in", description="Column section height (y dimension)")
-    Input("", "\\" + bar_size, "", description="Rebar size")
-    """
     bar_area = Calculation(
         "A_{\\mathrm{bar}}", col.bar_area, "in^2", description="Area of one bar"
     )
-    """
-    bar_cover = Input("", col.bar_cover, "in", description="Rebar cover")
-    
-    cover_type = (
-        "to\\ center\\ of\\ longitudinal\\ bar\\ (not\\ clear\\ cover)"
-        if col.cover_to_center
-        else "to\\ edge\\ of\\ longitudinal\\ bar\\ (clear\\ cover)"
-    )
-    Input("", cover_type, "", description="Rebar cover type")
 
-    transverse_type = "Spiral" if col.spiral_reinf else "Tied"
-    Input("", transverse_type, "", description="Transverse reinforcement type")
-
-    bars_x = Input(
-        "", col.bars_x, "", description="Number of bars on the top/bottom edges"
-    )
-    bars_y = Input(
-        "", col.bars_y, "", description="Number of bars on the left/right edges"
-    )
-    fc = Input("f'_c", col.fc, "psi", description="Concrete strength")
-    fy = Input("f_y", col.fy, "ksi", description="Steel strength")
-    """
     STEEL_E = Calculation(
         "E_s", 29000, "ksi", "Steel modulus of elasticity", "ACI 318-19 20.2.2.2"
     )

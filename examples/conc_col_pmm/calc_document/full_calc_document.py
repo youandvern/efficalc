@@ -11,7 +11,7 @@ from efficalc import (
     InputTable,
 )
 from examples.conc_col_pmm.calc_document.plotting import (
-    pmm_plotter,
+    pmm_plotter_plotly,
     point_plotter,
     draw_column,
     get_capacity,
@@ -54,7 +54,7 @@ def calculation(
 
     draw_column.draw_column_section(col, "Section of Column")
 
-    mesh, pmm_figure = pmm_plotter.plot(col, 36, 12)
+    mesh, pmm_figure = pmm_plotter_plotly.plot(col, 48, 18)
 
     dcr_results = []
     for i in range(len(load_table.data)):

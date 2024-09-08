@@ -98,5 +98,4 @@ def assign(col):
     )
 
     col.load_span = col.max_phi_pn - col.min_phi_pn  # difference between the
-
     # maximum and minimum allowable loads, to be used for normalizing error

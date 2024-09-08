@@ -1,6 +1,6 @@
 from efficalc.report_builder import ReportBuilder
 from efficalc import InputTable
-from .full_calc_document import calculation
+
 from .col_inputs import calculation as col_input_calc
 
 
