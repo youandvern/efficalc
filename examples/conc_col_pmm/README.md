@@ -122,16 +122,115 @@ This program uses the formulas above to calculate the next guess of both inputs 
 <img src="https://github.com/janderson4/efficalc/blob/main/examples/conc_col_pmm/images/minimizer-cropped.svg" width="570">
 
 
-# Modules
-The following commands define an example column and plot the PMM diagram:
+# Summary of Program Structure by Package and Module
 
-```python
-column1 = sections.Column(20, 30, "#8", 1.5, 3, 5, 8000, 60, False, False)
-pmm_plotter.plot(column1, 32, 10)
-```
+## 1. `calc_document`
+Contains modules linked to the `efficalc` package which are used for generating the calc report.
 
-The complete program structure, including dependencies on efficalc, is shown below:
+### 1.1. `add_col_inputs_document`
+Adds the column inputs and assumptions to the calc report.
+
+### 1.2. `col_inputs`
+Collects information from the user about the column and loads. Calls `full_calc_document` to begin creating the calc report.
+
+### 1.3. `document_wrapper`
+Creates the calc report. It calls `col_inputs`, and from there, all information is added to the calc report.
+
+### 1.4. `full_calc_document`
+Receives a column and load cases, then runs the calculations for the column capacity and DCRs for all load cases.
+
+### 1.5. `show_dcr_calc`
+Adds the calculation of a particular DCR to the calc report. Optionally called depending on whether the user selects a given load case to be shown.
+
+### 1.6. `try_axis_document`
+Adds the calculations for the reaction of a column to bending on a given neutral axis to the calc report.
+
+### 1.7. Plotting (sub-package)
+Contains plotting functions.
+
+#### 1.7.1. `draw_column`
+Draws the cross-section of the column on an `efficalc` Canvas, including rebar. Includes options for drawing compression areas.
+
+#### 1.7.2. `get_capacity`
+Accepts parameters like the quarter PMM mesh and a loading point, then returns a list of resultant moment and axial points which form the PM diagram at the angle of the given load point.
+
+#### 1.7.3. `pmm_mesh`
+Creates the mesh for the PMM diagram by iterating over the range of axial loads and λ.
+
+#### 1.7.4. `pmm_plotter_plotly`
+Creates a Plotly figure for the column’s PMM diagram and returns a quarter of the PMM mesh.
+
+#### 1.7.5. `point_plotter`
+Creates a Matplotlib figure showing the PM diagram for a given load case, along with the point for the given load case.
+
+## 2. `col`
+Contains the definition of the column being analyzed.
+
+### 2.1. `assign_max_min`
+Performs calculations for the maximum and minimum axial capacity of a given column, adds them to the calc report, and assigns the calculated values to the given `Column` object.
+
+### 2.2. `column`
+Contains the class defining a `Column` object, including various properties.
+
+## 3. `constants`
+Contains constants used by other packages.
+
+### 3.1. `rebar_data`
+Stores data on rebar properties.
+
+## 4. `pmm_search`
+Contains functions used for searching the PMM surface for target points.
+
+### 4.1. `ecc_search`
+Used to find a PMM point for DCR calculation.
+
+#### 4.1.1. `change_ecc`
+Calculates the next iteration point in the search.
+
+#### 4.1.2. `get_dcr_ecc`
+Runs the point search for finding the capacity point for a given load point and calculates the DCR. Optionally adds the DCR calculation to the calc report.
+
+#### 4.1.3. `get_error_ecc`
+Calculates the distance of the current iteration point from the target point in normalized λ-α space.
+
+#### 4.1.4. `limit_comp_ecc`
+Calculates the results for a given iteration point by running `try_axis`. Also limits the axial load to a range in which nonzero derivatives can be calculated.
+
+#### 4.1.5. `point_search_ecc`
+Controls the convergence of the search for a point for a DCR calculation.
+
+### 4.2. `load_search`
+Used to find a PMM point for the PMM diagram.
+
+#### 4.2.1. `bisect_load`
+Searches for a point aligned with the Mx or My axes by changing only the neutral axis depth while holding λ constant.
+
+#### 4.2.2. `change_load`
+Calculates the next iteration point in the search.
+
+#### 4.2.3. `get_error_load`
+Calculates the distance of the current iteration point from the target point in normalized λ-P space.
+
+#### 4.2.4. `limit_comp_load`
+Calculates the results for a given iteration point by running `try_axis`. Also limits the axial load to a range in which nonzero derivatives can be calculated.
+
+#### 4.2.5. `point_search_load`
+Controls the convergence of the search for a point for creating a PMM diagram.
+
+#### 4.2.6. `starting_pts`
+Selects starting points for the `bisect_load` algorithm. Both starting points are near the initial guess point.
+
+## 5. `struct_analysis`
+
+### 5.1. `triangles`
+Contains functions for calculating the area and centroid of a triangle, for use in `try_axis`.
+
+### 5.2. `try_axis`
+Calculates the reaction of a column (axial load and moments) due to bending on a given neutral axis angle and depth.
+
+# Graphic Summary of Program Structure
+The complete program structure, including dependencies on efficalc, is shown below (created using pydeps):
 <img src="https://github.com/janderson4/efficalc/blob/main/examples/conc_col_pmm/images/structure.svg" width=100%>
 
-## Reference
+# Reference
 [1] Design of Concrete Structures, 15th ed. Darwin, Dolan, and Nilson. McGraw, 2016. 
