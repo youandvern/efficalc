@@ -10,7 +10,7 @@ reduction = 0.005  # the fraction of the total estimated span of both inputs
 # supplied guess "guess," and different in both their theta and c values.
 # "depth" is an estimate of the maximum c, and load_only is boolean, where
 # True indicates that only the load should be varied
-def starting_pts(col, guess, depth, load_only, target):
+def starting_pts(col, guess, depth, target):
     # calculate the starting differences in theta and c between two points
     angle_change = reduction * math.pi / 2
     c_change = reduction * depth
@@ -20,9 +20,6 @@ def starting_pts(col, guess, depth, load_only, target):
     pts = [guess.copy() for i in range(2)]
 
     for i, factor in enumerate(change_factors):
-        if not load_only:
-            pts[i][0] += angle_change * factor
-            pts[i][0] = max(-math.pi / 2, min(0, pts[i][0]))
         pts[i][1] += c_change * factor
         guess[1] = max(1e-6, guess[1])
 

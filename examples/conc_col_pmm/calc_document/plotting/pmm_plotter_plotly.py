@@ -166,9 +166,9 @@ def plot(col, intervals, load_spaces):
                 mode="lines",
                 line=dict(color=line_color, width=line_size),
                 showlegend=False,  # hide the legend
-                x=X[:, i],
-                y=Y[:, i],
-                z=Z[:, i],
+                x=X[:-1, i],
+                y=Y[:-1, i],
+                z=Z[:-1, i],
             )
         )
     fig.update_yaxes(

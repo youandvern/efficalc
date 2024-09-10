@@ -28,7 +28,7 @@ def calculation():
     )
 
     # one space
-    bar_cover = Input(" ", 2.5, "in", description="Longitudinal rebar cover")
+    bar_cover = Input(" ", 1.5, "in", description="Longitudinal rebar cover")
 
     cover_options = [
         "Center",
@@ -67,12 +67,12 @@ def calculation():
     # 5 spaces
     bars_y = Input(
         "     ",
-        8,
+        4,
         "",
         description="Number of bars on the left/right edges",
         num_step=1,
     )
-    fc = Input("f'_c", 5000, "psi", description="Concrete strength")
+    fc = Input("f'_c", 8000, "psi", description="Concrete strength")
 
     fy = Input(
         "f_y",
@@ -85,7 +85,7 @@ def calculation():
 
     headers = ["Pu (kip)", "Mux (kip-ft)", "Muy (kip-ft)", "Show Calc in Report"]
 
-    default_loads = [[8000, 100, 1500, True]]
+    default_loads = [[400, -300, 200, True]]
     load_table = InputTable(default_loads, headers, "Load Cases", False, False)
 
     cover_to_center = cover_type == "Center"

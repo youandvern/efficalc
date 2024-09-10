@@ -10,12 +10,12 @@ from examples.conc_col_pmm.calc_document.add_col_inputs_document import add_inpu
 
 
 # inputs for the example column
-example_data_1 = [40, 40, "#7", 1.5, 8, 9, 8000, 80, False, False]
-example_data = [40, 40, "#7", 1.5, 8, 9, 8000, "80 ksi", "Edge", "Tied"]
+example_data_1 = [24, 18, "#5", 1.5, 5, 4, 8000, 80, False, False]
+example_data = [24, 18, "#5", 1.5, 5, 4, 8000, "80 ksi", "Edge", "Tied"]
 
 
 # for each load case: P, Mx, My, and whether the calc should be shown
-load_cases = [[8000, 1500, 100, True], [0, 0, -2200, False]]
+load_cases = [[1500, 1000, 200, True], [0, 0, -2200, False]]
 
 
 @pytest.fixture

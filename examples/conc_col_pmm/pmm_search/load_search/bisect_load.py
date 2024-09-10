@@ -20,7 +20,7 @@ def bisect(col, target, guess):
     # between the section corners perpendicular to the neutral axis
 
     # set the two initial guess points
-    pts = starting_pts(col, guess, depth, True, target)
+    pts = starting_pts(col, guess, depth, target)
 
     error = float("inf")  # normalized distance of the current point from the
     # target
@@ -53,7 +53,7 @@ def bisect(col, target, guess):
 
         # if the error increases after the first guess, the change should be
         # reduced to try to improve the guess
-        while error > best_error and factor >= 0.1:
+        while error > best_error and factor >= 0.1 and counter < 50:
             # calculate the next guess based on the current point
             guess = pts[1][1] + change * factor
             factor /= 10
