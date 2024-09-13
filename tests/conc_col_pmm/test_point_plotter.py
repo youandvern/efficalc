@@ -4,6 +4,8 @@ from examples.conc_col_pmm.calc_document.plotting import (
     point_plotter,
 )
 
+# import matplotlib.pyplot as plt
+
 
 def test_point_plotter(example_col3, loads):
 
@@ -13,6 +15,9 @@ def test_point_plotter(example_col3, loads):
     load = [loads[0][1], loads[0][2], loads[0][0]]
 
     capacity = get_capacity.get_capacity(mesh, load)
-    fig = point_plotter.plot(capacity, load)
+    fig = point_plotter.plot(capacity, load, False)
 
     fig.show()
+
+
+#   plt.savefig("test_plot.png")

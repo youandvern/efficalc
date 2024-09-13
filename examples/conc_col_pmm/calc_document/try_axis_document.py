@@ -9,14 +9,18 @@ from efficalc import (
     sin,
     tan,
     PI,
-    sqrt,
     Table,
     minimum,
+    maximum,
+    Symbolic,
 )
 import math
 import random
 from examples.conc_col_pmm.col import column
-from examples.conc_col_pmm.calc_document.plotting import draw_column
+from examples.conc_col_pmm.col.col_canvas import (
+    draw_column_with_triangle,
+    draw_column_comp_zone,
+)
 
 
 def try_axis_document(
@@ -86,7 +90,10 @@ def try_axis_document(
         "ACI 318-19 22.2.2.4.1",
     )
     fc = Calculation(
-        "f'_c", fc / 1000, "ksi", description="Concrete strength converted to ksi:"
+        "f^{\prime}_c",
+        fc / 1000,
+        "ksi",
+        description="Concrete strength converted to ksi:",
     )
     epsilon = 1e-6  # acceptable error for considering the neutral axis to
     # be vertical or horizontal
@@ -189,7 +196,7 @@ def try_axis_document(
             )
             points = (pt_a, pt_b, pt_c)
             points = [((pt[0]).get_value(), (pt[1]).get_value()) for pt in points]
-            draw_column.draw_column_with_triangle(
+            draw_column_with_triangle.draw(
                 col, "Compression Area Outline", conc_area_num, points
             )
             tri_area = Calculation(
@@ -250,7 +257,7 @@ def try_axis_document(
         else:
             points_block.append((-col.w / 2, left_y.get_value()))
             points_block.append((-col.w / 2, col.h / 2))
-        draw_column.draw_column_comp_zone(
+        draw_column_comp_zone.draw(
             col, "Equivalent compression zone outlined in red. ", points_block
         )
         TextBlock(
@@ -276,6 +283,53 @@ def try_axis_document(
             "kip-in",
         )
 
+    Heading("Equations for Rebar Axial and Moment Calculations", 2)
+
+    TextBlock(
+        "For a bar located at coordinates (x,y) relative to the column centroid (as an example, it could "
+        "be located at (5,5):"
+    )
+    x = Input("x_{\mathrm{bar}}", 5)
+    y = Input("y_{\mathrm{bar}}", 5)
+
+    d_bar = Symbolic(
+        "d_{\mathrm{bar}}",
+        r_brackets(w / 2 - x) * cos(theta + PI / 2)
+        + r_brackets(h / 2 - y) * sin(theta + PI / 2),
+        "Effective depth:",
+    )
+    strain_sym = Symbolic(
+        "\epsilon_{\mathrm{bar}}", CONC_EPSILON * (d_bar - c) / c, "Strain:"
+    )
+    stress_sym = Symbolic(
+        "\sigma_{\mathrm{bar}}",
+        minimum(fy, maximum(-fy, CONC_EPSILON * strain_sym)),
+        "Stress:",
+    )
+    Symbolic(
+        "\sigma_{\mathrm{bar}}",
+        stress_sym + 0.85 * fc,
+        "If the bar is in the equivalent compression zone, add the concrete stress to avoid double-counting:",
+    )
+    TextBlock(
+        "Note that the sign of the following expressions is reversed because positive stress in the rebar "
+        "is defined as tension while positive axial moment in the column is defined as compression."
+    )
+    Symbolic(
+        "P_{\mathrm{bar}}",
+        -bar_area * stress_sym * y,
+        "Contribution to moment about the " "x axis:",
+    )
+    Symbolic(
+        "M_{\mathrm{x, bar}}",
+        -bar_area * stress_sym * y,
+        "Contribution to moment about " "the x axis:",
+    )
+    Symbolic(
+        "M_{\mathrm{y, bar}}",
+        -bar_area * stress_sym * x,
+        "Contribution to moment about " "the y axis:",
+    )
     # define new accumulators
     pn = 0
     mnx = 0
@@ -327,7 +381,6 @@ def try_axis_document(
 
         rebar_matrix.append(bar_calc)
 
-    Heading("Forces in the Rebar", 2)
     right_bar_x = col.half_w - col.edge_to_bar_center  # x coordinate of bars on the
     # right edge
     y = col.y_start
@@ -365,7 +418,9 @@ def try_axis_document(
             coords = [x, y]
             add_bar(coords)
         x += col.x_space
-    Table(rebar_matrix, headers, "Rebar Calculations")
+    Heading("Tabulated Rebar Results", 2)
+
+    Table(rebar_matrix, headers)
 
     Heading("Force Totals", 2)
     pn_steel = Input("P_{\\mathrm{n, steel}}", pn, "kips")

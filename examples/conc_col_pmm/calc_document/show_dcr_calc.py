@@ -2,23 +2,9 @@ from efficalc import (
     Calculation,
     Comparison,
     Heading,
-    Input,
     TextBlock,
-    Title,
-    r_brackets,
-    ComparisonStatement,
-    Assumption,
-    cos,
-    sin,
-    tan,
-    minimum,
-    maximum,
-    PI,
-    sqrt,
-    Table,
     absolute,
 )
-import math
 
 
 def show(vertical_pt, load, capacity, dcr):
@@ -46,4 +32,4 @@ def show(vertical_pt, load, capacity, dcr):
         Calculation("DCR_{My}", absolute(load[1] / capacity[1]))
         Calculation("DCR_{P}", load[2] / capacity[2])
         dcr = Calculation("DCR", dcr, "", "The final DCR is:")
-        Comparison(dcr, "<", 1.0)
+        Comparison(dcr, "<", 1.0, true_message="O.K.", false_message="N.G.")

@@ -7,6 +7,11 @@ def add_inputs(col):
         "A_{\\mathrm{bar}}", col.bar_area, "in^2", description="Area of one bar"
     )
 
+    # needed for drawing
+    col.shear_bar_size = "#4"
+
+    fy = Calculation("f_y", col.fy, "ksi")
+
     STEEL_E = Calculation(
         "E_s", 29000, "ksi", "Steel modulus of elasticity", "ACI 318-19 20.2.2.2"
     )
@@ -24,8 +29,4 @@ def add_inputs(col):
         "Strain in concrete and reinforcement is proportional to distance from the neutral axis, per ACI 318-19 22.2.1.2 "
     )
 
-    # needed for drawing
-    col.shear_bar_size = "#4"
-
-    fy = Calculation("f_y", col.fy, "ksi")
     return [bar_area, fy, STEEL_E, CONC_EPSILON]

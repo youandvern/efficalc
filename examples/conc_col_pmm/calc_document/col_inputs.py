@@ -1,8 +1,4 @@
-from efficalc import (
-    Heading,
-    Input,
-    InputTable,
-)
+from efficalc import Heading, Input, InputTable, Title
 
 from examples.conc_col_pmm.constants.rebar_data import (
     REBAR_SIZES,
@@ -13,6 +9,8 @@ from .full_calc_document import calculation as full_calc
 
 # this function accepts inputs from the user and passes them to "full_calc_document"
 def calculation():
+    Title("Concrete Column Biaxial Bending Calculation Report")
+
     Heading("Column Inputs")
     w = Input("w", 20, "in", description="Column section width (x dimension)")
     h = Input("h", 30, "in", description="Column section height (y dimension)")
@@ -72,7 +70,7 @@ def calculation():
         description="Number of bars on the left/right edges",
         num_step=1,
     )
-    fc = Input("f'_c", 8000, "psi", description="Concrete strength")
+    fc = Input("f^{\prime}_c", 8000, "psi", description="Concrete strength")
 
     fy = Input(
         "f_y",
@@ -85,7 +83,7 @@ def calculation():
 
     headers = ["Pu (kip)", "Mux (kip-ft)", "Muy (kip-ft)", "Show Calc in Report"]
 
-    default_loads = [[400, -300, 200, True]]
+    default_loads = [[1400, -300, 100, True]]
     load_table = InputTable(default_loads, headers, "Load Cases", False, False)
 
     cover_to_center = cover_type == "Center"
