@@ -3,7 +3,7 @@ import numpy as np
 from .pmm_mesh import get_mesh
 
 
-def plot(col, intervals, load_spaces):
+def plot(col, intervals, load_spaces, load_cases):
     # This function plots the factored load capacity diagram for the column
     # col. "intervals" is the number of spaces in the angle of eccentricity,
     # "load_spaces" is the number of vertical spaces in the PMM diagram
@@ -135,13 +135,30 @@ def plot(col, intervals, load_spaces):
 
     add_axis_arrows(fig)
 
+    load_data = np.array(load_cases)
+
+    """
+    fig.add_trace(
+        go.Scatter3d(
+            showlegend=False,  # hide the legend
+            x=load_data[:, 0],
+            y=load_data[:, 1],
+            z=load_data[:, 2],
+            color="#001ccf",
+            symbol="species",
+        )
+    )
+    """
+
+    surface_col = "#ffcc4c"
+    surface_scale = [[0, surface_col], [1, surface_col]]
     fig.add_trace(
         go.Surface(
             z=Z,
             x=X,
             y=Y,
-            opacity=1,
-            colorscale="Viridis",
+            opacity=0.9,
+            colorscale=surface_scale,
             showscale=False,  # Set to True to show colorscale
             name="",
         )

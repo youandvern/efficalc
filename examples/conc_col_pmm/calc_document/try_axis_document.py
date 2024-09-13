@@ -286,11 +286,16 @@ def try_axis_document(
     Heading("Equations for Rebar Axial and Moment Calculations", 2)
 
     TextBlock(
-        "For a bar located at coordinates (x,y) relative to the column centroid (as an example, it could "
-        "be located at (5,5):"
+        "Each bar is at coordinates (x,y) relative to the column centroid. For example, the top right bar"
+        "is located at the coordinates below:"
     )
-    x = Input("x_{\mathrm{bar}}", 5)
-    y = Input("y_{\mathrm{bar}}", 5)
+    right_bar_x = col.half_w - col.edge_to_bar_center  # x coordinate of bars on the
+    # right edge
+    top_bar_y = col.half_h - col.edge_to_bar_center  # y coordinate of bars on the
+    # top edge
+
+    x = Input("x_{\mathrm{bar}}", right_bar_x)
+    y = Input("y_{\mathrm{bar}}", top_bar_y)
 
     d_bar = Symbolic(
         "d_{\mathrm{bar}}",
@@ -381,8 +386,6 @@ def try_axis_document(
 
         rebar_matrix.append(bar_calc)
 
-    right_bar_x = col.half_w - col.edge_to_bar_center  # x coordinate of bars on the
-    # right edge
     y = col.y_start
     # iterate over the bars along the left and right lines
     # (this includes corner bars)
@@ -408,8 +411,6 @@ def try_axis_document(
             add_bar(coords)
         y += col.y_space
 
-    top_bar_y = col.half_h - col.edge_to_bar_center  # y coordinate of bars on the
-    # top edge
     x = col.x_start
     for i in range(col.bars_x - 2):
         # iterate over the bars along the top and bottom lines, and add the

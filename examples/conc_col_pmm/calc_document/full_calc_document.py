@@ -45,7 +45,13 @@ def calculation(
     # assign the max tension and compression to this column
     assign_max_min.assign(col)
 
-    mesh, pmm_figure = pmm_plotter_plotly.plot(col, 48, 18)
+    load_cases = load_table.data
+    n = len(load_cases)
+    load_cases = [
+        [load_cases[i][1], load_cases[i][2], load_cases[i][0]] for i in range(n)
+    ]
+
+    mesh, pmm_figure = pmm_plotter_plotly.plot(col, 48, 18, load_cases)
 
     # show the PM curves for bending purely about the x and y axes
     Heading("PM Diagrams for Pure Mx and My")
