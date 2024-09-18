@@ -249,9 +249,5 @@ Contains functions for calculating the area and centroid of a triangle, for use 
 ### 5.2. `try_axis`
 Calculates the reaction of a column (axial load and moments) due to bending on a given neutral axis angle and depth.
 
-# Graphic Summary of Program Structure
-The complete program structure, including dependencies on efficalc, is shown below (created using pydeps):
-<img src="https://github.com/janderson4/efficalc/blob/main/examples/conc_col_pmm/images/structure.svg" width=100%>
-
 # Reference
 [1] Design of Concrete Structures, 15th ed. Darwin, Dolan, and Nilson. McGraw, 2016. 
