@@ -1,9 +1,15 @@
 from examples.conc_col_pmm.pmm_search.ecc_search.point_search_ecc import search
 import math
-import pytest
 
 search_tol = 1.5e-3  # the tolerance for error in the points found
 ceil_tol = 1e-2  # how close to limits to go
+
+"""
+The function below chooses an arbitrary initial guess and then
+for a range of target points (where the target lambda and load
+are both allowed to vary) checks whether the eccentricity search
+algorithm converges. 
+"""
 
 
 def test_search(example_col):

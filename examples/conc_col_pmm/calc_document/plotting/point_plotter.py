@@ -6,13 +6,15 @@ The function "plot" creates and returns a matplotlib figure showing a PM diagram
 
 Parameters:
 
-capacity_pts: a list of the capacity points on the PM curve
+capacity_pts: a list of the capacity points on the PM curve, in the format 
+(Mxy, P). 
 
 point: the load point if this plot is for a DCR calculation, or None if this plot
-is simply to show the PM curve aligned with the Mx or My axis
+is simply to show the PM curve aligned with the Mx or My axis. The point is in 
+the format (P, Mx, My). 
 
 only_Mx: boolean, and only used when point=None, True means this is for bending
-in the x-direction
+in the x-direction. 
 """
 
 
@@ -21,7 +23,7 @@ def plot(capacity_pts, point, only_Mx):
 
     if point:
         # get the lamdba for the load point
-        pt_lambda = math.atan2(point[1], point[0])  # the angle for the current point
+        pt_lambda = math.atan2(point[2], point[1])  # the angle for the current point
     else:
         # set the lambda to the desired axis
         pt_lambda = 0 if only_Mx else math.pi / 2
@@ -64,12 +66,14 @@ def plot(capacity_pts, point, only_Mx):
         plt.text(pos[0] + label_offsets[0], pos[1] + label_offsets[1], label, zorder=3)
 
     if point:
-        Muxy = math.sqrt(sum((point[i] ** 2 for i in range(2))))  # the biaxial moment
+        Muxy = math.sqrt(
+            sum((point[i] ** 2 for i in range(1, 3)))
+        )  # the biaxial moment
 
         # plot and label the load point
-        pos = (Muxy, point[2])
+        pos = (Muxy, point[0])
         moment_label = "($M_{uxy}=$" + str(round(Muxy, 1)) + " kip-ft, "
-        axial_label = "$P_u=$" + str(round(point[2], 1)) + " kip)"
+        axial_label = "$P_u=$" + str(round(point[0], 1)) + " kip)"
         label = moment_label + "\n" + axial_label
 
         plt.plot(pos[0], pos[1], marker="+", ms=12, mew=1.2, c="red", zorder=4)

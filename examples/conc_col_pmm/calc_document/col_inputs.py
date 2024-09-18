@@ -12,13 +12,13 @@ def calculation():
     Title("Concrete Column Biaxial Bending Calculation Report")
 
     Heading("Column Inputs")
-    w = Input("w", 20, "in", description="Column section width (x dimension)")
-    h = Input("h", 30, "in", description="Column section height (y dimension)")
+    w = Input("w", 24, "in", description="Column section width (x dimension)")
+    h = Input("h", 36, "in", description="Column section height (y dimension)")
 
     # zero spaces
     bar_size = Input(
         "",
-        REBAR_SIZES[3],
+        REBAR_SIZES[5],
         "",
         description="Longitudinal rebar size (Imperial)",
         input_type="select",
@@ -26,7 +26,7 @@ def calculation():
     )
 
     # one space
-    bar_cover = Input(" ", 1.5, "in", description="Longitudinal rebar cover")
+    bar_cover = Input(" ", 2, "in", description="Longitudinal rebar cover")
 
     cover_options = [
         "Center",
@@ -56,7 +56,7 @@ def calculation():
     # 4 spaces
     bars_x = Input(
         "    ",
-        5,
+        6,
         "",
         description="Number of bars on the top/bottom edges",
         num_step=1,
@@ -65,7 +65,7 @@ def calculation():
     # 5 spaces
     bars_y = Input(
         "     ",
-        4,
+        8,
         "",
         description="Number of bars on the left/right edges",
         num_step=1,
@@ -83,7 +83,7 @@ def calculation():
 
     headers = ["Pu (kip)", "Mux (kip-ft)", "Muy (kip-ft)", "Show Calc in Report"]
 
-    default_loads = [[1400, -300, 100, True]]
+    default_loads = [[3000, -200, 100, True]]
     load_table = InputTable(default_loads, headers, "Load Cases", False, False)
 
     cover_to_center = cover_type == "Center"

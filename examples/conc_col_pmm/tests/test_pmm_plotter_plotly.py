@@ -1,6 +1,7 @@
 from examples.conc_col_pmm.calc_document.plotting import pmm_plotter_plotly
 
 
+# This test checks for runtime errors
 def test_pmm_plotter_plotly(example_col, loads):
 
     col = example_col
@@ -9,6 +10,4 @@ def test_pmm_plotter_plotly(example_col, loads):
 
     load_cases = loads[:3]
 
-    _, fig = pmm_plotter_plotly.plot(col, 36, 12, load_cases)
-
-    fig.show()
+    _, _ = pmm_plotter_plotly.plot(col, 36, 12, load_cases)

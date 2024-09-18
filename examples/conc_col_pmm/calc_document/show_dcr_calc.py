@@ -8,6 +8,9 @@ from efficalc import (
 
 
 def show(vertical_pt, load, capacity, dcr):
+    # convert to be in the format (Mx, My, P)
+    load = [load[1], load[2], load[0]]
+
     Heading("DCR Calculation", 2)
     if vertical_pt:
         TextBlock(
@@ -15,11 +18,11 @@ def show(vertical_pt, load, capacity, dcr):
             " load to the axial capacity calculated above:"
         )
         if load[2] < 0:
-            efficalc_cap = Calculation("{\\phi}P_{\mathrm{n,min}}", capacity, "kips")
+            efficalc_cap = Calculation("{\phi}P_{\mathrm{n,min}}", capacity, "kips")
             dcr = Calculation("DCR", load[2] / efficalc_cap)
             Comparison(dcr, "<", 1.0)
         else:
-            efficalc_cap = Calculation("{\\phi}P_{\mathrm{n,max}}", capacity, "kips")
+            efficalc_cap = Calculation("{\phi}P_{\mathrm{n,max}}", capacity, "kips")
             dcr = Calculation("DCR", load[2] / efficalc_cap)
             Comparison(dcr, "<", 1.0)
     else:

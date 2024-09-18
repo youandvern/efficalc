@@ -1,5 +1,10 @@
 from examples.conc_col_pmm.pmm_search.ecc_search.get_dcr_ecc import get_dcr_ecc
 
+"""
+This test uses a set of load points and a given column as well as
+reference values for the DCRs for those load points to check the
+accuracy of the DCRs from this program. 
+"""
 loads = [
     [-300, 50, 0],
     [-300, 1000, 0],
@@ -162,6 +167,7 @@ dcrs = [
     1.19196439,
 ]
 
+# the error tolerance for this test
 tol = 1e-2
 
 
@@ -169,8 +175,7 @@ def test_get_dcr(example_col3):
     col = example_col3
 
     for i in range(78):
-        # the loads above have P first, but we want Mx, My first
-        load = loads[i][1:] + [loads[i][0]] + [False]
+        load = loads[i] + [False]
         dcr = get_dcr_ecc(col, load)
 
         if dcr > 0:

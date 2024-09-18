@@ -2,9 +2,7 @@ import pytest
 from examples.conc_col_pmm.col.column import Column
 from examples.conc_col_pmm.col.assign_max_min import assign
 from efficalc import (
-    Heading,
     Input,
-    InputTable,
 )
 from examples.conc_col_pmm.calc_document.add_col_inputs_document import add_inputs
 
@@ -15,7 +13,7 @@ example_data = [24, 18, "#5", 1.5, 5, 4, 8000, "80 ksi", "Edge", "Tied"]
 
 
 # for each load case: P, Mx, My, and whether the calc should be shown
-load_cases = [[1500, 1000, 200, True], [0, 0, -2200, False]]
+load_cases = [[300, 100, 200, True], [-100, 50, -60, False], [11500, 300, -300, False]]
 
 
 @pytest.fixture

@@ -1,5 +1,14 @@
 import math
 
+"""
+The function below interpolates between points on the PMM diagram to construct
+the PM diagram for a given load point. It returns two lists which contain the
+resultant moment and axial load for the points of the PM diagram at the lambda
+for the given load point. 
+Parameters: "mesh" is the quarter PMM mesh consisting of (Mx, My, P) points and
+"point" is the load point in the form (P, Mx, My). 
+"""
+
 
 def get_capacity(mesh, point):
     pt_count = len(mesh)  # the number of rows of points vertically
@@ -8,7 +17,7 @@ def get_capacity(mesh, point):
 
     angle_space = (math.pi / 2) / quarter  # the horizontal space between points
 
-    lambda_transform = math.atan2(abs(point[1]), abs(point[0]))  # the angle for
+    lambda_transform = math.atan2(abs(point[2]), abs(point[1]))  # the angle for
     # the current point transformed to the range 0 to 90, where 0 must
     # correspond to My=0
 
@@ -20,6 +29,7 @@ def get_capacity(mesh, point):
     if index == quarter:
         index -= 1
 
+    # this is how far beyond the chosen interval the load point lies
     angle_extra = lambda_transform % angle_space
 
     # define factors that can be multiplied by the load values at two
@@ -35,6 +45,7 @@ def get_capacity(mesh, point):
         phi_Pn[i] = sum((mesh[i][index + j][2] * factors[j] for j in range(2)))
 
         for j in range(2):
+            # calculate the moment resultant for the given capacity point
             moment = math.sqrt(sum((mesh[i][index + j][k] ** 2 for k in range(2))))
             phi_Mn[i] += moment * factors[j]
     return [phi_Mn, phi_Pn]

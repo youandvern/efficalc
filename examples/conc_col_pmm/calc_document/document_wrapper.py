@@ -4,8 +4,11 @@ from efficalc import InputTable
 from .col_inputs import calculation as col_input_calc
 
 
-# parameters: "override_inputs" is boolean and indicates whether the default/user-input Input values
-# should be overriden by the values provided in the next two arguments (column parameters, then load data)
+# parameters: "override_inputs" is boolean and indicates whether the values
+# provided in the next two arguments (column parameters, then load data)
+# should override the default/user-input Input values
+
+
 def run(override_inputs, col_data, loads):
     if override_inputs:
         headers = ["Pu (kip)", "Mux (kip-ft)", "Muy (kip-ft)", "Show Calc in Report"]

@@ -2,12 +2,21 @@ import plotly.graph_objects as go
 import numpy as np
 from .pmm_mesh import get_mesh
 
+"""
+This function plots the factored load capacity diagram for the column
+"col." "intervals" is the number of spaces in the angle of eccentricity,
+"load_spaces" is the number of vertical spaces in the PMM diagram. 
+"load_cases" is a 2d list of load cases for the given column, where
+each inner list has the format (Mx, My, P). 
+"""
+
 
 def plot(col, intervals, load_spaces, load_cases):
-    # This function plots the factored load capacity diagram for the column
-    # col. "intervals" is the number of spaces in the angle of eccentricity,
-    # "load_spaces" is the number of vertical spaces in the PMM diagram
 
+    # get the capacity point mesh for plotting the PMM surface. x, y,
+    # and z correspond to Mx, My, and P, respectively. "quarter_mesh"
+    # has just one quarter of the PMM mesh (including points aligned
+    # with the x and y axes)
     x, y, z, quarter_mesh = get_mesh(col, intervals, load_spaces)
     X = np.array(x)
     Y = np.array(y)
@@ -15,11 +24,13 @@ def plot(col, intervals, load_spaces, load_cases):
 
     axis_colors = {"x": "#FF0000", "y": "#00CC00", "z": "#0000FF"}
     ax_labels = {"x": "${\phi}M_{nx}$", "y": "${\phi}M_{ny}$", "z": "${\phi}P_n$"}
+
+    # factors for how far the axes should extend past the PMM surface
     z_factor = 0.12
-    xy_factor = 1.05
+    xy_factor = 0.05
 
     data = {}
-    # list for min, then max, then difference
+    # list for min, then max, then difference for each of X, Y, Z
     min_max = []
     for dir in (X, Y, Z):
         min_max.append([dir.min(), dir.max()])
@@ -32,15 +43,19 @@ def plot(col, intervals, load_spaces, load_cases):
     data["z"]["min"] = min1 - range1 * z_factor
     data["z"]["max"] = max1 + range1 * z_factor
 
+    # set the maximum aspect ratio (should be low so that the PMM
+    # surface won't be super long/short in any dimension
     min_aspect = 2
     max_xy = max(min_max[0][2], min_max[1][2])
     for i, dir in enumerate(("x", "y")):
         data[dir] = {}
-        length = min(xy_factor * max_xy, min_aspect * min_max[i][2])
+        length = min((1 + xy_factor) * max_xy, min_aspect * min_max[i][2])
         data[dir]["range"] = length
         data[dir]["min"] = -length / 2
         data[dir]["max"] = length / 2
 
+    # creates an arrow which is used as the axis for whichever axis
+    # is input as the parameter
     def get_arrow(axisname="x"):
         ax_color = axis_colors[axisname]
         scale = [[0, ax_color], [1, ax_color]]
@@ -77,6 +92,7 @@ def plot(col, intervals, load_spaces, load_cases):
             for item in get_arrow(ax):
                 fig.add_trace(item)
 
+    # returns a dictionary which forms the axis label for one of the axes
     def get_annotation_for_ax(ax):
         d = dict(
             showarrow=False,
@@ -100,6 +116,8 @@ def plot(col, intervals, load_spaces, load_cases):
     def get_axis_names():
         return [get_annotation_for_ax(ax) for ax in ("x", "y", "z")]
 
+    # returns the Plotly axes (should be empty since these default axes
+    # are not used)
     def get_scene_axis():
         return dict(
             title="",  # remove axis label (x,y,z)
@@ -109,6 +127,7 @@ def plot(col, intervals, load_spaces, load_cases):
             showgrid=False,  # Show box around plot
         )
 
+    # plot the 3D PMM surface
     fig = go.Figure(
         layout=dict(
             title={
@@ -135,36 +154,49 @@ def plot(col, intervals, load_spaces, load_cases):
 
     add_axis_arrows(fig)
 
+    # convert the PMM data to a numpy array for plotting
     load_data = np.array(load_cases)
 
-    """
+    # define a color (dark blue) for the load points
+    pt_color = "#002095"
+
+    # Add points for the load cases. Note that because
+    # the load cases are passed in the form (P, Mx, My),
+    # the order must be changed for plotting
     fig.add_trace(
         go.Scatter3d(
+            mode="markers",
             showlegend=False,  # hide the legend
-            x=load_data[:, 0],
-            y=load_data[:, 1],
-            z=load_data[:, 2],
-            color="#001ccf",
-            symbol="species",
+            x=load_data[:, 1],
+            y=load_data[:, 2],
+            z=load_data[:, 0],
+            marker=dict(
+                color=pt_color,
+                size=4,
+            ),
         )
     )
-    """
 
-    surface_col = "#ffcc4c"
-    surface_scale = [[0, surface_col], [1, surface_col]]
+    # define a color (orange) for the PMM surface
+    surface_color = "#ffcc4c"
+    surface_color="#ffbb0f"
+    surface_scale = [[0, surface_color], [1, surface_color]]
     fig.add_trace(
         go.Surface(
             z=Z,
             x=X,
             y=Y,
-            opacity=0.9,
+            opacity=0.5,
             colorscale=surface_scale,
             showscale=False,  # Set to True to show colorscale
             name="",
         )
     )
 
+    # define a color (near-white) for the plotted mesh
     line_color = "#f7f7f7"
+
+    # plot a mesh on the PMM surface between the capacity points
     line_size = 1.5
     for i in range(X.shape[0]):
         fig.add_trace(
