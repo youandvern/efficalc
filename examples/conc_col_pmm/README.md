@@ -151,7 +151,7 @@ Adds the calculation of a particular DCR to the calc report. Optionally called d
 ### 1.8. `try_axis_document`
 Adds the calculations for the reaction of a column to bending on a given neutral axis to the calc report.
 
-### 1.9. plotting (sub-package)
+### 1.9. `plotting` (sub-package)
 Contains plotting functions.
 
 #### 1.9.1. `get_capacity`
@@ -178,7 +178,7 @@ Performs calculations for the maximum and minimum axial capacity of a given colu
 ### 2.2. `column`
 Contains the class defining a `Column` object, including various properties.
 
-### 2.3. col_canvas (sub-package)
+### 2.3. `col_canvas` (sub-package)
 Contains plotting functions.
 
 #### 2.3.1. `draw_column_comp_zone`
