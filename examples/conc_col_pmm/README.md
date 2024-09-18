@@ -133,44 +133,65 @@ Adds the column inputs and assumptions to the calc report.
 ### 1.2. `col_inputs`
 Collects information from the user about the column and loads. Calls `full_calc_document` to begin creating the calc report.
 
-### 1.3. `document_wrapper`
+### 1.3. `dcr_calc_runner`
+Calculates DCRs for all load cases and adds calculations to the calc report for applicable load cases. 
+
+### 1.4. `document_wrapper`
 Creates the calc report. It calls `col_inputs`, and from there, all information is added to the calc report.
 
-### 1.4. `full_calc_document`
+### 1.5. `full_calc_document`
 Receives a column and load cases, then runs the calculations for the column capacity and DCRs for all load cases.
 
-### 1.5. `show_dcr_calc`
+### 1.6. `results_summary`
+Creates a table showing the DCRs for all load cases and shows the max DCR. 
+
+### 1.7. `show_dcr_calc`
 Adds the calculation of a particular DCR to the calc report. Optionally called depending on whether the user selects a given load case to be shown.
 
-### 1.6. `try_axis_document`
+### 1.8. `try_axis_document`
 Adds the calculations for the reaction of a column to bending on a given neutral axis to the calc report.
 
-### 1.7. Plotting (sub-package)
+### 1.9. plotting (sub-package)
 Contains plotting functions.
 
-#### 1.7.2. `get_capacity`
+#### 1.9.1. `get_capacity`
 Accepts parameters like the quarter PMM mesh and a loading point, then returns a list of resultant moment and axial points which form the PM diagram at the angle of the given load point.
 
-#### 1.7.3. `pmm_mesh`
+#### 1.9.2. `pmm_mesh`
 Creates the mesh for the PMM diagram by iterating over the range of axial loads and λ.
 
-#### 1.7.4. `pmm_plotter_plotly`
+#### 1.9.3. `pmm_plotter_plotly`
 Creates a Plotly figure for the column’s PMM diagram and returns a quarter of the PMM mesh.
 
-#### 1.7.5. `point_plotter`
+#### 1.9.4. `point_plotter`
 Creates a Matplotlib figure showing the PM diagram for a given load case, along with the point for the given load case.
+
+#### 1.9.5. `pure_mx_my_plotter`
+Adds PM diagrams to the calc report showing cuts of the PMM diagram that align with both the x and y axes (indicating moment purely about the x and y axes). 
 
 ## 2. `col`
 Contains functions related to the definition of a given concrete column.
-
-#### 1.7.1. `draw_column`
-Draws the cross-section of the column on an `efficalc` Canvas, including rebar. Includes options for drawing compression areas.
 
 ### 2.1. `assign_max_min`
 Performs calculations for the maximum and minimum axial capacity of a given column, adds them to the calc report, and assigns the calculated values to the given `Column` object.
 
 ### 2.2. `column`
 Contains the class defining a `Column` object, including various properties.
+
+### 2.3. col_canvas (sub-package)
+Contains plotting functions.
+
+#### 2.3.1. `draw_column_comp_zone`
+Draws the cross-section of the column with the full equivalent compression zone labeled. 
+
+#### 2.3.2. `draw_column_with dimensions`
+Draws the cross-section of the column with dimensions and rebar information shown. 
+
+#### 2.3.3. `draw_column_with_triangle`
+Draws the cross-section of the column with a triangular compression area labeled. 
+
+#### 2.3.4. `draw_plain_column`
+Draws the cross-section of the column on an `efficalc` Canvas, including rebar. 
 
 ## 3. `constants`
 Contains constants used by other packages.
