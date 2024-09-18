@@ -148,9 +148,6 @@ Adds the calculations for the reaction of a column to bending on a given neutral
 ### 1.7. Plotting (sub-package)
 Contains plotting functions.
 
-#### 1.7.1. `draw_column`
-Draws the cross-section of the column on an `efficalc` Canvas, including rebar. Includes options for drawing compression areas.
-
 #### 1.7.2. `get_capacity`
 Accepts parameters like the quarter PMM mesh and a loading point, then returns a list of resultant moment and axial points which form the PM diagram at the angle of the given load point.
 
@@ -164,7 +161,10 @@ Creates a Plotly figure for the column’s PMM diagram and returns a quarter of 
 Creates a Matplotlib figure showing the PM diagram for a given load case, along with the point for the given load case.
 
 ## 2. `col`
-Contains the definition of the column being analyzed.
+Contains functions related to the definition of a given concrete column.
+
+#### 1.7.1. `draw_column`
+Draws the cross-section of the column on an `efficalc` Canvas, including rebar. Includes options for drawing compression areas.
 
 ### 2.1. `assign_max_min`
 Performs calculations for the maximum and minimum axial capacity of a given column, adds them to the calc report, and assigns the calculated values to the given `Column` object.
