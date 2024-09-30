@@ -1,4 +1,4 @@
-from examples.conc_col_pmm.constants.rebar_data import rebar_diameter, rebar_area
+from examples.conc_col_pmm.constants.rebar_data import rebar_diameter
 
 from efficalc.canvas import (
     Canvas,

@@ -1,4 +1,8 @@
 import math
+
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
+
+from ...col.column import Column
 from .change_load import change
 from .limit_comp_load import limit_comp
 
@@ -12,18 +16,18 @@ must be between 0 and pi/2
 """
 
 
-def search(col, target, guess):
+def search(col: Column, target, guess, axial_limits: AxialLimits):
     tol = 0.001  # error accepted as the actual point
 
     # get output for the initial guess point
-    output, error = limit_comp(col, guess, target)
+    output, error = limit_comp(col, guess, target, axial_limits)
 
     count = 1  # count of iterations (calls to "try_axis")
     count_lim = 100  # iteration limit
 
     while error > tol and count < count_lim:
         # get a descent direction for the current point
-        direction, error = change(col, guess, target, output)
+        direction, error = change(col, guess, target, output, axial_limits)
 
         # since finding the direction requires two "try_axis" calls
         count += 2
@@ -37,7 +41,7 @@ def search(col, target, guess):
         while error2 > error and factor > 0.01:
             guess2 = [guess[i] + factor * direction[i] for i in range(2)]
 
-            output, error2 = limit_comp(col, guess2, target)
+            output, error2 = limit_comp(col, guess2, target, axial_limits)
 
             # if "limit_comp" resulted in a change in the guess of c, update
             # the change factor to save calls to "try_axis" in the next

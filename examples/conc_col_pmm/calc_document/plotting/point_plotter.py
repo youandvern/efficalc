@@ -1,5 +1,8 @@
-import matplotlib.pyplot as plt
 import math
+
+import matplotlib.pyplot as plt
+
+from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
 
 """
 The function "plot" creates and returns a matplotlib figure showing a PM diagram. 
@@ -18,12 +21,12 @@ in the x-direction.
 """
 
 
-def plot(capacity_pts, point, only_Mx):
+def plot(capacity_pts, point: LoadCombination | None, only_Mx):
     [phi_Mn, phi_Pn] = capacity_pts
 
     if point:
         # get the lamdba for the load point
-        pt_lambda = math.atan2(point[2], point[1])  # the angle for the current point
+        pt_lambda = math.atan2(point.my, point.mx)  # the angle for the current point
     else:
         # set the lambda to the desired axis
         pt_lambda = 0 if only_Mx else math.pi / 2
@@ -66,14 +69,12 @@ def plot(capacity_pts, point, only_Mx):
         plt.text(pos[0] + label_offsets[0], pos[1] + label_offsets[1], label, zorder=3)
 
     if point:
-        Muxy = math.sqrt(
-            sum((point[i] ** 2 for i in range(1, 3)))
-        )  # the biaxial moment
+        Muxy = math.sqrt(point.mx**2 + point.my**2)  # the biaxial moment
 
         # plot and label the load point
-        pos = (Muxy, point[0])
+        pos = (Muxy, point.p)
         moment_label = "($M_{uxy}=$" + str(round(Muxy, 1)) + " kip-ft, "
-        axial_label = "$P_u=$" + str(round(point[0], 1)) + " kip)"
+        axial_label = "$P_u=$" + str(round(point.p, 1)) + " kip)"
         label = moment_label + "\n" + axial_label
 
         plt.plot(pos[0], pos[1], marker="+", ms=12, mew=1.2, c="red", zorder=4)

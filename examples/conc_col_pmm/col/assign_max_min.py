@@ -1,25 +1,18 @@
-from efficalc import (
-    Calculation,
-    Heading,
-    TextBlock,
-    r_brackets,
-)
+from efficalc import Calculation, Heading, TextBlock, r_brackets
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
+from examples.conc_col_pmm.col.column import Column
 from examples.conc_col_pmm.struct_analysis import try_axis
 
 
-def assign(col):
-    (
-        w,
-        h,
-        bar_area,
-        bar_cover,
-        bars_x,
-        bars_y,
-        fc,
-        fy,
-        STEEL_E,
-        CONC_EPSILON,
-    ) = col.efficalc_inputs
+def calculate_axial_load_limits(col: Column) -> AxialLimits:
+
+    w = col.w_input
+    h = col.h_input
+    bar_area = col.rebar_area_input
+    bars_x = col.bars_x_input
+    bars_y = col.bars_y_input
+    fc = col.fc_input
+    fy = col.fy_input
 
     Heading("Axial Capacity Calculations")
 
@@ -90,12 +83,11 @@ def assign(col):
         "ACI 318-19 21.2.2(e)",
     )
     min_phi_pn = Calculation("{\\phi}P_{\mathrm{nt,max}}", phi * min_pn, "kips")
-    (col.max_pn, col.max_phi_pn, col.min_pn, col.min_phi_pn) = (
-        max_pn.get_value(),
-        max_phi_pn.get_value(),
-        -min_pn.get_value(),
-        -min_phi_pn.get_value(),
-    )
 
-    col.load_span = col.max_phi_pn - col.min_phi_pn  # difference between the
-    # maximum and minimum allowable loads, to be used for normalizing error
+    return AxialLimits(
+        max_pn.result(),
+        max_phi_pn.result(),
+        max_phi_pn,
+        -min_pn.result(),
+        -min_phi_pn.result(),
+    )

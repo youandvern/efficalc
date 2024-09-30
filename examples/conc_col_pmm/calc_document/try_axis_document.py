@@ -1,46 +1,45 @@
-from efficalc import (
-    Calculation,
-    Heading,
-    Input,
-    TextBlock,
-    r_brackets,
-    ComparisonStatement,
-    cos,
-    sin,
-    tan,
-    PI,
-    Table,
-    minimum,
-    maximum,
-    Symbolic,
-)
 import math
 import random
-from examples.conc_col_pmm.col import column
-from examples.conc_col_pmm.col.col_canvas import (
-    draw_column_with_triangle,
-    draw_column_comp_zone,
+
+from efficalc import (
+    PI,
+    Calculation,
+    ComparisonStatement,
+    Heading,
+    Input,
+    Symbolic,
+    Table,
+    TextBlock,
+    cos,
+    maximum,
+    minimum,
+    r_brackets,
+    sin,
+    tan,
 )
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
+from examples.conc_col_pmm.col.col_canvas import (
+    draw_column_comp_zone,
+    draw_column_with_triangle,
+)
+from examples.conc_col_pmm.col.column import Column
 
 
 def try_axis_document(
-    col=column.Column(20, 30, "#8", 1.5, 3, 5, 8000, 60, False, False),
+    col: Column,
+    axial_limits: AxialLimits,
     theta_input=0,
     c_input=10,
 ):
 
-    (
-        w,
-        h,
-        bar_area,
-        bar_cover,
-        bars_x,
-        bars_y,
-        fc,
-        fy,
-        STEEL_E,
-        CONC_EPSILON,
-    ) = col.efficalc_inputs
+    w = col.w_input
+    h = col.h_input
+    bar_area = col.rebar_area_input
+    fc = col.fc_input
+    fy = col.fy_input
+    E_s = col.steel_modulus_input
+    conc_epsilon = col.concrete_strain_input
+
     TextBlock(
         "The neutral axis angle and depth below are chosen to produce a capacity point aligning exactly with the"
         + " PMM vector of the applied load. \n"
@@ -304,11 +303,11 @@ def try_axis_document(
         "Effective depth:",
     )
     strain_sym = Symbolic(
-        "\epsilon_{\mathrm{bar}}", CONC_EPSILON * (d_bar - c) / c, "Strain:"
+        "\epsilon_{\mathrm{bar}}", conc_epsilon * (d_bar - c) / c, "Strain:"
     )
     stress_sym = Symbolic(
         "\sigma_{\mathrm{bar}}",
-        minimum(fy, maximum(-fy, CONC_EPSILON * strain_sym)),
+        minimum(fy, maximum(-fy, conc_epsilon * strain_sym)),
         "Stress:",
     )
     Symbolic(
@@ -354,14 +353,14 @@ def try_axis_document(
             col.h / 2 - coords[1]
         ) * math.sin(theta.get_value() + math.pi / 2)
         bar_calc.append(round(offset, 2))
-        strain = CONC_EPSILON.get_value() * (offset - c.get_value()) / c.get_value()
+        strain = conc_epsilon.get_value() * (offset - c.get_value()) / c.get_value()
         bar_calc.append(round(strain, 4))
         stress = min(
             fy.get_value(),
             max(
                 -fy.get_value(),
-                CONC_EPSILON.get_value()
-                * STEEL_E.get_value()
+                conc_epsilon.get_value()
+                * E_s.get_value()
                 * (offset - c.get_value())
                 / c.get_value(),
             ),
@@ -466,9 +465,9 @@ def try_axis_document(
         "in",
     )
     max_strain = Calculation(
-        "\\epsilon_y", CONC_EPSILON * r_brackets(offset - c) / c, ""
+        "\\epsilon_y", conc_epsilon * r_brackets(offset - c) / c, ""
     )
-    yield_strain = Calculation("\\epsilon_{ty}", fy / STEEL_E, "")
+    yield_strain = Calculation("\\epsilon_{ty}", fy / E_s, "")
     if max_strain.get_value() <= yield_strain.get_value():
         ComparisonStatement(max_strain, "<=", yield_strain)
         strain_level = 0
@@ -533,7 +532,9 @@ def try_axis_document(
                 "ACI 318-19 Table 21.2.2(f)",
             )
     TextBlock("Factored axial and moment capacities:")
-    phi_pn = Calculation("{\\phi}P_n", minimum(phi * pn, col.max_phi_pn), "kips")
+    phi_pn = Calculation(
+        "{\\phi}P_n", minimum(phi * pn, axial_limits.max_phi_pn_calculation), "kips"
+    )
     phi_mnx = Calculation("{\\phi}M_{nx}", phi * mnx / 12, "kip-ft")
     phi_mny = Calculation("{\\phi}M_{ny}", phi * mny / 12, "kip-ft")
 

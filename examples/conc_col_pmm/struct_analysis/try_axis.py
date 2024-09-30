@@ -1,22 +1,23 @@
 import math
 import random
+
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
+
+from ..col.column import Column
 from .triangles import *
 
-STEEL_E = 29000  # steel modulus of elasticity in ksi
-CONC_EPSILON = -0.003  # concrete strain at f'c
-STEEL_ADD_STRAIN = 0.003  # steel strain at PHI_FLEXURE
 PHI_FLEXURE = 0.9  # safety factor for flexure-controlled column
 COMP_FACTOR = 0.8  # additional reduction factor for axial compression
 
 
-def try_axis(col, theta, c):
+def try_axis(col: Column, theta, c, axial_limits: AxialLimits):
     # this function returns the lambda, eccentricity, pn, phi_pn, and phi_mn
     # from particular neutral axis angle and neutral axis depth c. The neutral
     # axis angle must be between -90 degrees and 0 degrees, inclusive, and the
     # neutral axis depth must be greater than or equal to 0
 
     if c == 0:
-        return (0, 0, col.min_pn, col.min_phi_pn, 0)
+        return 0, 0, axial_limits.min_pn, axial_limits.min_phi_pn, 0
     a = col.beta1 * c
     epsilon = 1e-11  # acceptable error for considering the neutral axis to
     # be vertical or horizontal
@@ -65,7 +66,7 @@ def try_axis(col, theta, c):
         if intersects[3]:  # there is a compression triangle to bot right corner
             add_axial_moment(col.bot_right, col.top_right, pt2)
 
-    strain_per_in = CONC_EPSILON / c
+    strain_per_in = -col.concrete_strain_input.get_value() / c
     steel_max_strain = 0  # value to keep record of greatest steel tensile strain
 
     # calculate a normal vector rotated 90 degrees from the neutral axis angle
@@ -83,7 +84,7 @@ def try_axis(col, theta, c):
         strain = (c - offset) * strain_per_in
         steel_max_strain = max(steel_max_strain, strain)
 
-        stress = strain * STEEL_E
+        stress = strain * col.steel_modulus_input.get_value()
         stress = max(-col.fy, min(col.fy, stress))
         if a > offset:
             # this means this bar is within the compression range,
@@ -136,7 +137,7 @@ def try_axis(col, theta, c):
             col.PHI_COMP
             + (PHI_FLEXURE - col.PHI_COMP)
             * (steel_max_strain - col.steel_yield)
-            / STEEL_ADD_STRAIN,
+            / col.concrete_strain_input.get_value(),
         ),
     )
     # the following values ignore the limit on phi_pn to help convergence near that value
@@ -146,7 +147,7 @@ def try_axis(col, theta, c):
 
     # the eccentricity does include the limit on phi_pn, and it is reported as
     # angle from the Mx-My axis for numerical stability.
-    phi_pn = min(phi_pn_not_limited, col.max_phi_pn)
+    phi_pn = min(phi_pn_not_limited, axial_limits.max_phi_pn)
     ecc = math.atan2(
         phi_pn, phi_mn_xy
     )  # the eccentricity as an angle above the M-M plane
@@ -154,4 +155,4 @@ def try_axis(col, theta, c):
     # returning the angle of eccentricity, the eccentricity as an angle from Mx-My plane, the nominal
     # axial capacity in kip, the factored axial capacity in kip, and the
     # factored moment capacity in kip-ft
-    return (lambda1, ecc, pn, phi_pn_not_limited, phi_mn_xy)
+    return lambda1, ecc, pn, phi_pn_not_limited, phi_mn_xy

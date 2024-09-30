@@ -1,14 +1,21 @@
-from efficalc import Heading, Input, InputTable, Title
-
+from efficalc import Assumption, Calculation, Heading, Input, InputTable, Title
 from examples.conc_col_pmm.constants.rebar_data import (
     REBAR_SIZES,
     REBAR_STRENGTHS,
+    STEEL_E,
+    rebar_area,
 )
+
+from ..col.column import Column
+from ..constants.concrete_data import MAX_CONCRETE_STRAIN
+from ..pmm_search.load_combo import LoadCombination
 from .full_calc_document import calculation as full_calc
+
+# TODO: this should return all info needed to plot visual tests, possibly take input params for defaults
 
 
 # this function accepts inputs from the user and passes them to "full_calc_document"
-def calculation():
+def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
     Title("Concrete Column Biaxial Bending Calculation Report")
 
     Heading("Column Inputs")
@@ -28,6 +35,7 @@ def calculation():
     # one space
     bar_cover = Input(" ", 2, "in", description="Longitudinal rebar cover")
 
+    # TODO: should clear cover account for the shear reinforcement?
     cover_options = [
         "Center",
         "Edge",
@@ -75,21 +83,54 @@ def calculation():
     fy = Input(
         "f_y",
         REBAR_STRENGTHS[1],
-        "",
+        "ksi",
         description="Steel strength",
         input_type="select",
         select_options=REBAR_STRENGTHS,
     )
 
     headers = ["Pu (kip)", "Mux (kip-ft)", "Muy (kip-ft)", "Show Calc in Report"]
-
-    default_loads = [[3000, -200, 100, True]]
     load_table = InputTable(default_loads, headers, "Load Cases", False, False)
+
+    load_combos = [
+        LoadCombination(load[0], load[1], load[2], load[3]) for load in load_table.data
+    ]
+
+    # above were the efficalc Inputs from the user, and below, some additional inputs and assumptions
+    # are created and added to the calc report
+
+    A_b = Calculation(
+        "A_{\\mathrm{bar}}",
+        rebar_area(bar_size.get_value()),
+        "in^2",
+        description="Area of one bar",
+    )
+
+    E_s = Calculation(
+        "E_s", STEEL_E, "ksi", "Steel modulus of elasticity", "ACI 318-19 20.2.2.2"
+    )
+    e_c = Calculation(
+        "\\epsilon_u",
+        MAX_CONCRETE_STRAIN,
+        "",
+        "Concrete strain at f'c",
+        "ACI 318-19 22.2.2.1",
+    )
+
+    Heading("Assumptions")
+    Assumption("ACI 318-19 controls the design")
+    Assumption("Reinforcement is non-prestressed")
+    Assumption(
+        "Lap splices of longitudinal reinforcement are in accordance with ACI 318-19 Table 10.7.5.2.2"
+    )
+    Assumption(
+        "Strain in concrete and reinforcement is proportional to distance from the neutral axis, per ACI 318-19 22.2.1.2 "
+    )
 
     cover_to_center = cover_type == "Center"
     spiral_reinf = transverse_type == "Spiral"
 
-    col_inputs = [
+    column = Column(
         w,
         h,
         bar_size,
@@ -100,5 +141,9 @@ def calculation():
         fy,
         cover_to_center,
         spiral_reinf,
-    ]
-    full_calc(col_inputs, load_table)
+        A_b,
+        E_s,
+        e_c,
+    )
+
+    full_calc(column, load_combos)
