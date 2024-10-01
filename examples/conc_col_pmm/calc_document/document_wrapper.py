@@ -1,6 +1,6 @@
 from efficalc.report_builder import ReportBuilder
 
-from .col_inputs import calculation as col_input_calc
+from .calculation import calculation as col_input_calc
 
 # parameters: "override_inputs" is boolean and indicates whether the values
 # provided in the next two arguments (column parameters, then load data)

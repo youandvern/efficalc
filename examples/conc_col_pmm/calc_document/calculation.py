@@ -9,23 +9,26 @@ from examples.conc_col_pmm.constants.rebar_data import (
 from ..col.column import Column
 from ..constants.concrete_data import MAX_CONCRETE_STRAIN
 from ..pmm_search.load_combo import LoadCombination
+from .column_inputs import ColumnInputs
 from .full_calc_document import calculation as full_calc
 
 # TODO: this should return all info needed to plot visual tests, possibly take input params for defaults
 
 
 # this function accepts inputs from the user and passes them to "full_calc_document"
-def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
+def calculation(
+    default_loads: list[list] = [[3000, -200, 100, True]], col=ColumnInputs()
+):
     Title("Concrete Column Biaxial Bending Calculation Report")
 
     Heading("Column Inputs")
-    w = Input("w", 24, "in", description="Column section width (x dimension)")
-    h = Input("h", 36, "in", description="Column section height (y dimension)")
+    w = Input("w", col.w, "in", description="Column section width (x dimension)")
+    h = Input("h", col.h, "in", description="Column section height (y dimension)")
 
     # zero spaces
     bar_size = Input(
         "",
-        REBAR_SIZES[5],
+        col.bar_size,
         "",
         description="Longitudinal rebar size (Imperial)",
         input_type="select",
@@ -33,7 +36,7 @@ def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
     )
 
     # one space
-    bar_cover = Input(" ", 2, "in", description="Longitudinal rebar cover")
+    bar_cover = Input(" ", col.bar_cover, "in", description="Longitudinal rebar cover")
 
     # TODO: should clear cover account for the shear reinforcement?
     cover_options = [
@@ -44,7 +47,7 @@ def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
     # 2 spaces
     cover_type = Input(
         "  ",
-        default_value=cover_options[1],
+        default_value=cover_options[0] if col.cover_to_center else cover_options[1],
         unit="",
         description="Cover is to bar center or bar edge (clear cover)",
         input_type="select",
@@ -54,7 +57,9 @@ def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
     # 3 spaces
     transverse_type = Input(
         "   ",
-        default_value=transverse_options[1],
+        default_value=(
+            transverse_options[0] if col.spiral_reinf else transverse_options[1]
+        ),
         unit="",
         description="Transverse reinforcement type",
         input_type="select",
@@ -64,7 +69,7 @@ def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
     # 4 spaces
     bars_x = Input(
         "    ",
-        6,
+        col.bars_x,
         "",
         description="Number of bars on the top/bottom edges",
         num_step=1,
@@ -73,7 +78,7 @@ def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
     # 5 spaces
     bars_y = Input(
         "     ",
-        8,
+        col.bars_y,
         "",
         description="Number of bars on the left/right edges",
         num_step=1,
@@ -82,7 +87,7 @@ def calculation(default_loads: list[list] = [[3000, -200, 100, True]]):
 
     fy = Input(
         "f_y",
-        REBAR_STRENGTHS[1],
+        col.fy,
         "ksi",
         description="Steel strength",
         input_type="select",

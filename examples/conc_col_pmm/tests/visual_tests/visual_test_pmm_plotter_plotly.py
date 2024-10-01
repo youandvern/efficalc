@@ -46,5 +46,4 @@ if __name__ == "__main__":
 
     _, fig = pmm_plotter_plotly.plot(col, 36, 12, loads, axial_limits)
 
-    # fig.show()
-    plt.show()
+    fig.show()
