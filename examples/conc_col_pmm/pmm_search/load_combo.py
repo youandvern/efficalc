@@ -7,3 +7,7 @@ class LoadCombination:
     mx: float
     my: float
     show_in_report: bool
+
+
+def is_yes(show: str):
+    return show.strip().lower() == "yes" or show.strip().lower() == "y"

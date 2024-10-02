@@ -8,7 +8,7 @@ from examples.conc_col_pmm.constants.rebar_data import (
 
 from ..col.column import Column
 from ..constants.concrete_data import MAX_CONCRETE_STRAIN
-from ..pmm_search.load_combo import LoadCombination
+from ..pmm_search.load_combo import LoadCombination, is_yes
 from .column_inputs import ColumnInputs
 from .full_calc_document import calculation as full_calc
 
@@ -17,7 +17,7 @@ from .full_calc_document import calculation as full_calc
 
 # this function accepts inputs from the user and passes them to "full_calc_document"
 def calculation(
-    default_loads: list[list] = [[3000, -200, 100, True]], col=ColumnInputs()
+    default_loads: list[list] = [[3000, -200, 100, "yes"]], col=ColumnInputs()
 ):
     Title("Concrete Column Biaxial Bending Calculation Report")
 
@@ -94,11 +94,17 @@ def calculation(
         select_options=REBAR_STRENGTHS,
     )
 
-    headers = ["Pu (kip)", "Mux (kip-ft)", "Muy (kip-ft)", "Show Calc in Report"]
+    headers = [
+        "Pu (kip)",
+        "Mux (kip-ft)",
+        "Muy (kip-ft)",
+        "Show in Calc Report (yes/no)",
+    ]
     load_table = InputTable(default_loads, headers, "Load Cases", False, False)
 
     load_combos = [
-        LoadCombination(load[0], load[1], load[2], load[3]) for load in load_table.data
+        LoadCombination(load[0], load[1], load[2], is_yes(load[3]))
+        for load in load_table.data
     ]
 
     # above were the efficalc Inputs from the user, and below, some additional inputs and assumptions

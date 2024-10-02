@@ -44,7 +44,7 @@ def test_calc_with_defaults(common_setup_teardown):
 
 
 def test_calc_with_custom_load_case(common_setup_teardown):
-    loads = [[500, 400, 50, True]]
+    loads = [[500, 400, 50, "yes"]]
     runner = CalculationRunner(lambda: calculation(default_loads=loads))
     all_obj = runner.calculate_all_items()
 
@@ -64,7 +64,7 @@ def test_calc_with_custom_load_case(common_setup_teardown):
 
 
 def test_calc_with_small_column(common_setup_teardown):
-    loads = [[18.22, 1.56, 3.03, True]]
+    loads = [[18.22, 1.56, 3.03, "yes"]]
     col = ColumnInputs(4, 6, "#4", 1, 2, 3, 4000, 40, True, True)
     runner = CalculationRunner(lambda: calculation(default_loads=loads, col=col))
     all_obj = runner.calculate_all_items()

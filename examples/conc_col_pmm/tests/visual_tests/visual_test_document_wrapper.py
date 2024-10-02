@@ -15,11 +15,11 @@ col_data = [24, 18, "#6", 2, 5, 2, 8000, 60, "Edge", "Spiral"]
 # for each load case: P, Mx, My, and whether the calc should be shown
 # Note that these load cases currently do not override the defaults
 loads = [
-    [300, 100, 200, True],
-    [-100, 50, -60, False],
-    [11500, 300, -300, False],
-    [0, 200, 0, True],
-    [0, 0, 200, True],
+    [300, 100, 200, "yes"],
+    [-100, 50, -60, "no"],
+    [11500, 300, -300, "no"],
+    [0, 200, 0, "yes"],
+    [0, 0, 200, "yes"],
 ]
 
 # calc_report_example1
