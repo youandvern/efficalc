@@ -1,17 +1,12 @@
-from examples.conc_col_pmm.struct_analysis import triangles
-from examples.conc_col_pmm.col.col_canvas.draw_plain_column import draw as draw_base
-from efficalc.canvas import (
-    Canvas,
-    Dimension,
-    Rectangle,
-    Text,
-    Polyline,
-    CircleMarker,
-)
 import math
 
+from efficalc.canvas import Canvas, CircleMarker, Dimension, Polyline, Rectangle, Text
+from examples.conc_col_pmm.col.col_canvas.draw_plain_column import draw as draw_base
+from examples.conc_col_pmm.col.column import Column
+from examples.conc_col_pmm.struct_analysis import triangles
 
-def draw(col, caption_input: str, number, points) -> Canvas:
+
+def draw(col: Column, caption_input: str, number, points) -> Canvas:
     # number is the zone number with which to label this triangle, points are the three
     # corners of the triangle as a tuple of 2-element tuples
     canvas = draw_base(col)

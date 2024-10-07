@@ -1,11 +1,12 @@
 import math
+
+from efficalc.canvas import ArrowMarker, Canvas, Dimension, Leader, Line, Text
 from examples.conc_col_pmm.col.col_canvas.draw_plain_column import draw as draw_base
+from examples.conc_col_pmm.col.column import Column
 from examples.conc_col_pmm.constants.rebar_data import rebar_diameter
 
-from efficalc.canvas import ArrowMarker, Canvas, Dimension, Leader, Text, Line
 
-
-def draw(col, caption_input: str, unit: str = '"') -> Canvas:
+def draw(col: Column, caption_input: str, unit: str = '"') -> Canvas:
     canvas = draw_base(col)
     canvas.caption = caption_input
     scale_factor = 0.37817187 * math.log((col.w + col.h) / 2) + 0.03808133

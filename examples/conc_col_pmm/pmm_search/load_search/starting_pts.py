@@ -1,4 +1,5 @@
-import math
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
+from examples.conc_col_pmm.col.column import Column
 from examples.conc_col_pmm.pmm_search.load_search.limit_comp_load import limit_comp
 
 reduction = 0.005  # the fraction of the total estimated span of both inputs
@@ -10,9 +11,8 @@ reduction = 0.005  # the fraction of the total estimated span of both inputs
 # supplied guess "guess," and different in both their theta and c values.
 # "depth" is an estimate of the maximum c, and load_only is boolean, where
 # True indicates that only the load should be varied
-def starting_pts(col, guess, depth, target):
+def starting_pts(col: Column, guess, depth, target, axial_limits: AxialLimits):
     # calculate the starting differences in theta and c between two points
-    angle_change = reduction * math.pi / 2
     c_change = reduction * depth
     change_factors = (-1, 1)  # factors used to decrease parameters for A and to
     # increase parameters for B
@@ -24,6 +24,6 @@ def starting_pts(col, guess, depth, target):
         guess[1] = max(1e-6, guess[1])
 
         # calculate and store the load output for the current guess point
-        output, error = limit_comp(col, pts[i], target)
+        output, error = limit_comp(col, pts[i], target, axial_limits)
         pts[i].extend([output[0], output[3]])
     return pts

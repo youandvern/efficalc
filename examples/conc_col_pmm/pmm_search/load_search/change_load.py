@@ -1,21 +1,24 @@
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
 from examples.conc_col_pmm.struct_analysis import try_axis
+
+from ...col.column import Column
 from .get_error_load import get_error
 
 delta = 1e-8  # small change to be used for finite differences
 
 
-def change(col, guess, target, output):
-    error = get_error(output, target, col.load_span)
+def change(col: Column, guess, target, output, axial_limits: AxialLimits):
+    error = get_error(output, target, axial_limits.load_span)
     # A small positive value "delta" is added to both inputs in order to test
     # the effect on the results of "try_axis". It may have to be negative for
     # theta to avoid exceeding 0.
     delta0 = delta if guess[0] < -delta else -delta
 
-    output2 = try_axis.try_axis(col, guess[0] + delta0, guess[1])
+    output2 = try_axis.try_axis(col, guess[0] + delta0, guess[1], axial_limits)
     a = (output2[0] - output[0]) / delta0
     c = (output2[3] - output[3]) / delta0
 
-    output2 = try_axis.try_axis(col, guess[0], guess[1] + delta)
+    output2 = try_axis.try_axis(col, guess[0], guess[1] + delta, axial_limits)
     b = (output2[0] - output[0]) / delta
     d = (output2[3] - output[3]) / delta
 

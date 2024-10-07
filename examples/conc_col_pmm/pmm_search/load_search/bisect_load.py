@@ -1,9 +1,12 @@
 import math
-from .starting_pts import starting_pts
+
+from ...col.axial_limits import AxialLimits
+from ...col.column import Column
 from .limit_comp_load import limit_comp
+from .starting_pts import starting_pts
 
 
-def bisect(col, target, guess):
+def bisect(col: Column, target, guess, axial_limits: AxialLimits):
     # This function returns a point on the PMM diagram (Mx, My, and P) plus the
     # two inputs that produced that point (theta and c) as a tuple. The point
     # returned is intended to match the values in "target," which is a
@@ -20,7 +23,7 @@ def bisect(col, target, guess):
     # between the section corners perpendicular to the neutral axis
 
     # set the two initial guess points
-    pts = starting_pts(col, guess, depth, target)
+    pts = starting_pts(col, guess, depth, target, axial_limits)
 
     error = float("inf")  # normalized distance of the current point from the
     # target
@@ -64,7 +67,9 @@ def bisect(col, target, guess):
 
             # get the output for this guess, reducing c if the compression
             # is too high to
-            output, error = limit_comp(col, [-target[0]] + [guess], target)
+            output, error = limit_comp(
+                col, [-target[0]] + [guess], target, axial_limits
+            )
             counter += 1
 
         # update the current and previous point

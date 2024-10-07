@@ -1,20 +1,24 @@
-from examples.conc_col_pmm.pmm_search.ecc_search.get_dcr_ecc import get_dcr_ecc
-from examples.conc_col_pmm.calc_document.plotting import get_capacity, point_plotter
 from efficalc import FigureFromMatplotlib, Heading
+from examples.conc_col_pmm.calc_document.plotting import get_capacity, point_plotter
+from examples.conc_col_pmm.col.axial_limits import AxialLimits
+from examples.conc_col_pmm.col.column import Column
+from examples.conc_col_pmm.pmm_search.ecc_search.get_dcr_ecc import get_dcr_ecc
+from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
 
 
-def calc_dcrs(load_table, mesh, col):
+def calc_dcrs(
+    load_combos: list[LoadCombination], mesh, col: Column, axial_limits: AxialLimits
+):
     dcr_results = []
-    for i in range(len(load_table.data)):
-        load = load_table.data[i]
-        if load[3]:  # show the full calculations for this load case
+    for load in load_combos:
+        if load.show_in_report:  # show the full calculations for this load case
             Heading(
                 "DCR Calculation for Load Case P="
-                + str(round(load[0], 1))
+                + str(round(load.p, 1))
                 + ", Mx="
-                + str(round(load[1], 1))
+                + str(round(load.mx, 1))
                 + ", My="
-                + str(round(load[2], 1))
+                + str(round(load.my, 1))
             )
             capacity_pts = get_capacity.get_capacity(mesh, load)
             # plot the PM diagram for this point
@@ -23,5 +27,5 @@ def calc_dcrs(load_table, mesh, col):
                 pm_figure, "PM interaction diagram for this load case. "
             )
 
-        dcr_results.append(get_dcr_ecc(col, load))
+        dcr_results.append(get_dcr_ecc(col, load, axial_limits))
     return dcr_results

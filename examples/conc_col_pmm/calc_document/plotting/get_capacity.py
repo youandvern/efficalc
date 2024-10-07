@@ -1,5 +1,7 @@
 import math
 
+from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+
 """
 The function below interpolates between points on the PMM diagram to construct
 the PM diagram for a given load point. It returns two lists which contain the
@@ -10,14 +12,14 @@ Parameters: "mesh" is the quarter PMM mesh consisting of (Mx, My, P) points and
 """
 
 
-def get_capacity(mesh, point):
+def get_capacity(mesh, point: LoadCombination):
     pt_count = len(mesh)  # the number of rows of points vertically
     quarter = len(mesh[0]) - 1  # the number of angle spaces between points in a
     # quadrant
 
     angle_space = (math.pi / 2) / quarter  # the horizontal space between points
 
-    lambda_transform = math.atan2(abs(point[2]), abs(point[1]))  # the angle for
+    lambda_transform = math.atan2(abs(point.my), abs(point.mx))  # the angle for
     # the current point transformed to the range 0 to 90, where 0 must
     # correspond to My=0
 

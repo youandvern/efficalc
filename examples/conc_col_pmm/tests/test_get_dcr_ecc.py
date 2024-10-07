@@ -1,4 +1,6 @@
+from examples.conc_col_pmm.col.assign_max_min import calculate_axial_load_limits
 from examples.conc_col_pmm.pmm_search.ecc_search.get_dcr_ecc import get_dcr_ecc
+from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
 
 """
 This test uses a set of load points and a given column as well as
@@ -173,10 +175,11 @@ tol = 1e-2
 
 def test_get_dcr(example_col3):
     col = example_col3
+    axial_limits = calculate_axial_load_limits(col)
 
     for i in range(78):
-        load = loads[i] + [False]
-        dcr = get_dcr_ecc(col, load)
+        load = LoadCombination(*(loads[i]), False)
+        dcr = get_dcr_ecc(col, load, axial_limits)
 
         if dcr > 0:
             assert abs((dcr - dcrs[i]) / dcr) < tol
