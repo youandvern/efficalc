@@ -12,20 +12,20 @@ from examples.conc_col_pmm.tests.conftest import getCalculatedColumnProps
 
 
 def example_col():
-    bar_size: BarSize = "#5"
+    bar_size: BarSize = "#6"
     calc_props = getCalculatedColumnProps(bar_size)
 
     return Column(
         Input("w", 24),
         Input("h", 18),
         Input("bar_size", bar_size),
-        Input("cover", 1.5),
+        Input("cover", 2),
         Input("nx", 5),
-        Input("ny", 4),
+        Input("ny", 2),
         Input("f'_c", 8000),
-        Input("f_y", 80),
+        Input("f_y", 60),
         False,
-        False,
+        True,
         calc_props["A_b"],
         calc_props["E_s"],
         calc_props["e_c"],
