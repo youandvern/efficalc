@@ -212,11 +212,7 @@ def try_axis_document(
                 "in^2",
                 "Calculate the area of this triangular compression zone:",
             )
-            pn = Calculation(
-                "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
-                0.85 * fc * tri_area,
-                "kips",
-            )
+
             centr_x = Calculation(
                 "x_{\\mathrm{centroid}}",
                 (pt_a[0] + pt_b[0] + pt_c[0]) / 3,
@@ -229,19 +225,7 @@ def try_axis_document(
                 "in",
                 "y coordinate of the centroid of this zone:",
             )
-            mnx = Calculation(
-                "M_{\\mathrm{nx,\ Area\ " + str(conc_area_num) + "}}",
-                0.85 * fc * tri_area * centr_y,
-                "kip-in",
-            )
-            mny = Calculation(
-                "M_{\\mathrm{ny,\ Area\ " + str(conc_area_num) + "}}",
-                0.85 * fc * tri_area * centr_x,
-                "kip-in",
-            )
-            pn_tot += pn.get_value()
-            mnx_tot += mnx.get_value()
-            mny_tot += mny.get_value()
+            return (tri_area, centr_x, centr_y)
 
         pt1 = (-w / 2, left_y) if intersects[0] else (top_x, h / 2)
         pt2 = (bot_x, -h / 2) if intersects[3] else (w / 2, right_y)
@@ -263,30 +247,112 @@ def try_axis_document(
             "The equivalent stress block is now broken down into triangular areas and the forces are calculated for each."
         )
 
-        add_axial_moment(pt1, pt2, (w / 2, h / 2))  # compression triangle to
+        (tri_area, centr_x, centr_y)=add_axial_moment(pt1, pt2, (w / 2, h / 2))  # compression triangle to
         # top right corner
+        pn_top_right = Calculation(
+            "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
+            0.85 * fc * tri_area,
+            "kips",
+        )
+        mnx_top_right = Calculation(
+            "M_{\\mathrm{nx,\ Area\ " + str(conc_area_num) + "}}",
+            0.85 * fc * tri_area * centr_y,
+            "kip-in",
+        )
+        mny_top_right = Calculation(
+            "M_{\\mathrm{ny,\ Area\ " + str(conc_area_num) + "}}",
+            0.85 * fc * tri_area * centr_x,
+            "kip-in",
+        )
         if intersects[0]:  # there is a compression triangle to top left corner
-            add_axial_moment((-w / 2, h / 2), (w / 2, h / 2), pt1)
+            (tri_area, centr_x, centr_y)=add_axial_moment((-w / 2, h / 2), (w / 2, h / 2), pt1)
+            pn_top_left = Calculation(
+                "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area,
+                "kips",
+            )
+            mnx_top_left = Calculation(
+                "M_{\\mathrm{nx,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area * centr_y,
+                "kip-in",
+            )
+            mny_top_left = Calculation(
+                "M_{\\mathrm{ny,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area * centr_x,
+                "kip-in",
+            )
         if intersects[3]:  # there is a compression triangle to bot right corner
-            add_axial_moment((w / 2, -h / 2), (w / 2, h / 2), pt2)
+            (tri_area, centr_x, centr_y)=add_axial_moment((w / 2, -h / 2), (w / 2, h / 2), pt2)
+            pn_bot_right = Calculation(
+                "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area,
+                "kips",
+            )
+            mnx_bot_right = Calculation(
+                "M_{\\mathrm{nx,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area * centr_y,
+                "kip-in",
+            )
+            mny_bot_right = Calculation(
+                "M_{\\mathrm{ny,\ Area\ " + str(conc_area_num) + "}}",
+                0.85 * fc * tri_area * centr_x,
+                "kip-in",
+            )
         Heading("Total Forces in Concrete", 3)
-        pn_conc = Input("P_{\\mathrm{n, conc.}}", pn_tot, "kips")
-        mnx_conc = Input(
-            "M_{\\mathrm{nx, conc.}}",
-            mnx_tot,
-            "kip-in",
-        )
-        mny_conc = Input(
-            "M_{\\mathrm{ny, conc.}}",
-            mny_tot,
-            "kip-in",
-        )
+        if intersects[0] and intersects[3]: # take a sum for all 3 areas
+            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right+pn_top_left+pn_bot_right, "kips")
+            mnx_conc = Calculation(
+                "M_{\\mathrm{nx, conc.}}",
+                mnx_top_right+mnx_top_left+mnx_bot_right,
+                "kip-in",
+            )
+            mny_conc = Calculation(
+                "M_{\\mathrm{ny, conc.}}",
+                mny_top_right+mny_top_left+mny_bot_right,
+                "kip-in",
+            )
+        elif intersects[0]:
+            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right + pn_top_left, "kips")
+            mnx_conc = Calculation(
+                "M_{\\mathrm{nx, conc.}}",
+                mnx_top_right + mnx_top_left,
+                "kip-in",
+            )
+            mny_conc = Calculation(
+                "M_{\\mathrm{ny, conc.}}",
+                mny_top_right + mny_top_left,
+                "kip-in",
+            )
+        elif intersects[3]:
+            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right + pn_bot_right, "kips")
+            mnx_conc = Calculation(
+                "M_{\\mathrm{nx, conc.}}",
+                mnx_top_right + mnx_bot_right,
+                "kip-in",
+            )
+            mny_conc = Calculation(
+                "M_{\\mathrm{ny, conc.}}",
+                mny_top_right + mny_bot_right,
+                "kip-in",
+            )
+        else:
+            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right, "kips")
+            mnx_conc = Calculation(
+                "M_{\\mathrm{nx, conc.}}",
+                mnx_top_right,
+                "kip-in",
+            )
+            mny_conc = Calculation(
+                "M_{\\mathrm{ny, conc.}}",
+                mny_top_right,
+                "kip-in",
+            )
 
     Heading("Equations for Rebar Axial and Moment Calculations", 2)
 
     TextBlock(
         "Each bar is at coordinates (x,y) relative to the column centroid. For example, the top right bar"
-        "is located at the coordinates below:"
+        " is located at the coordinates below:"
     )
     right_bar_x = col.half_w - col.edge_to_bar_center  # x coordinate of bars on the
     # right edge
