@@ -7,7 +7,7 @@ def show(vertical_pt, load: LoadCombination, capacity, dcr):
     Heading("DCR Calculation", 2)
     if vertical_pt:
         TextBlock(
-            "Since the load point is almost on the P axis, the DCR can be calculated by comparing the applied axial"
+            "Since the load point is on the P axis, the DCR can be calculated by comparing the applied axial"
             " load to the axial capacity calculated above:"
         )
         if load.p < 0:
@@ -24,8 +24,10 @@ def show(vertical_pt, load: LoadCombination, capacity, dcr):
             " point is on the same PMM vector as the demand point. Note that the absolute value for the"
             " moment DCRs is because the column has equal moment capacity in opposite directions by symmetry."
         )
-        Calculation("DCR_{Mx}", absolute(load.mx / capacity[0]))
-        Calculation("DCR_{My}", absolute(load.my / capacity[1]))
+        if capacity[0].get_value()>0:
+            Calculation("DCR_{Mx}", absolute(load.mx / capacity[0]))
+        if capacity[1].get_value()>0:
+            Calculation("DCR_{My}", absolute(load.my / capacity[1]))
         Calculation("DCR_{P}", load.p / capacity[2])
         dcr = Calculation("DCR", dcr, "", "The final DCR is:")
         Comparison(dcr, "<", 1.0, true_message="O.K.", false_message="N.G.")

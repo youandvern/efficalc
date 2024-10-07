@@ -15,9 +15,9 @@ def get_dcr_ecc(col: Column, load: LoadCombination, axial_limits: AxialLimits):
     target_M = math.sqrt(load.mx**2 + load.my**2)
     target_ecc = math.atan2(load.p, target_M)
 
-    # if the target eccentricity angle is almost vertical, return the DCR based on the
+    # if the target eccentricity angle is vertical, return the DCR based on the
 
-    tol = 0.1 * math.pi / 180
+    tol = 0.01 * math.pi / 180
     if target_ecc > math.pi / 2 - tol:
         if load.show_in_report:
             show_dcr_calc(True, load, axial_limits.max_phi_pn, 0)
