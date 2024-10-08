@@ -1,7 +1,4 @@
-from examples.conc_col_pmm.calc_document.plotting import (
-    pmm_plotter_plotly,
-    pure_mx_my_plotter,
-)
+from examples.conc_col_pmm.calc_document.plotting import pure_mx_my_plotter
 from examples.conc_col_pmm.col import assign_max_min
 
 from ..col.col_canvas import draw_column_with_dimensions
@@ -9,23 +6,22 @@ from ..col.column import Column
 from ..pmm_search.load_combo import LoadCombination
 from .dcr_calc_runner import calc_dcrs
 from .results_summary import results_summarizer
+from .plotting.pmm_mesh import get_mesh
 
 
 def calculation(
-    col: Column,
-    load_combos: list[LoadCombination],
+        col: Column,
+        load_combos: list[LoadCombination],
 ):
-
     # draw the column cross-section with dimensions and callouts
     draw_column_with_dimensions.draw(col, "Section of Column")
 
     # calculate_axial_load_limits the max tension and compression to this column
     axial_limits = assign_max_min.calculate_axial_load_limits(col)
 
-    # plot the PMM diagram and retrieve the quarter PMM mesh, which has points
-    # in the format (Mx, My, P). The load table passed has data in the format
-    # (P, Mx, My, show_calc)
-    mesh, pmm_figure = pmm_plotter_plotly.plot(col, 48, 18, load_combos, axial_limits)
+    # Retrieve the quarter PMM mesh, which has points
+    # in the format (Mx, My, P).
+    _, _, _, mesh = get_mesh(col, 48, 18, axial_limits)
 
     # show the PM curves for bending purely about the x and y axes
     pure_mx_my_plotter.plot(mesh)

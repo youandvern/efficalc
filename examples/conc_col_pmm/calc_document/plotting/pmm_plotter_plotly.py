@@ -1,36 +1,15 @@
 import numpy as np
 import plotly.graph_objects as go
 
-from ...col.axial_limits import AxialLimits
-from ...col.column import Column
-from ...pmm_search.load_combo import LoadCombination
-from .pmm_mesh import get_mesh
-
-# TODO: return mesh from main calc function for API consumption
 """
 This function plots the factored load capacity diagram for the column
-"col." "intervals" is the number of spaces in the angle of eccentricity,
-"load_spaces" is the number of vertical spaces in the PMM diagram. 
-"load_combos" is a list of load cases for the given column. 
 """
 
 
-def plot(
-    col: Column,
-    intervals: int,
-    load_spaces: int,
-    load_combos: list[LoadCombination],
-    axial_limits: AxialLimits,
-):
-
-    # get the capacity point mesh for plotting the PMM surface. x, y,
-    # and z correspond to Mx, My, and P, respectively. "quarter_mesh"
-    # has just one quarter of the PMM mesh (including points aligned
-    # with the x and y axes)
-    x, y, z, quarter_mesh = get_mesh(col, intervals, load_spaces, axial_limits)
-    X = np.array(x)
-    Y = np.array(y)
-    Z = np.array(z)
+def plot(pmm_data):
+    X=pmm_data.X
+    Y=pmm_data.Y
+    Z=pmm_data.Z
 
     axis_colors = {"x": "#FF0000", "y": "#00CC00", "z": "#0000FF"}
     ax_labels = {"x": "${\phi}M_{nx}$", "y": "${\phi}M_{ny}$", "z": "${\phi}P_n$"}
@@ -165,7 +144,7 @@ def plot(
     add_axis_arrows(fig)
 
     # convert the PMM data to a numpy array for plotting
-    load_data = np.array([[ld.p, ld.mx, ld.my] for ld in load_combos])
+    load_data = np.array([[ld.p, ld.mx, ld.my] for ld in pmm_data.load_combos])
 
     # define a color (dark blue) for the load points
     pt_color = "#002095"
@@ -188,7 +167,6 @@ def plot(
     )
 
     # define a color (orange) for the PMM surface
-    surface_color = "#ffcc4c"
     surface_color = "#ffbb0f"
     surface_scale = [[0, surface_color], [1, surface_color]]
     fig.add_trace(
@@ -235,4 +213,4 @@ def plot(
         scaleratio=1,
     )
 
-    return quarter_mesh, fig
+    return fig

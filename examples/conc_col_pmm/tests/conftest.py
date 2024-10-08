@@ -1,10 +1,10 @@
 import pytest
 
 from efficalc import Calculation, Input
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.constants.concrete_data import MAX_CONCRETE_STRAIN
-from examples.conc_col_pmm.constants.rebar_data import STEEL_E, BarSize, rebar_area
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+from ..col.column import Column
+from ..constants.concrete_data import MAX_CONCRETE_STRAIN
+from ..constants.rebar_data import STEEL_E, BarSize, rebar_area
+from ..pmm_search.load_combo import LoadCombination
 
 
 def getCalculatedColumnProps(bar_size: BarSize):

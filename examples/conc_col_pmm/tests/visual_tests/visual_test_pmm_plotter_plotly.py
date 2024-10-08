@@ -1,12 +1,12 @@
-import matplotlib.pyplot as plt
-
 from efficalc import Input
 from examples.conc_col_pmm.calc_document.plotting import pmm_plotter_plotly
+from examples.conc_col_pmm.calc_document.plotting import get_pmm_data
 from examples.conc_col_pmm.col import assign_max_min
 from examples.conc_col_pmm.col.column import Column
 from examples.conc_col_pmm.constants.rebar_data import BarSize
 from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
 from examples.conc_col_pmm.tests.conftest import getCalculatedColumnProps
+
 
 # TODO: make this use the main calc callsite and get the plotly data from there
 
@@ -44,6 +44,8 @@ if __name__ == "__main__":
     ]
     loads = [LoadCombination(*load) for load in load_data]
 
-    _, fig = pmm_plotter_plotly.plot(col, 36, 12, loads, axial_limits)
+    pmm_data = get_pmm_data.get_pmm_data(col, 36, 12, loads, axial_limits)
+
+    fig = pmm_plotter_plotly.plot(pmm_data)
 
     fig.show()
