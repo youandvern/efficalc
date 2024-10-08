@@ -157,16 +157,22 @@ Contains plotting functions.
 #### 1.9.1. `get_capacity`
 Accepts parameters like the quarter PMM mesh and a loading point, then returns a list of resultant moment and axial points which form the PM diagram at the angle of the given load point.
 
-#### 1.9.2. `pmm_mesh`
+#### 1.9.2. `get_pmm_data`
+Creates an instance of the PMM class containing the data for a given column's PMM diagram. 
+
+#### 1.9.3. `PMM`
+Defines a dataclass for storing the data needed for plotting the PMM diagram. 
+
+#### 1.9.4. `pmm_mesh`
 Creates the mesh for the PMM diagram by iterating over the range of axial loads and λ.
 
-#### 1.9.3. `pmm_plotter_plotly`
-Creates a Plotly figure for the column’s PMM diagram and returns a quarter of the PMM mesh.
+#### 1.9.5. `pmm_plotter_plotly`
+Creates a Plotly figure for the column’s PMM diagram.
 
-#### 1.9.4. `point_plotter`
+#### 1.9.6. `point_plotter`
 Creates a Matplotlib figure showing the PM diagram for a given load case, along with the point for the given load case.
 
-#### 1.9.5. `pure_mx_my_plotter`
+#### 1.9.7. `pure_mx_my_plotter`
 Adds PM diagrams to the calc report showing cuts of the PMM diagram that align with both the x and y axes (indicating moment purely about the x and y axes). 
 
 ## 2. `col`
