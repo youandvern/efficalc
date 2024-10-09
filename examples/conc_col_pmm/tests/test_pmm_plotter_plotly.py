@@ -1,13 +1,6 @@
-from examples.conc_col_pmm.calc_document.plotting import pmm_plotter_plotly
-from examples.conc_col_pmm.col.assign_max_min import calculate_axial_load_limits
-import matplotlib.pyplot as plt
-
-from efficalc import Input
-from examples.conc_col_pmm.calc_document.plotting import pmm_plotter_plotly
-from examples.conc_col_pmm.calc_document.plotting import get_pmm_data
-from examples.conc_col_pmm.col import assign_max_min
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
-
+from ..calc_document.plotting import get_pmm_data, pmm_plotter_plotly
+from ..col import assign_max_min
+from ..pmm_search.load_combo import LoadCombination
 
 
 # This test checks for runtime errors

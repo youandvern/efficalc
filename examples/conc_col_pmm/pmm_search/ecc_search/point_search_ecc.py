@@ -1,8 +1,8 @@
 import math
 
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.pmm_search.ecc_search import change_ecc, limit_comp_ecc
+from ...col.axial_limits import AxialLimits
+from ...col.column import Column
+from . import change_ecc, limit_comp_ecc
 
 """
 Searches for a point on the PMM diagram with a certain lambda and eccentricity. 

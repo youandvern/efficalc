@@ -1,5 +1,6 @@
 from efficalc import FigureFromMatplotlib, Heading
-from examples.conc_col_pmm.calc_document.plotting import point_plotter
+
+from . import point_plotter
 
 """
 This function plots the intersection of the PMM surface with the vertical planes

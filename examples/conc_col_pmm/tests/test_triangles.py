@@ -1,4 +1,4 @@
-from examples.conc_col_pmm.struct_analysis.triangles import *
+from ..struct_analysis.triangles import *
 
 tri1 = ((0, 0), (3, 0), (0, 6))
 

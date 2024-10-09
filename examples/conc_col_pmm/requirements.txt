@@ -1,4 +1,5 @@
-latexexpr_efficalc==0.5.3
-pylatexenc==2.10
 pytest==8.0.2
 plotly==5.24.1
+efficalc
+matplotlib
+pandas

@@ -17,12 +17,10 @@ from efficalc import (
     sin,
     tan,
 )
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.col_canvas import (
-    draw_column_comp_zone,
-    draw_column_with_triangle,
-)
-from examples.conc_col_pmm.col.column import Column
+
+from ..col.axial_limits import AxialLimits
+from ..col.col_canvas import draw_column_comp_zone, draw_column_with_triangle
+from ..col.column import Column
 
 
 def try_axis_document(
@@ -247,7 +245,9 @@ def try_axis_document(
             "The equivalent stress block is now broken down into triangular areas and the forces are calculated for each."
         )
 
-        (tri_area, centr_x, centr_y)=add_axial_moment(pt1, pt2, (w / 2, h / 2))  # compression triangle to
+        (tri_area, centr_x, centr_y) = add_axial_moment(
+            pt1, pt2, (w / 2, h / 2)
+        )  # compression triangle to
         # top right corner
         pn_top_right = Calculation(
             "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
@@ -265,7 +265,9 @@ def try_axis_document(
             "kip-in",
         )
         if intersects[0]:  # there is a compression triangle to top left corner
-            (tri_area, centr_x, centr_y)=add_axial_moment((-w / 2, h / 2), (w / 2, h / 2), pt1)
+            (tri_area, centr_x, centr_y) = add_axial_moment(
+                (-w / 2, h / 2), (w / 2, h / 2), pt1
+            )
             pn_top_left = Calculation(
                 "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
                 0.85 * fc * tri_area,
@@ -282,7 +284,9 @@ def try_axis_document(
                 "kip-in",
             )
         if intersects[3]:  # there is a compression triangle to bot right corner
-            (tri_area, centr_x, centr_y)=add_axial_moment((w / 2, -h / 2), (w / 2, h / 2), pt2)
+            (tri_area, centr_x, centr_y) = add_axial_moment(
+                (w / 2, -h / 2), (w / 2, h / 2), pt2
+            )
             pn_bot_right = Calculation(
                 "P_{\\mathrm{n,\ Area\ " + str(conc_area_num) + "}}",
                 0.85 * fc * tri_area,
@@ -299,20 +303,26 @@ def try_axis_document(
                 "kip-in",
             )
         Heading("Total Forces in Concrete", 3)
-        if intersects[0] and intersects[3]: # take a sum for all 3 areas
-            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right+pn_top_left+pn_bot_right, "kips")
+        if intersects[0] and intersects[3]:  # take a sum for all 3 areas
+            pn_conc = Calculation(
+                "P_{\\mathrm{n, conc.}}",
+                pn_top_right + pn_top_left + pn_bot_right,
+                "kips",
+            )
             mnx_conc = Calculation(
                 "M_{\\mathrm{nx, conc.}}",
-                mnx_top_right+mnx_top_left+mnx_bot_right,
+                mnx_top_right + mnx_top_left + mnx_bot_right,
                 "kip-in",
             )
             mny_conc = Calculation(
                 "M_{\\mathrm{ny, conc.}}",
-                mny_top_right+mny_top_left+mny_bot_right,
+                mny_top_right + mny_top_left + mny_bot_right,
                 "kip-in",
             )
         elif intersects[0]:
-            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right + pn_top_left, "kips")
+            pn_conc = Calculation(
+                "P_{\\mathrm{n, conc.}}", pn_top_right + pn_top_left, "kips"
+            )
             mnx_conc = Calculation(
                 "M_{\\mathrm{nx, conc.}}",
                 mnx_top_right + mnx_top_left,
@@ -324,7 +334,9 @@ def try_axis_document(
                 "kip-in",
             )
         elif intersects[3]:
-            pn_conc = Calculation("P_{\\mathrm{n, conc.}}", pn_top_right + pn_bot_right, "kips")
+            pn_conc = Calculation(
+                "P_{\\mathrm{n, conc.}}", pn_top_right + pn_bot_right, "kips"
+            )
             mnx_conc = Calculation(
                 "M_{\\mathrm{nx, conc.}}",
                 mnx_top_right + mnx_bot_right,

@@ -1,9 +1,9 @@
 import math
 
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.pmm_search.load_search import bisect_load
-from examples.conc_col_pmm.pmm_search.load_search.point_search_load import search
+from ...col.axial_limits import AxialLimits
+from ...col.column import Column
+from ...pmm_search.load_search import bisect_load
+from ...pmm_search.load_search.point_search_load import search
 
 
 def get_mesh(col: Column, intervals, load_spaces, axial_limits: AxialLimits):

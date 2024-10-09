@@ -1,5 +1,6 @@
 from efficalc import Calculation, Comparison, Heading, TextBlock, absolute
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+
+from ..pmm_search.load_combo import LoadCombination
 
 
 def show(vertical_pt, load: LoadCombination, capacity, dcr):
@@ -24,9 +25,9 @@ def show(vertical_pt, load: LoadCombination, capacity, dcr):
             " point is on the same PMM vector as the demand point. Note that the absolute value for the"
             " moment DCRs is because the column has equal moment capacity in opposite directions by symmetry."
         )
-        if capacity[0].get_value()>0:
+        if capacity[0].get_value() > 0:
             Calculation("DCR_{Mx}", absolute(load.mx / capacity[0]))
-        if capacity[1].get_value()>0:
+        if capacity[1].get_value() > 0:
             Calculation("DCR_{My}", absolute(load.my / capacity[1]))
         Calculation("DCR_{P}", load.p / capacity[2])
         dcr = Calculation("DCR", dcr, "", "The final DCR is:")

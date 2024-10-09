@@ -1,11 +1,11 @@
 import math
 
-from examples.conc_col_pmm.calc_document.show_dcr_calc import show as show_dcr_calc
-from examples.conc_col_pmm.calc_document.try_axis_document import try_axis_document
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.pmm_search.ecc_search import point_search_ecc
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+from ...calc_document.show_dcr_calc import show as show_dcr_calc
+from ...calc_document.try_axis_document import try_axis_document
+from ...col.axial_limits import AxialLimits
+from ...col.column import Column
+from ..load_combo import LoadCombination
+from . import point_search_ecc
 
 
 # accepts as arguments the column and the load point and returns

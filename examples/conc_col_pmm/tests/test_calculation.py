@@ -1,9 +1,13 @@
+import matplotlib
 import pytest
 
 from efficalc import Calculation, clear_saved_objects
 from efficalc.calculation_runner import CalculationRunner
-from examples.conc_col_pmm.calc_document.calculation import calculation
-from examples.conc_col_pmm.calc_document.column_inputs import ColumnInputs
+
+from ..calc_document.calculation import calculation
+from ..calc_document.column_inputs import ColumnInputs
+
+matplotlib.use("Agg")  # Use a non-interactive backend
 
 
 @pytest.fixture

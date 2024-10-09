@@ -1,6 +1,6 @@
 import math
 
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+from ...pmm_search.load_combo import LoadCombination
 
 """
 The function below interpolates between points on the PMM diagram to construct
@@ -41,10 +41,14 @@ def get_capacity(mesh, point: LoadCombination):
         # at the current point. The index for the angle of the current point must be
         # limited to "quarter" to prevent it from exceeding the size of the
         # mesh array, even if "index" is the max element due to rounding.
-        phi_Pn[i] = sum((mesh[i][min(index + j, quarter)][2] * factors[j] for j in range(2)))
+        phi_Pn[i] = sum(
+            (mesh[i][min(index + j, quarter)][2] * factors[j] for j in range(2))
+        )
 
         for j in range(2):
             # calculate the moment resultant for the given capacity point
-            moment = math.sqrt(sum((mesh[i][min(index + j, quarter)][k] ** 2 for k in range(2))))
+            moment = math.sqrt(
+                sum((mesh[i][min(index + j, quarter)][k] ** 2 for k in range(2)))
+            )
             phi_Mn[i] += moment * factors[j]
     return [phi_Mn, phi_Pn]

@@ -1,6 +1,28 @@
 # Scope
 This program supports the analysis of rectangular, symmetric, perimeter-reinforced concrete columns in accordance with ACI 318-19 and using the exact capacity method. 
 
+# Run Guide
+
+## Getting Started
+The `conc_col_pmm` folder is meant to be a standalone design tool. To get set up for running it on your local machine, follow these steps:
+ 
+1. Download or copy the entire `conc_col_pmm` folder into your desired working directory.
+2. Open a command line shell in the working directory. Make sure you have python installed and accessible.
+3. Initialize a virtual environment (e.g. `python -m venv .venv && .venv/Scripts/activate.ps1 ` )
+4. Install requirements (e.g. `pip install -r requirements.txt`)
+5. Run tests to make sure setup is complete: `pytest conc_col_pmm/tests`
+
+## Designing a column
+The `conc_col_pmm/tests/visual_tests` folder has examples for running various parts of the concrete column tool including
+
+* `visual_test_document_wrapper.py` for viewing a complete calculation report
+* `visual_test_pmm_plotter_plotly.py` for viewing a 3D PMM plot
+* `visual_test_point_plotter.py` for viewing 2D PM plots for specific load cases
+
+These example files can be run and viewed with `python -m conc_col_pmm.tests.visual_tests.<file name>`. For example:
+`python -m conc_col_pmm.tests.visual_tests.visual_test_document_wrapper`
+
+
 # Program Features
 - **PMM Diagrams**: Creates 3D Axial-Moment-Moment interaction diagrams. 
 - **PM Diagrams**: For each load case entered, creates a 2D PM interaction diagram including the location of the load case on the PM axes relative to the capacity curve.  

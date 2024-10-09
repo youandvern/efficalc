@@ -1,17 +1,16 @@
-from examples.conc_col_pmm.calc_document.plotting import pure_mx_my_plotter
-from examples.conc_col_pmm.col import assign_max_min
-
+from ..calc_document.plotting import pure_mx_my_plotter
+from ..col import assign_max_min
 from ..col.col_canvas import draw_column_with_dimensions
 from ..col.column import Column
 from ..pmm_search.load_combo import LoadCombination
 from .dcr_calc_runner import calc_dcrs
-from .results_summary import results_summarizer
 from .plotting.pmm_mesh import get_mesh
+from .results_summary import results_summarizer
 
 
 def calculation(
-        col: Column,
-        load_combos: list[LoadCombination],
+    col: Column,
+    load_combos: list[LoadCombination],
 ):
     # draw the column cross-section with dimensions and callouts
     draw_column_with_dimensions.draw(col, "Section of Column")

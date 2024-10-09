@@ -7,9 +7,9 @@ This function plots the factored load capacity diagram for the column
 
 
 def plot(pmm_data):
-    X=pmm_data.X
-    Y=pmm_data.Y
-    Z=pmm_data.Z
+    X = pmm_data.X
+    Y = pmm_data.Y
+    Z = pmm_data.Z
 
     axis_colors = {"x": "#FF0000", "y": "#00CC00", "z": "#0000FF"}
     ax_labels = {"x": "${\phi}M_{nx}$", "y": "${\phi}M_{ny}$", "z": "${\phi}P_n$"}

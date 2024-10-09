@@ -1,7 +1,7 @@
 import math
 
-from examples.conc_col_pmm.col.assign_max_min import calculate_axial_load_limits
-from examples.conc_col_pmm.pmm_search.load_search.point_search_load import search
+from ..col.assign_max_min import calculate_axial_load_limits
+from ..pmm_search.load_search.point_search_load import search
 
 search_tol = 1.5e-3  # the tolerance for error in the points found
 ceil_tol = 1e-2  # how close to limits to go

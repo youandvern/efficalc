@@ -1,8 +1,7 @@
 import math
 import random
 
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-
+from ..col.axial_limits import AxialLimits
 from ..col.column import Column
 from .triangles import *
 

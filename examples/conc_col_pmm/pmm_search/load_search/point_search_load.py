@@ -1,7 +1,6 @@
 import math
 
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-
+from ...col.axial_limits import AxialLimits
 from ...col.column import Column
 from .change_load import change
 from .limit_comp_load import limit_comp
