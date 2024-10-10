@@ -2,7 +2,7 @@ import math
 
 import matplotlib.pyplot as plt
 
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+from ...pmm_search.load_combo import LoadCombination
 
 """
 The function "plot" creates and returns a matplotlib figure showing a PM diagram. 

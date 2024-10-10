@@ -1,7 +1,8 @@
 from efficalc import Calculation, Heading, TextBlock, r_brackets
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.struct_analysis import try_axis
+
+from ..struct_analysis import try_axis
+from .axial_limits import AxialLimits
+from .column import Column
 
 
 def calculate_axial_load_limits(col: Column) -> AxialLimits:

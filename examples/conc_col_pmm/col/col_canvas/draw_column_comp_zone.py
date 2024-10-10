@@ -1,8 +1,9 @@
 import math
 
 from efficalc.canvas import Canvas, Dimension, Polyline, Rectangle, Text
-from examples.conc_col_pmm.col.col_canvas.draw_plain_column import draw as draw_base
-from examples.conc_col_pmm.col.column import Column
+
+from ..column import Column
+from .draw_plain_column import draw as draw_base
 
 
 def draw(col: Column, caption_input: str, points) -> Canvas:

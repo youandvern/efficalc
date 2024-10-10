@@ -1,13 +1,8 @@
 import os
 import sys
 
-# Add the root directory of the project to the Python path
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
-)
-
-
-from examples.conc_col_pmm.calc_document.document_wrapper import run
+# Now you can import from conc_col_pmm
+from ...calc_document.document_wrapper import run
 
 # "w", "h", "bar_size", "bar_cover", "bars_x", "bars_y", "fc", "fy", "cover_type", "transverse_type",
 col_data = [24, 18, "#6", 2, 5, 2, 8000, 60, "Edge", "Spiral"]

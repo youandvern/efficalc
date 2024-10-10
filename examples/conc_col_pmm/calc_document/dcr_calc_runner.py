@@ -1,9 +1,10 @@
 from efficalc import FigureFromMatplotlib, Heading
-from examples.conc_col_pmm.calc_document.plotting import get_capacity, point_plotter
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.pmm_search.ecc_search.get_dcr_ecc import get_dcr_ecc
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+
+from ..calc_document.plotting import get_capacity, point_plotter
+from ..col.axial_limits import AxialLimits
+from ..col.column import Column
+from ..pmm_search.ecc_search.get_dcr_ecc import get_dcr_ecc
+from ..pmm_search.load_combo import LoadCombination
 
 
 def calc_dcrs(

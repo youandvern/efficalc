@@ -1,6 +1,6 @@
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.pmm_search.load_search.limit_comp_load import limit_comp
+from ...col.axial_limits import AxialLimits
+from ...col.column import Column
+from .limit_comp_load import limit_comp
 
 reduction = 0.005  # the fraction of the total estimated span of both inputs
 # that should be added/subtracted to the starting guess points

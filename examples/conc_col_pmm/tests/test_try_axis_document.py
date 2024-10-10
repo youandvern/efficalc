@@ -1,7 +1,7 @@
 import math
 
-from examples.conc_col_pmm.calc_document.try_axis_document import try_axis_document
-from examples.conc_col_pmm.col.assign_max_min import calculate_axial_load_limits
+from ..calc_document.try_axis_document import try_axis_document
+from ..col.assign_max_min import calculate_axial_load_limits
 
 # this test is based on the reference calculation by SP Column which can be found at the following link:
 # https://structurepoint.org/publication/pdf/Biaxial-Bending-Interaction-Diagrams-for-Rectangular-Reinforced-Concrete-Column-Design-ACI-318-19.pdf

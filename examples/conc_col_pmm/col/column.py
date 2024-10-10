@@ -1,5 +1,6 @@
 from efficalc import Calculation, Input
-from examples.conc_col_pmm.constants.rebar_data import *
+
+from ..constants.rebar_data import STEEL_E, rebar_area, rebar_diameter
 
 """
 The class Column takes the following parameters:

@@ -1,13 +1,8 @@
 from efficalc import Assumption, Calculation, Heading, Input, InputTable, Title
-from examples.conc_col_pmm.constants.rebar_data import (
-    REBAR_SIZES,
-    REBAR_STRENGTHS,
-    STEEL_E,
-    rebar_area,
-)
 
 from ..col.column import Column
 from ..constants.concrete_data import MAX_CONCRETE_STRAIN
+from ..constants.rebar_data import REBAR_SIZES, REBAR_STRENGTHS, STEEL_E, rebar_area
 from ..pmm_search.load_combo import LoadCombination, is_yes
 from .column_inputs import ColumnInputs
 from .full_calc_document import calculation as full_calc

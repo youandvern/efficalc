@@ -1,9 +1,9 @@
 import math
 
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.pmm_search.load_search.get_error_load import get_error
-from examples.conc_col_pmm.struct_analysis import try_axis
+from ...col.axial_limits import AxialLimits
+from ...col.column import Column
+from ...struct_analysis import try_axis
+from ..load_search.get_error_load import get_error
 
 
 def limit_comp(col: Column, guess, target, axial_limits: AxialLimits):

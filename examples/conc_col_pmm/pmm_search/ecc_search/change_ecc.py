@@ -1,7 +1,6 @@
-from examples.conc_col_pmm.col.axial_limits import AxialLimits
-from examples.conc_col_pmm.struct_analysis import try_axis
-
+from ...col.axial_limits import AxialLimits
 from ...col.column import Column
+from ...struct_analysis import try_axis
 from .get_error_ecc import get_error
 
 delta = 1e-8  # small change to be used for finite differences

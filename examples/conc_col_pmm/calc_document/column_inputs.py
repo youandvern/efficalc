@@ -1,6 +1,6 @@
 import dataclasses
 
-from examples.conc_col_pmm.constants.rebar_data import REBAR_SIZES, REBAR_STRENGTHS
+from ..constants.rebar_data import REBAR_SIZES, REBAR_STRENGTHS
 
 
 @dataclasses.dataclass

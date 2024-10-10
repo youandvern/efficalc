@@ -1,5 +1,6 @@
 from efficalc import Comparison, Heading, Table
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+
+from ..pmm_search.load_combo import LoadCombination
 
 """
 Creates a table with the DCRs for all load cases. Also calculates the max

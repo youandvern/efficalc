@@ -1,10 +1,6 @@
-from examples.conc_col_pmm.constants.rebar_data import rebar_diameter
+from efficalc.canvas import Canvas, Circle, Rectangle
 
-from efficalc.canvas import (
-    Canvas,
-    Circle,
-    Rectangle,
-)
+from ...constants.rebar_data import rebar_diameter
 
 
 def draw(col) -> Canvas:
