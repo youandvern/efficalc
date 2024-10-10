@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="186.36 249.22 987.56 642.79">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #231f20;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-4, .cls-7 {
+        stroke-width: 2px;
+      }
+
+      .cls-8, .cls-9 {
+        fill: #231f20;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-dasharray: 10 10;
+        stroke-width: 5px;
+      }
+
+      .cls-2, .cls-5, .cls-7 {
+        stroke: #f15a29;
+      }
+
+      .cls-10 {
+        fill: #fff;
+      }
+
+      .cls-3, .cls-4, .cls-6 {
+        stroke: #21409a;
+      }
+
+      .cls-4, .cls-7 {
+        stroke-dasharray: 7;
+      }
+
+      .cls-5, .cls-6 {
+        stroke-width: 3px;
+      }
+
+      .cls-11 {
+        fill: #f15a29;
+      }
+
+      .cls-9 {
+        font-family: ArialMT, Arial;
+        font-size: 30px;
+      }
+
+      .cls-12 {
+        fill: #21409a;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->
+  <g>
+    <g id="Layer_1">
+      <g>
+        <line class="cls-3" x1="202.05" y1="573.66" x2="1096.13" y2="849.43"/>
+        <polygon class="cls-12" points="206.43 585.66 205.3 574.66 212.43 566.2 186.36 568.82 206.43 585.66"/>
+        <polygon class="cls-12" points="1085.75 856.89 1092.88 848.43 1091.75 837.43 1111.82 854.27 1085.75 856.89"/>
+      </g>
+      <g>
+        <line class="cls-2" x1="202.65" y1="849.29" x2="1096.73" y2="573.51"/>
+        <polygon class="cls-11" points="213.03 856.74 205.89 848.29 207.03 837.28 186.96 854.13 213.03 856.74"/>
+        <polygon class="cls-11" points="1092.35 585.52 1093.48 574.51 1086.34 566.06 1112.41 568.67 1092.35 585.52"/>
+      </g>
+      <circle class="cls-8" cx="649.69" cy="711.4" r="7.42"/>
+      <line class="cls-4" x1="571.83" y1="330.7" x2="469.8" y2="656.24"/>
+      <line class="cls-7" x1="571.83" y1="330.7" x2="686.4" y2="700.08"/>
+      <g>
+        <line class="cls-5" x1="571.83" y1="330.7" x2="551.42" y2="267.31"/>
+        <line class="cls-5" x1="560.82" y1="280.28" x2="551.42" y2="267.31"/>
+        <line class="cls-5" x1="551.44" y1="283.48" x2="551.42" y2="267.31"/>
+      </g>
+      <g>
+        <line class="cls-6" x1="571.88" y1="330.75" x2="592.02" y2="267.26"/>
+        <line class="cls-6" x1="592.16" y1="283.29" x2="592.02" y2="267.26"/>
+        <line class="cls-6" x1="582.66" y1="280.45" x2="592.02" y2="267.26"/>
+      </g>
+      <circle class="cls-8" cx="571.83" cy="330.7" r="7.42"/>
+      <text class="cls-9" transform="translate(1122.69 574.69)"><tspan x="0" y="0">f=0</tspan></text>
+      <text class="cls-9" transform="translate(1123.03 865.96)"><tspan x="0" y="0">g=0</tspan></text>
+      <text class="cls-9" transform="translate(538.28 278.03)"><tspan x="0" y="0">f</tspan></text>
+      <g>
+        <polygon class="cls-8" points="526.83 284.6 518.01 256.19 535.65 256.19 526.83 284.6"/>
+        <rect class="cls-10" x="522.85" y="278.47" width="7.95" height="6.62"/>
+        <polygon class="cls-10" points="527.31 275.98 521.46 258.4 533.16 258.4 527.31 275.98"/>
+      </g>
+      <text class="cls-9" transform="translate(614.39 276.22)"><tspan x="0" y="0">g</tspan></text>
+      <g>
+        <polygon class="cls-8" points="604.99 284.85 596.17 256.44 613.81 256.44 604.99 284.85"/>
+        <rect class="cls-10" x="601.01" y="278.72" width="7.95" height="6.62"/>
+        <polygon class="cls-10" points="605.47 276.22 599.62 258.64 611.32 258.64 605.47 276.22"/>
+      </g>
+      <text class="cls-9" transform="translate(755.95 885.51)"><tspan x="0" y="0">Next iteration point</tspan></text>
+      <line class="cls-1" x1="750" y1="874.31" x2="714.92" y2="874.31"/>
+      <g>
+        <line class="cls-1" x1="714.92" y1="874.3" x2="657.31" y2="730.37"/>
+        <polygon class="cls-8" points="664.55 729.67 653.58 721.04 651.59 734.86 664.55 729.67"/>
+      </g>
+      <text class="cls-9" transform="translate(735.44 405.51)"><tspan x="0" y="0">Current iteration point</tspan></text>
+      <line class="cls-1" x1="729.49" y1="394.31" x2="694.41" y2="394.31"/>
+      <g>
+        <line class="cls-1" x1="694.41" y1="394.31" x2="590.86" y2="340.21"/>
+        <polygon class="cls-8" points="595.9 334.97 581.95 335.56 589.43 347.34 595.9 334.97"/>
+      </g>
+    </g>
+  </g>
+</svg>
