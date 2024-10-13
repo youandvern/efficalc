@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "efficalc"
-version = "1.2.0"
+version = "1.2.4"
 authors = [
   { name="Andrew Young", email="youandvern@gmail.com" },
 ]
@@ -28,7 +28,7 @@ Documentation = "https://youandvern.github.io/efficalc"
 Issues = "https://github.com/youandvern/efficalc/issues"
 
 [tool.setuptools.packages]
-find = { include = ["efficalc", "efficalc.sections", "efficalc.base_definitions"] }
+find = { include = ["efficalc", "efficalc.sections", "efficalc.base_definitions", "efficalc.canvas"] }
 
 [tool.setuptools]
 package-data = {"efficalc.sections" = ["section_properties.db"]}

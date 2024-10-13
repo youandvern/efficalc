@@ -175,6 +175,15 @@ Canvas Elements
 .. autoclass:: efficalc.canvas.Rectangle
     :members:
 
+.. autoclass:: efficalc.canvas.Text
+    :members:
+
+.. autoclass:: efficalc.canvas.Dimension
+    :members:
+
+.. autoclass:: efficalc.canvas.Leader
+    :members:
+
 Line/Polyline Markers
 *********************
 
@@ -191,5 +200,8 @@ Base Classes
     :members:
 
 .. autoclass:: efficalc.canvas.Marker
+    :members:
+
+.. autoclass:: efficalc.canvas.ElementWithMarkers
     :members:
 

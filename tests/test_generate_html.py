@@ -13,7 +13,9 @@ from efficalc import (
     FigureFromFile,
     Heading,
     Input,
+    InputTable,
     Symbolic,
+    Table,
     TextBlock,
     Title,
     clear_saved_objects,
@@ -416,3 +418,128 @@ def test_canvas_centered_caption(common_setup_teardown):
         f'<p style="color:#6f6f6f; text-align:center; font-size:0.9em;">test-description</p>'
         in result
     )
+
+
+def test_table_full_composition(common_setup_teardown):
+    table = Table(
+        [["alpha", 1], ["beta", 2]], ["greeks", "numbers"], "greek letters and numbers"
+    )
+    result = generate_html_for_calc_items([table])
+    assert "<table" in result
+    assert (
+        "<caption><b>greek letters and numbers</b></caption>"
+        "<thead><tr><th>greeks</th><th>numbers</th></tr></thead>"
+        "<tbody><tr><td>alpha</td><td>1</td></tr>"
+        "<tr><td>beta</td><td>2</td></tr></tbody></table>"
+    ) in result
+
+
+def test_input_table_full_composition(common_setup_teardown):
+    table = InputTable(
+        [["alpha", 1], ["beta", 2]], ["greeks", "numbers"], "greek letters and numbers"
+    )
+    result = generate_html_for_calc_items([table])
+    assert "<table" in result
+    assert (
+        "<caption><b>greek letters and numbers</b></caption>"
+        "<thead><tr><th>greeks</th><th>numbers</th></tr></thead>"
+        "<tbody><tr><td>alpha</td><td>1</td></tr>"
+        "<tr><td>beta</td><td>2</td></tr></tbody></table>"
+    ) in result
+
+
+def test_table_data_only(common_setup_teardown):
+    table = Table([[1, 2, 3], [1]])
+    result = generate_html_for_calc_items([table])
+    assert "<table" in result
+    assert "caption" not in result
+    assert "thead" not in result
+    assert "th>" not in result
+    assert (
+        "<tbody><tr><td>1</td><td>2</td><td>3</td></tr>"
+        "<tr><td>1</td></tr></tbody></table>"
+    ) in result
+
+
+def test_table_with_all_styling(common_setup_teardown):
+    table = Table([[3]], full_width=True, striped=True)
+    result = generate_html_for_calc_items([table])
+    assert '<table class="striped" style="margin:auto; width:100%;">' in result
+    assert "<tbody><tr><td>3</td></tr></tbody></table>" in result
+    assert "1</td>" not in result
+
+
+def test_table_with_no_styling(common_setup_teardown):
+    table = Table([[3]], full_width=False, striped=False)
+    result = generate_html_for_calc_items([table])
+    assert (
+        '<table style="margin:auto;"><tbody><tr><td>3</td></tr></tbody></table>'
+        in result
+    )
+    assert "1" not in result
+
+
+def test_table_no_data(common_setup_teardown):
+    table = Table([], ["greeks", "numbers"])
+
+    result = generate_html_for_calc_items([table])
+    assert "<table" in result
+    assert (
+        "<thead><tr><th>greeks</th><th>numbers</th></tr></thead>"
+        "<tbody></tbody></table>"
+    ) in result
+    assert "1" not in result
+
+
+def test_table_with_row_numbers(common_setup_teardown):
+    table = Table(
+        [["f", "g"], ["i", "j"], ["l", "m"]],
+        ["greeks", "numbers"],
+        numbered_rows=True,
+    )
+
+    result = generate_html_for_calc_items([table])
+    assert "<table" in result
+    assert "0" not in result
+    assert "<tr><th></th><th>greeks</th><th>numbers</th></tr>" in result
+    assert "<tr><td>1</td><td>f</td><td>g</td></tr>" in result
+    assert "<td>2</td><td>i</td>" in result
+    assert "<td>3</td><td>l</td>" in result
+
+
+def test_table_with_row_numbers_without_headers(common_setup_teardown):
+    table = Table([["f"]], numbered_rows=True)
+
+    result = generate_html_for_calc_items([table])
+    assert "<table" in result
+    assert "<tr><td>1</td><td>f</td></tr>" in result
+    assert "2</td>" not in result
+
+
+def test_inline_equation_escapes_hash_character(common_setup_teardown):
+    a = Input("calc#", 5, "in", "describing text", "refer to code")
+    result = generate_html_for_calc_items([a])
+    assert r"calc\#" in result
+    assert r"calc#" not in result
+    assert a.description in result
+    assert "[" + a.reference + "]" in result
+
+
+def test_equation_escapes_hash_character(common_setup_teardown):
+    a = Input("a", 2)
+    b = Input("b", 3)
+    c = Calculation("c", a + b)
+    calc = Calculation(
+        "calc #1",
+        a - c + brackets(b * a * c) + b - c - a - b,
+        "in",
+        "describing # text",
+        "refer to code",
+    )
+    result = generate_html_for_calc_items([calc])
+    assert calc.estimate_display_length() == CalculationLength.LONG
+    assert calc.name not in result
+    assert "calc \#1" in result
+    assert calc.description in result
+    assert calc.reference in result
+    assert r"\therefore" in result

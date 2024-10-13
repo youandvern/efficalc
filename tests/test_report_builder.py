@@ -4,7 +4,7 @@ from unittest.mock import mock_open, patch
 import pytest
 
 from efficalc import Calculation, Input, clear_saved_objects
-from efficalc.report_builder import ReportBuilder
+from efficalc.report_builder import LongCalcDisplayType, ReportBuilder
 
 
 @pytest.fixture
@@ -234,4 +234,42 @@ def test_save_report_writes_to_file_in_existing_folder_and_opens(
     assert "a =  4 \\ \\mathrm{in}" in report_content
     assert "{\\left( {a} \\right)}^{ {2} } + {a} + {2}" in report_content
     assert "<!DOCTYPE html>" in report_content
+    assert '<html style="background-color: #eeeeee;">' in report_content
+
+
+def test_html_configured_with_scaling_long_equations(calc_function):
+    mathjax_config = """
+    <script>
+        window.MathJax = {
+            output: {
+                displayOverflow: "scale",
+            },
+        };
+    </script>
+    """
+    report_builder = ReportBuilder(
+        calc_function=calc_function, long_calc_display=LongCalcDisplayType.SCALE
+    )
+    report_content = report_builder.get_html_as_str()
+    assert mathjax_config in report_content
+    assert "a =  4 \\ \\mathrm{in}" in report_content
+    assert '<html style="background-color: #eeeeee;">' in report_content
+
+
+def test_html_configured_with_breaking_long_equations(calc_function):
+    mathjax_config = """
+    <script>
+        window.MathJax = {
+            output: {
+                displayOverflow: "linebreak",
+            },
+        };
+    </script>
+    """
+    report_builder = ReportBuilder(
+        calc_function=calc_function, long_calc_display=LongCalcDisplayType.LINEBREAK
+    )
+    report_content = report_builder.get_html_as_str()
+    assert mathjax_config in report_content
+    assert "a =  4 \\ \\mathrm{in}" in report_content
     assert '<html style="background-color: #eeeeee;">' in report_content
