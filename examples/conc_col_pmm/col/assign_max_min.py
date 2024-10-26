@@ -70,7 +70,7 @@ def calculate_axial_load_limits(col: Column) -> AxialLimits:
     Heading("Tensile Capacity", 2)
     min_pn = Calculation(
         "P_{\mathrm{nt,max}}",
-        fy * steel_area,
+        -1 * fy * steel_area,
         "kips",
         "",
         "ACI 318-19 22.4.3.1",
@@ -89,6 +89,7 @@ def calculate_axial_load_limits(col: Column) -> AxialLimits:
         max_pn.result(),
         max_phi_pn.result(),
         max_phi_pn,
-        -min_pn.result(),
-        -min_phi_pn.result(),
+        min_pn.result(),
+        min_phi_pn.result(),
+        min_phi_pn,
     )

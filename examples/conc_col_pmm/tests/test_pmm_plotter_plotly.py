@@ -13,7 +13,7 @@ def test_pmm_plotter_plotly(example_col, loads):
         [-100, 50, -60, False],
         [1500, 300, -300, False],
     ]
-    loads = [LoadCombination(*load) for load in load_data]
+    loads = [LoadCombination(i, *load) for i, load in enumerate(load_data)]
 
     pmm_data = get_pmm_data.get_pmm_data(example_col, 36, 12, loads, axial_limits)
 

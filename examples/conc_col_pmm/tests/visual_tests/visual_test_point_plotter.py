@@ -41,7 +41,7 @@ if __name__ == "__main__":
         [-100, 50, -60, False],
         [11500, 300, -300, False],
     ]
-    loads = [LoadCombination(*load) for load in load_data]
+    loads = [LoadCombination(i, *load) for i, load in enumerate(load_data)]
 
     _, _, _, mesh = pmm_mesh.get_mesh(col, 36, 12, axial_limits)
 

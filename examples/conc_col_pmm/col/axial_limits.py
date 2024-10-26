@@ -10,6 +10,7 @@ class AxialLimits:
     max_phi_pn_calculation: Calculation
     min_pn: float
     min_phi_pn: float
+    min_phi_pn_calculation: Calculation
 
     # difference between the maximum and minimum allowable loads,
     # to be used for normalizing error

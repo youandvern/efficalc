@@ -17,13 +17,13 @@ tol = 1e-3
 
 def test_try_axis(example_col2):
     axial_limits = calculate_axial_load_limits(example_col2)
-    (phi_mnx, phi_mny, phi_pn) = try_axis_document(
+    capacities = try_axis_document(
         example_col2, axial_limits, -43.9 * math.pi / 180, 12.5
     )
     found = (
-        phi_pn.get_value(),
-        phi_mnx.get_value(),
-        phi_mny.get_value(),
+        capacities.P.result(),
+        capacities.Mx.result(),
+        capacities.My.result(),
     )
     print("found", found)
     for i in range(3):

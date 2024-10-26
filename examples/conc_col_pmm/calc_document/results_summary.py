@@ -1,4 +1,4 @@
-from efficalc import Comparison, Heading, Table
+from efficalc import Calculation, Comparison, Heading, Table
 
 from ..pmm_search.load_combo import LoadCombination
 
@@ -25,13 +25,17 @@ def results_summarizer(load_combos: list[LoadCombination], dcr_results):
     Table(data, headers, "DCRs For All Load Cases", False, False)
 
     # calculate the max DCR and show
-    max_dcr = round(max(dcr_results), 2)
+    max_dcr = Calculation(
+        "DCR_{max}",
+        round(max(dcr_results), 2),
+        description="Maximum of all Load Case DCRs",
+    )
     Comparison(
         max_dcr,
         "<",
         1.0,
         true_message="O.K.",
         false_message="N.G.",
-        description="Max DCR check:",
+        description="Max DCR check",
         result_check=True,
     )

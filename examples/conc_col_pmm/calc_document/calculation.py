@@ -63,7 +63,7 @@ def calculation(
 
     # 4 spaces
     bars_x = Input(
-        "    ",
+        "n_x",
         col.bars_x,
         "",
         description="Number of bars on the top/bottom edges",
@@ -72,7 +72,7 @@ def calculation(
 
     # 5 spaces
     bars_y = Input(
-        "     ",
+        "n_y",
         col.bars_y,
         "",
         description="Number of bars on the left/right edges",
@@ -95,11 +95,13 @@ def calculation(
         "Muy (kip-ft)",
         "Show in Calc Report (yes/no)",
     ]
-    load_table = InputTable(default_loads, headers, "Load Cases", False, False)
+    load_table = InputTable(
+        default_loads, headers, "Load Cases", False, False, numbered_rows=True
+    )
 
     load_combos = [
-        LoadCombination(load[0], load[1], load[2], is_yes(load[3]))
-        for load in load_table.data
+        LoadCombination(idx + 1, load[0], load[1], load[2], is_yes(load[3]))
+        for idx, load in enumerate(load_table.data)
     ]
 
     # above were the efficalc Inputs from the user, and below, some additional inputs and assumptions

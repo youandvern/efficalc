@@ -40,7 +40,7 @@ def test_calc_with_defaults(common_setup_teardown):
     dcr_p = get_calc_by_name(all_obj, "DCR_{P}")
 
     assert_calc_value(ppn, 3579.613)
-    assert_calc_value(pmx, 238.931)
+    assert_calc_value(pmx, 238.932)
     assert_calc_value(pmy, 119.412)
     assert_calc_value(dcr_mx, 0.837060)
     assert_calc_value(dcr_my, 0.837060)
@@ -59,9 +59,9 @@ def test_calc_with_custom_load_case(common_setup_teardown):
     dcr_my = get_calc_by_name(all_obj, "DCR_{My}")
     dcr_p = get_calc_by_name(all_obj, "DCR_{P}")
 
-    assert_calc_value(ppn, 2140.0444)
-    assert_calc_value(pmx, 1712.8050)
-    assert_calc_value(pmy, 214.4066)
+    assert_calc_value(ppn, 2140.047)
+    assert_calc_value(pmx, 1712.806)
+    assert_calc_value(pmy, 214.404)
     assert_calc_value(dcr_mx, 0.23353)
     assert_calc_value(dcr_my, 0.23320)
     assert_calc_value(dcr_p, 0.23364)

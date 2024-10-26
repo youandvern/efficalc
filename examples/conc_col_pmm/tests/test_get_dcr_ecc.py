@@ -178,7 +178,7 @@ def test_get_dcr(example_col3):
     axial_limits = calculate_axial_load_limits(col)
 
     for i in range(78):
-        load = LoadCombination(*(loads[i]), False)
+        load = LoadCombination(i + 1, *(loads[i]), False)
         dcr = get_dcr_ecc(col, load, axial_limits)
 
         if dcr > 0:
