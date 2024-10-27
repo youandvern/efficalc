@@ -301,6 +301,7 @@ def test_input(common_setup_teardown):
     assert "[" + a.reference + "]" in result
     assert a.name in result
     assert str(a) in result
+    assert r"\text{" not in result
 
 
 def test_input_without_desc(common_setup_teardown):
@@ -310,6 +311,7 @@ def test_input_without_desc(common_setup_teardown):
     assert a.name in result
     assert str(a) in result
     assert "None" not in result
+    assert r"\text{" not in result
 
 
 def test_input_without_ref(common_setup_teardown):
@@ -321,6 +323,7 @@ def test_input_without_ref(common_setup_teardown):
     assert a.name in result
     assert str(a) in result
     assert "None" not in result
+    assert r"\text{" not in result
 
 
 def test_input_without_unit(common_setup_teardown):
@@ -331,6 +334,15 @@ def test_input_without_unit(common_setup_teardown):
     assert a.description in result
     assert a.name in result
     assert str(a) in result
+    assert "None" not in result
+    assert r"\text{" not in result
+
+
+def test_input_plain_text(common_setup_teardown):
+    a = Input("calc", "No & no", plain_text_value=True)
+    result = generate_html_for_calc_items([a])
+    assert a.name in result
+    assert r"\text{No &amp; no}" in result
     assert "None" not in result
 
 

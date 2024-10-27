@@ -65,6 +65,11 @@ def test_to_str_nan(common_setup_teardown):
     assert str(a) == "\mathrm{a} = \mathrm{test} \ mm^2"
 
 
+def test_to_str_plain_text(common_setup_teardown):
+    a = Input("a", "test", "mm^2", plain_text_value=True)
+    assert str(a) == r"\mathrm{a} = \mathrm{\text{test}} \ mm^2"
+
+
 def test_to_str_number(common_setup_teardown):
     a = Input("a", -5, "mm^2")
     assert str(a) == r"a = \left( -5 \right) \ \mathrm{mm^2}"

@@ -48,6 +48,10 @@ class Input(Variable, CalculationItem):
         cloud version of efficalc; see
         https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step, defaults to "any"
     :type num_step: float, int, or None, optional
+    :param plain_text_value: Set to True if the input value should be displayed as plain text rather than formatted as
+        LeTex math, defaults to False
+    :type plain_text_value: bool, optional
+
 
     .. code-block:: python
 
@@ -69,6 +73,7 @@ class Input(Variable, CalculationItem):
         min_value: int | float = None,
         max_value: int | float = None,
         num_step: int | float | str = "any",
+        plain_text_value: bool = False,
     ):
         override_or_default_value = get_override_or_default_value(
             variable_name, default_value
@@ -85,6 +90,7 @@ class Input(Variable, CalculationItem):
         self.max_value = max_value
         self.input_type = input_type
         self.select_options = select_options
+        self.plain_text_value = plain_text_value
         save_calculation_item(self)
 
     def str_result_with_name(self):
@@ -120,6 +126,9 @@ class Input(Variable, CalculationItem):
 
     def __str__(self):
         if self._get_display_type() != InputDisplayType.NUMBER:
-            return rf"\mathrm{{{self.name}}} = \mathrm{{{self.value}}} \ {self.unit}"
+            text_value = (
+                rf"\text{{{self.value}}}" if self.plain_text_value else self.value
+            )
+            return rf"\mathrm{{{self.name}}} = \mathrm{{{text_value}}} \ {self.unit}"
         else:
             return super().__str__()
