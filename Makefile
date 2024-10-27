@@ -8,7 +8,7 @@ publish:
 
 # within venv
 tests:
-	python -m pytest
+	python -m pytest tests
 
 # within venv
 docs:
