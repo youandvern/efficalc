@@ -1,12 +1,12 @@
 import math
-import random
+
+from latexexpr_efficalc import Variable
 
 from efficalc import (
     PI,
     Calculation,
     ComparisonStatement,
     Heading,
-    Input,
     Symbolic,
     Table,
     TextBlock,
@@ -21,6 +21,12 @@ from efficalc import (
 from ..col.axial_limits import AxialLimits
 from ..col.col_canvas import draw_column_comp_zone, draw_column_with_triangle
 from ..col.column import Column
+from .column_capacities import ColumnCapacities
+
+
+# Make sure that small numbers like 5.684e−14 get rounded to 0
+def _round(x: float):
+    return round(x, 5)
 
 
 def try_axis_document(
@@ -28,7 +34,7 @@ def try_axis_document(
     axial_limits: AxialLimits,
     theta_input=0,
     c_input=10,
-):
+) -> ColumnCapacities:
 
     w = col.w_input
     h = col.h_input
@@ -39,17 +45,24 @@ def try_axis_document(
     conc_epsilon = col.concrete_strain_input
 
     TextBlock(
-        "The neutral axis angle and depth below are chosen to produce a capacity point aligning exactly with the"
-        + " PMM vector of the applied load. \n"
+        "The neutral axis angle and depth below are iteratively determined to produce a capacity point aligning "
+        "exactly with the PMM vector of the applied load. \n"
     )
-    theta = Input("\\theta", theta_input, "rad", description="Neutral axis angle")
-    c = Input("c", c_input, "in", description="Neutral axis depth")
+    theta = Calculation(
+        "\\theta", _round(theta_input), "rad", description="Neutral axis angle"
+    )
+    c = Calculation("c", _round(c_input), "in", description="Neutral axis depth")
 
-    if c == 0:
+    if c.get_value() == 0:
+        # This is dead code, this function doesn't get called for pure axial load cases, can probably remove
         TextBlock(
             "Because the neutral axis depth is zero, the column is in pure tension."
         )
-        return
+        return ColumnCapacities(
+            Variable("{\\phi}M_{nx}", 0, "kip-ft"),
+            Variable("{\\phi}M_{ny}", 0, "kip-ft"),
+            axial_limits.min_phi_pn_calculation,
+        )
     Heading("Forces in the Concrete", 2)
 
     if fc.get_value() <= 4000:
@@ -158,12 +171,12 @@ def try_axis_document(
     if not any(intersects):  # the whole concrete section is in compression
         TextBlock("The equivalent compression zone covers the whole concrete section. ")
         pn_conc = Calculation("P_{\\mathrm{n, conc.}}", 0.85 * fc * w * h, "kips")
-        mnx_conc = Input(
+        mnx_conc = Calculation(
             "M_{\\mathrm{nx, conc.}}",
             0,
             "kip-in",
         )
-        mny_conc = Input(
+        mny_conc = Calculation(
             "M_{\\mathrm{ny, conc.}}",
             0,
             "kip-in",
@@ -223,7 +236,7 @@ def try_axis_document(
                 "in",
                 "y coordinate of the centroid of this zone:",
             )
-            return (tri_area, centr_x, centr_y)
+            return tri_area, centr_x, centr_y
 
         pt1 = (-w / 2, left_y) if intersects[0] else (top_x, h / 2)
         pt2 = (bot_x, -h / 2) if intersects[3] else (w / 2, right_y)
@@ -371,8 +384,8 @@ def try_axis_document(
     top_bar_y = col.half_h - col.edge_to_bar_center  # y coordinate of bars on the
     # top edge
 
-    x = Input("x_{\mathrm{bar}}", right_bar_x)
-    y = Input("y_{\mathrm{bar}}", top_bar_y)
+    x = Calculation("x_{\mathrm{bar}}", right_bar_x)
+    y = Calculation("y_{\mathrm{bar}}", top_bar_y)
 
     d_bar = Symbolic(
         "d_{\mathrm{bar}}",
@@ -501,15 +514,15 @@ def try_axis_document(
     Table(rebar_matrix, headers)
 
     Heading("Force Totals", 2)
-    pn_steel = Input("P_{\\mathrm{n, steel}}", pn, "kips")
-    mnx_steel = Input(
+    pn_steel = Calculation("P_{\\mathrm{n, steel}}", pn, "kips")
+    mnx_steel = Calculation(
         "M_{\\mathrm{nx, steel}}",
-        mnx,
+        _round(mnx),
         "kip-in",
     )
-    mny_steel = Input(
+    mny_steel = Calculation(
         "M_{\\mathrm{ny, steel}}",
-        mny,
+        _round(mny),
         "kip-in",
     )
     pn = Calculation("P_{\\mathrm{n, tot}}", pn_conc + pn_steel, "kips")
@@ -525,17 +538,11 @@ def try_axis_document(
     )
 
     Heading("Capacity Calculation", 2)
-    lambda1 = math.atan2(mny, mnx)  # atan2 takes y,x, and we want mny at top
-
-    # if Mx and My are both zero, the angle isn't defined, so return a random
-    # number to help avoid divide by zero errors
-    if not (mnx or mny):
-        lambda1 = random.uniform(0, math.pi / 2)
 
     TextBlock("The extreme tension reinforcement is centered at these coordinates:")
     coords = [0, 0]
-    coords[0] = Input("x_{\\mathrm{bar}}", -right_bar_x, "in")
-    coords[1] = Input("y_{\\mathrm{bar}}", -top_bar_y, "in")
+    coords[0] = Calculation("x_{\\mathrm{bar}}", -right_bar_x, "in")
+    coords[1] = Calculation("y_{\\mathrm{bar}}", -top_bar_y, "in")
     offset = Calculation(
         "d_t",
         r_brackets(w / 2 - coords[0]) * cos(theta + PI / 2)
@@ -616,4 +623,4 @@ def try_axis_document(
     phi_mnx = Calculation("{\\phi}M_{nx}", phi * mnx / 12, "kip-ft")
     phi_mny = Calculation("{\\phi}M_{ny}", phi * mny / 12, "kip-ft")
 
-    return phi_mnx, phi_mny, phi_pn
+    return ColumnCapacities(phi_mnx, phi_mny, phi_pn)

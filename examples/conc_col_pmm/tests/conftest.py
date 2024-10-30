@@ -1,6 +1,7 @@
 import pytest
 
 from efficalc import Calculation, Input
+
 from ..col.column import Column
 from ..constants.concrete_data import MAX_CONCRETE_STRAIN
 from ..constants.rebar_data import STEEL_E, BarSize, rebar_area
@@ -45,7 +46,7 @@ def example_col():
 def loads():
     # for each load case: P, Mx, My, and whether the calc should be shown
     loads = [[300, 100, 200, True], [-100, 50, -60, False], [11500, 300, -300, False]]
-    return [LoadCombination(*load) for load in loads]
+    return [LoadCombination(i + 1, *load) for i, load in enumerate(loads)]
 
 
 @pytest.fixture

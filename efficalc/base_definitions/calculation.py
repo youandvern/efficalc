@@ -129,6 +129,13 @@ class Calculation(Expression, CalculationItem):
         latex_code = self.operation.str_symbolic()
         return LatexNodes2Text().latex_to_text(latex_code)
 
+    def _get_result_string(self):
+        try:
+            latex_code = self.operation.str_result()
+            return LatexNodes2Text().latex_to_text(latex_code)
+        except (ValueError, ZeroDivisionError):
+            return ""
+
     def estimate_display_length(self) -> CalculationLength:
         """Returns the estimated length of the LaTex formatted operation based on its symbolic and substituted
         representations.
@@ -145,8 +152,15 @@ class Calculation(Expression, CalculationItem):
             CalculationLength.SHORT
         """
         if (
-            self._get_symbolic_string().strip()
-            == self._get_substituted_string().strip()
+            (
+                self._get_symbolic_string().strip()
+                == self._get_substituted_string().strip()
+            )
+            or (
+                self._get_substituted_string().strip()
+                == self._get_result_string().strip()
+            )
+            or (self._get_symbolic_string().strip() == f"{self.result()}")
         ):
             return CalculationLength.NUMBER
         elif self._estimate_operation_length() <= 50:

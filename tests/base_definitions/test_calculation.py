@@ -169,6 +169,16 @@ def test_estimate_display_length_number(common_setup_teardown):
     assert a.estimate_display_length() == CalculationLength.NUMBER
 
 
+def test_estimate_display_length_negative_number(common_setup_teardown):
+    a = Calculation("a", -5.254, "mm^2")
+    assert a.estimate_display_length() == CalculationLength.NUMBER
+
+
+def test_estimate_display_length_large_negative_number(common_setup_teardown):
+    a = Calculation("a", -107412.254, "mm^2")
+    assert a.estimate_display_length() == CalculationLength.NUMBER
+
+
 def test_estimate_display_length_short(common_setup_teardown):
     a = Input("a", 2, "mm")
     b = Input("b", 7, "mm")
