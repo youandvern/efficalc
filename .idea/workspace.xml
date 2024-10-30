@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec50210e-cc28-4dbd-b1cf-c87ee44357bf" name="Changes" comment="Updated imports in visual tests and axis label in point plotter">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/conc_col_pmm/calc_document/plotting/point_plotter.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/conc_col_pmm/calc_document/plotting/point_plotter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/conc_col_pmm/tests/visual_tests/visual_test_document_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/conc_col_pmm/tests/visual_tests/visual_test_document_wrapper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/conc_col_pmm/tests/visual_tests/visual_test_pmm_plotter_plotly.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/conc_col_pmm/tests/visual_tests/visual_test_pmm_plotter_plotly.py" afterDir="false" />
@@ -39,33 +40,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.pytest in test_calculation.py.executor": "Run",
-    "Python.visual_test_document_wrapper.executor": "Run",
-    "Python.visual_test_pmm_plotter_plotly.executor": "Run",
-    "Python.visual_test_point_plotter.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/ja299/PycharmProjects/efficalc"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.pytest in test_calculation.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visual_test_document_wrapper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visual_test_pmm_plotter_plotly.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visual_test_point_plotter.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ja299/PycharmProjects/efficalc&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
-    <configuration default="true" type="tests" factoryName="Autodetect">
-      <module name="efficalc" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="pytest in test_calculation.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="efficalc" />
       <option name="ENV_FILES" value="" />

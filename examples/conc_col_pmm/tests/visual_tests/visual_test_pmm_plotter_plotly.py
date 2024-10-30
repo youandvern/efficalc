@@ -1,11 +1,11 @@
 from efficalc import Input
 
-from ...calc_document.plotting import get_pmm_data, pmm_plotter_plotly
-from ...col import assign_max_min
-from ...col.column import Column
-from ...constants.rebar_data import BarSize
-from ...pmm_search.load_combo import LoadCombination
-from ...tests.conftest import getCalculatedColumnProps
+from examples.conc_col_pmm.calc_document.plotting import get_pmm_data, pmm_plotter_plotly
+from examples.conc_col_pmm.col import assign_max_min
+from examples.conc_col_pmm.col.column import Column
+from examples.conc_col_pmm.constants.rebar_data import BarSize
+from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
+from examples.conc_col_pmm.tests.conftest import getCalculatedColumnProps
 
 # TODO: make this use the main calc callsite and get the plotly data from there
 

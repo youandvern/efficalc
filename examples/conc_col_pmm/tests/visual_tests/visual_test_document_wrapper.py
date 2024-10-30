@@ -2,19 +2,17 @@ import os
 import sys
 
 # Now you can import from conc_col_pmm
-from ...calc_document.document_wrapper import run
+from examples.conc_col_pmm.calc_document.document_wrapper import run
 
 # "w", "h", "bar_size", "bar_cover", "bars_x", "bars_y", "fc", "fy", "cover_type", "transverse_type",
-col_data = [24, 18, "#6", 2, 5, 2, 8000, 60, "Edge", "Spiral"]
+col_data = [18, 24, "#6", 2, 5, 2, 8000, 60, "Edge", "Tied"]
 
 # for each load case: P, Mx, My, and whether the calc should be shown
 # Note that these load cases currently do not override the defaults
 loads = [
-    [300, 100, 200, "yes"],
+    [500, 200, 100, "yes"],
     [-100, 50, -60, "no"],
     [11500, 300, -300, "no"],
-    [0, 200, 0, "yes"],
-    [0, 0, 200, "yes"],
 ]
 
 # calc_report_example1
