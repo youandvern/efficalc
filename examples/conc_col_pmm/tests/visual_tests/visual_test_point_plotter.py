@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 
 from efficalc import Input
 
-from examples.conc_col_pmm.calc_document.plotting import get_capacity, pmm_mesh, point_plotter
-from examples.conc_col_pmm.col import assign_max_min
-from examples.conc_col_pmm.col.column import Column
-from examples.conc_col_pmm.constants.rebar_data import BarSize
-from examples.conc_col_pmm.pmm_search.load_combo import LoadCombination
-from examples.conc_col_pmm.tests.conftest import getCalculatedColumnProps
+from ...calc_document.plotting import get_capacity, pmm_mesh, point_plotter
+from ...col import assign_max_min
+from ...col.column import Column
+from ...constants.rebar_data import BarSize
+from ...pmm_search.load_combo import LoadCombination
+from ...tests.conftest import getCalculatedColumnProps
 
 
 def example_col():

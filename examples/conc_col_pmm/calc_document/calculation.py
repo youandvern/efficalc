@@ -6,8 +6,7 @@ from ..constants.rebar_data import REBAR_SIZES, REBAR_STRENGTHS, STEEL_E, rebar_
 from ..pmm_search.load_combo import LoadCombination, is_yes
 from .column_inputs import ColumnInputs
 from .full_calc_document import calculation as full_calc
-
-# TODO: this should return all info needed to plot visual tests, possibly take input params for defaults
+from .plotting.get_pmm_data import get_pmm_data
 
 
 # this function accepts inputs from the user and passes them to "full_calc_document"
@@ -154,4 +153,6 @@ def calculation(
         e_c,
     )
 
-    full_calc(column, load_combos)
+    axial_limits = full_calc(column, load_combos)
+
+    return get_pmm_data(column, 36, 12, load_combos, axial_limits)

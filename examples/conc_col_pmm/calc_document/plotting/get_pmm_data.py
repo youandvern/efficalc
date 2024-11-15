@@ -3,15 +3,15 @@ import numpy as np
 from ...col.axial_limits import AxialLimits
 from ...col.column import Column
 from ...pmm_search.load_combo import LoadCombination
-from .pmm_mesh import get_mesh
 from .PMM import PMM
+from .pmm_mesh import get_mesh
 
-'''
+"""
 This function takes inputs for a column and creates a
 dataclass instance containing all the information for the 
 PMM diagram for the given column. That information is used
 for plotting the PMM diagram. 
-'''
+"""
 
 
 def get_pmm_data(

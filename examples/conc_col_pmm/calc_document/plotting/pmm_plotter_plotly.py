@@ -1,12 +1,14 @@
 import numpy as np
 import plotly.graph_objects as go
 
+from .PMM import PMM
+
 """
 This function plots the factored load capacity diagram for the column
 """
 
 
-def plot(pmm_data):
+def plot(pmm_data: PMM):
     X = pmm_data.X
     Y = pmm_data.Y
     Z = pmm_data.Z

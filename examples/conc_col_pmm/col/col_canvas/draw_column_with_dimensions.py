@@ -9,6 +9,7 @@ from .draw_plain_column import draw as draw_base
 
 def draw(col: Column, caption_input: str, unit: str = '"') -> Canvas:
     canvas = draw_base(col)
+    canvas.display_type = "report-input"
     canvas.caption = caption_input
     scale_factor = 0.37817187 * math.log((col.w + col.h) / 2) + 0.03808133
 

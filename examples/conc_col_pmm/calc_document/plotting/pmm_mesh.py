@@ -6,16 +6,18 @@ from ...pmm_search.load_search import bisect_load
 from ...pmm_search.load_search.point_search_load import search
 
 
-def get_mesh(col: Column, intervals, load_spaces, axial_limits: AxialLimits):
+def get_mesh(
+    col: Column, intervals, load_spaces, axial_limits: AxialLimits
+) -> tuple[list[list[int]], list[list[int]], list[list[int]], list[list[float]]]:
     # "intervals" is the number of spaces in the angle of eccentricity,
     # "load_spaces" is the number of vertical spaces in the PMM diagram
     # Returns a mesh containing all the points of the PMM diagram, plus
     # a quarter of that mesh
 
     # vectors containing the points to plot
-    x = []
-    y = []
-    z = []
+    x: list[list[int]] = []
+    y: list[list[int]] = []
+    z: list[list[int]] = []
 
     # the bottom point must be added intervals+1 times because each level of
     # the mesh needs intervals+1 points in order to form a closed surface
