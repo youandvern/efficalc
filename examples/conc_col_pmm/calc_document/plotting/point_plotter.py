@@ -60,13 +60,17 @@ def plot(capacity_pts, point: LoadCombination | None, only_Mx):
     ax.set_axisbelow(True)
 
     load_span = phi_Pn[-1] - phi_Pn[0]
-    label_offsets = (max(phi_Mn) * 0.008, load_span * 0.02)
+
+    # define offset distances for axis labels depending on point
+    label_offset_x = max(phi_Mn) * 0.008
+    label_offsets_y = -load_span * 0.05, load_span * 0.02
     # label the intersections with the y-axis
     for i in (0, pt_count - 1):
         pos = (phi_Mn[i], phi_Pn[i])
         label = str(round(phi_Pn[i], 1))
         plt.plot(pos[0], pos[1], marker="+", ms=12, mew=1.2, c="black", zorder=3)
-        plt.text(pos[0] + label_offsets[0], pos[1] + label_offsets[1], label, zorder=3)
+        label_offset_y = label_offsets_y[0] if i == 0 else label_offsets_y[1]
+        plt.text(pos[0] + label_offset_x, pos[1] + label_offset_y, label, zorder=3)
 
     if point:
         Muxy = math.sqrt(point.mx**2 + point.my**2)  # the biaxial moment
@@ -78,7 +82,8 @@ def plot(capacity_pts, point: LoadCombination | None, only_Mx):
         label = moment_label + "\n" + axial_label
 
         plt.plot(pos[0], pos[1], marker="+", ms=12, mew=1.2, c="red", zorder=4)
-        plt.text(pos[0] + label_offsets[0], pos[1] + label_offsets[1], label, zorder=5)
+        label_offset_y = label_offsets_y[0] if i == 0 else label_offsets_y[1]
+        plt.text(pos[0] + label_offset_x, pos[1] + label_offset_y, label, zorder=5)
 
         fig = ax.get_figure()
 

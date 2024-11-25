@@ -1,10 +1,9 @@
 from efficalc import Input
 
-from ...calc_document.plotting import get_pmm_data, pmm_plotter_plotly
-from ...col import assign_max_min
+from ...calc_document.calculation import calculation
+from ...calc_document.plotting import pmm_plotter_plotly
 from ...col.column import Column
 from ...constants.rebar_data import BarSize
-from ...pmm_search.load_combo import LoadCombination
 from ...tests.conftest import getCalculatedColumnProps
 
 # TODO: make this use the main calc callsite and get the plotly data from there
@@ -33,17 +32,15 @@ def example_col():
 
 if __name__ == "__main__":
     col = example_col()
-    axial_limits = assign_max_min.calculate_axial_load_limits(col)
 
     # for each load case: P, Mx, My, and whether the calc should be shown
     load_data = [
-        [300, 100, 200, True],
-        [-100, 50, -60, False],
-        [1500, 300, -300, False],
+        [300, 100, 200, "yes"],
+        [-100, 50, -60, "no"],
+        [1500, 300, -300, "no"],
     ]
-    loads = [LoadCombination(i, *load) for i, load in enumerate(load_data)]
 
-    pmm_data = get_pmm_data.get_pmm_data(col, 36, 12, loads, axial_limits)
+    pmm_data = calculation(default_loads=load_data, col=col)
 
     fig = pmm_plotter_plotly.plot(pmm_data)
 

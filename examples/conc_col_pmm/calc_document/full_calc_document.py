@@ -29,3 +29,5 @@ def calculation(
     dcr_results = calc_dcrs(load_combos, mesh, col, axial_limits)
 
     results_summarizer(load_combos, dcr_results)
+
+    return axial_limits

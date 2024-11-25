@@ -15,12 +15,12 @@ The `conc_col_pmm` folder is meant to be a standalone design tool. To get set up
 ## Designing a column
 The `conc_col_pmm/tests/visual_tests` folder has examples for running various parts of the concrete column tool including
 
-* `visual_test_document_wrapper.py` for viewing a complete calculation report
-* `visual_test_pmm_plotter_plotly.py` for viewing a 3D PMM plot
+* `visual_test_calculation_report.py` for viewing a complete calculation report
+* `visual_test_pmm.py` for viewing a 3D PMM plot
 * `visual_test_point_plotter.py` for viewing 2D PM plots for specific load cases
 
 These example files can be run and viewed with `python -m conc_col_pmm.tests.visual_tests.<file name>`. For example:
-`python -m conc_col_pmm.tests.visual_tests.visual_test_document_wrapper`
+`python -m conc_col_pmm.tests.visual_tests.visual_test_calculation_report`
 
 
 # Program Features
