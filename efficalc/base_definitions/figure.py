@@ -64,9 +64,9 @@ class FigureFromMatplotlib(FigureBase):
 
     def load_image_data(self) -> bytes:
         """Loads the image data from the Matplotlib figure object as bytes."""
-        tmp_file = BytesIO()
-        self.figure.savefig(tmp_file, format="png")
-        return tmp_file.getvalue()
+        with BytesIO() as tmp_file:
+            self.figure.savefig(tmp_file, format="png")
+            return tmp_file.getvalue()
 
 
 class FigureFromFile(FigureBase):
