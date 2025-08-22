@@ -3,6 +3,13 @@ import tempfile
 import webbrowser
 from enum import Enum
 from typing import Callable
+import importlib.util
+
+# Check whether IPython is installed. If so, import HTML display function to render outputs in Jupyter notebook.
+# Do not attempt to import if not installed.
+ipython_installed = importlib.util.find_spec("IPython")
+if ipython_installed:
+    from IPython.display import HTML
 
 from efficalc.calculation_runner import CalculationRunner
 from efficalc.generate_html import generate_html_for_calc_items
@@ -77,6 +84,12 @@ class ReportBuilder(object):
         :rtype: str
         """
         return self.__generate_report_html()
+    
+    def ipy_display(self) -> HTML:
+        """Gets the HTML report and uses IPython to render it as output in a Jupyter notebook.
+        """
+        html_string = self.get_html_as_str()
+        return HTML(html_string)
 
     def save_report(
         self,
