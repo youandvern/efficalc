@@ -163,10 +163,6 @@ def try_axis_document(
                 " x coordinate of equivalent compression zone intersection with bottom edge:",
             )
 
-    # define accumulator variables
-    pn_tot = 0
-    mnx_tot = 0
-    mny_tot = 0
 
     if not any(intersects):  # the whole concrete section is in compression
         TextBlock("The equivalent compression zone covers the whole concrete section. ")
@@ -185,7 +181,7 @@ def try_axis_document(
         conc_area_num = 0
 
         def add_axial_moment(pt_a, pt_b, pt_c):
-            nonlocal pn_tot, mnx_tot, mny_tot, conc_area_num
+            nonlocal conc_area_num
             conc_area_num += 1
             Heading("Forces in Concrete Area " + str(conc_area_num), 3)
             TextBlock(
